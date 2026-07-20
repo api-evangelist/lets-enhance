@@ -1,0 +1,61 @@
+generated: '2026-07-19'
+method: searched
+source: openapi/lets-enhance-claid-openapi.json
+docs: https://docs.claid.ai/authentication
+summary:
+  types:
+  - oauth2
+  - http
+  oauth2_flows:
+  - password
+  primary_style: bearer-api-key
+  notes: >-
+    The Claid API is authenticated with a long-lived API key presented as an HTTP Bearer token:
+    `Authorization: Bearer {YOUR_API_KEY}`. The published OpenAPI models this as an OAuth 2.0
+    security scheme named `OAuth2PasswordBearer` (RFC 6750 bearer token), but the documented
+    developer flow involves no authorization server round trip and no password — the key is minted
+    in the Claid dashboard and used directly. Keys are shown once at creation time and can be
+    copied or downloaded as a text file.
+schemes:
+- name: OAuth2PasswordBearer
+  type: oauth2
+  in: header
+  header: Authorization
+  format: 'Bearer {YOUR_API_KEY}'
+  flows:
+  - flow: password
+    tokenUrl: token
+    scopes: 4
+  description: >-
+    OAuth 2.0 bearer token (API key) authorization, per RFC 6750. Send requests over HTTPS with the
+    Authorization header set to `Bearer <YOUR_API_KEY>`; no password is required.
+  sources:
+  - openapi/lets-enhance-claid-openapi.json
+  - https://docs.claid.ai/authentication
+key_management:
+  create_url: https://claid.ai/account/api
+  dashboard_url: https://claid.ai/account/overview
+  visibility: API keys are visible only once, at creation time, in the Claid dashboard
+  rotation: keys are created, scoped and deleted from the dashboard API keys page
+  guidance: >-
+    Claid recommends creating API keys with the minimum permission scopes necessary for the use case.
+permission_scopes:
+  docs: https://docs.claid.ai/authentication
+  model: >-
+    Each API key can be granted permissions to perform Storage operations, Image editing operations,
+    or both under an Admin permission scope. Scopes are assigned at key creation time or later via
+    API keys -> Edit key in the Claid dashboard.
+  artifact: scopes/lets-enhance-scopes.yml
+failure_modes:
+- status: 401
+  meaning: Authorization is required — missing or invalid API key
+  error_type: auth
+- status: 403
+  meaning: The API key does not have permission scopes for the requested operation
+transport:
+  https_required: true
+  tls_version: TLSv1.3
+related:
+  scopes: scopes/lets-enhance-scopes.yml
+  conventions: conventions/lets-enhance-conventions.yml
+  errors: errors/lets-enhance-error-codes.yml
