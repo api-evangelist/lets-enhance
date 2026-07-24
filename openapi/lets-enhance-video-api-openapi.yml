@@ -1,0 +1,487 @@
+openapi: 3.1.0
+info:
+  title: Claid REST Image Video API
+  version: v1
+  description: Claid REST API v1 - the AI image editing, enhancement, generation and image-to-video API operated by Let's Enhance (Claid.ai). Covers synchronous and asynchronous image editing, batch processing, direct upload, AI edit by natural-language instruction, AI fashion models, AI background scene creation, image generation, image-to-video generation, and cloud storage connector management. Consolidated verbatim from the per-endpoint OpenAPI 3.1 definitions published in the Claid API reference at https://docs.claid.ai/.
+servers:
+- url: https://api.claid.ai
+  description: Claid API production
+tags:
+- name: Video
+  description: Encompasses operations with videos.
+paths:
+  /v1/video/generate:
+    post:
+      tags:
+      - Video
+      summary: Video Generate Api
+      description: Generate an animation asynchronously
+      operationId: video_generate_api_v1_video_generate_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ImageVideoRequest'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Response_VideoAcceptedResponse_'
+        '401':
+          description: Authorization is required.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HttpErrorDetails'
+        '402':
+          description: No API calls left.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HttpErrorDetails'
+        '403':
+          description: Not enough permissions.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HttpErrorDetails'
+        '422':
+          description: Unprocessable Entity.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HttpErrorDetails'
+        '429':
+          description: Too many requests.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HttpErrorDetails'
+      security:
+      - OAuth2PasswordBearer:
+        - video_generation
+      - OAuth2PasswordBearer: []
+  /v1/video/generate/{animation_id}:
+    get:
+      tags:
+      - Video
+      summary: Video Generate Api Status
+      description: Get the status of the animation generation task
+      operationId: video_generate_api_status_v1_video_generate__animation_id__get
+      parameters:
+      - required: true
+        schema:
+          title: Animation Id
+          type: integer
+        name: animation_id
+        in: path
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Response_VideoStatusResponse_'
+        '401':
+          description: Authorization is required.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HttpErrorDetails'
+        '403':
+          description: Not enough permissions.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HttpErrorDetails'
+        '404':
+          description: Web image not found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HttpErrorDetails'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      security:
+      - OAuth2PasswordBearer:
+        - video_generation
+components:
+  schemas:
+    ErrorType:
+      title: ErrorType
+      enum:
+      - auth
+      - dlvr
+      - general
+      - le
+      - survey
+      - storage
+      - image
+      - user_settings
+      - user
+      - validation
+      - analytics
+      - scene
+      - billing
+      - web
+      - runtime_settings
+      - animation
+      - custom_models
+      type: string
+      description: An enumeration.
+    VideoInputObject:
+      title: VideoInputObject
+      type: object
+      properties:
+        ext:
+          title: Ext
+          type: string
+          description: File extension.
+        mps:
+          title: Mps
+          type: number
+          description: Megapixel count
+        mime:
+          title: Mime
+          type: string
+          description: MIME type (also known as ‘media type’)
+        format:
+          title: Format
+          type: string
+          description: File format.
+        width:
+          title: Width
+          type: integer
+          description: Image width in pixels
+        height:
+          title: Height
+          type: integer
+          description: Image height in pixels
+        generated_prompt:
+          title: Generated Prompt
+          type: string
+          description: Generated prompt for the video.
+    ImageVideoRequest:
+      title: ImageVideoRequest
+      required:
+      - input
+      - options
+      type: object
+      properties:
+        output:
+          title: Output
+          maxLength: 4096
+          minLength: 1
+          type: string
+          description: Customize the result output.
+          format: uri
+        input:
+          title: Input URL
+          maxLength: 4096
+          minLength: 1
+          type: string
+          description: URL of the input image. Image must be accessible by our system.
+          format: uri
+        options:
+          title: Options
+          allOf:
+          - $ref: '#/components/schemas/VideoOptionsObject'
+          description: Customize the video.
+      additionalProperties: false
+    VideoPromptObject:
+      title: VideoPromptObject
+      type: object
+      properties:
+        text:
+          title: Text
+          maxLength: 5000
+          minLength: 3
+          type: string
+          description: Prompt for the video.
+        generate:
+          title: Generate
+          type: boolean
+          description: If `true`, the prompt will be generated automatically based on the input image.By default, the prompt is not auto-generated. If `true`, the `text` is not allowed.
+          default: false
+        guidelines:
+          title: Guidelines
+          maxLength: 1000
+          minLength: 3
+          type: string
+          description: Guidelines for prompt generation. Only available when `generate` is `true`.
+    VideoStatusResponse:
+      title: VideoStatusResponse
+      required:
+      - id
+      - status
+      - created_at
+      - request
+      type: object
+      properties:
+        id:
+          title: Id
+          type: integer
+        status:
+          $ref: '#/components/schemas/APIV1Status'
+        created_at:
+          title: Created At
+          type: string
+          format: date-time
+        request:
+          $ref: '#/components/schemas/VideoRequestInResponse'
+        errors:
+          title: Errors
+          type: array
+          items:
+            $ref: '#/components/schemas/VideoError'
+        result:
+          $ref: '#/components/schemas/VideoResult'
+    VideoAcceptedResponse:
+      title: VideoAcceptedResponse
+      required:
+      - id
+      - status
+      - created_at
+      - request
+      - result_url
+      type: object
+      properties:
+        id:
+          title: Id
+          type: integer
+        status:
+          $ref: '#/components/schemas/APIV1Status'
+        created_at:
+          title: Created At
+          type: string
+          format: date-time
+        request:
+          $ref: '#/components/schemas/VideoRequestInResponse'
+        result_url:
+          title: Result Url
+          maxLength: 65536
+          minLength: 1
+          type: string
+          format: uri
+    HTTPValidationError:
+      title: HTTPValidationError
+      type: object
+      properties:
+        detail:
+          title: Detail
+          type: array
+          items:
+            $ref: '#/components/schemas/ValidationError'
+    VideoResult:
+      title: VideoResult
+      required:
+      - input_object
+      - output_object
+      type: object
+      properties:
+        input_object:
+          $ref: '#/components/schemas/VideoInputObject'
+        output_object:
+          $ref: '#/components/schemas/VideoOutputObject'
+    Response_VideoAcceptedResponse_:
+      title: Response[VideoAcceptedResponse]
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/VideoAcceptedResponse'
+      description: Wrapper for responses
+    ValidationError:
+      title: ValidationError
+      required:
+      - loc
+      - msg
+      - type
+      type: object
+      properties:
+        loc:
+          title: Location
+          type: array
+          items:
+            type: string
+        msg:
+          title: Message
+          type: string
+        type:
+          title: Error Type
+          type: string
+    VideoError:
+      title: VideoError
+      required:
+      - error
+      - created_at
+      type: object
+      properties:
+        error:
+          title: Error
+          type: string
+        created_at:
+          title: Created At
+          type: string
+          format: date-time
+    DurationEnum:
+      title: DurationEnum
+      enum:
+      - '5'
+      - '10'
+      type: string
+      description: An enumeration.
+    APIV1Status:
+      title: APIV1Status
+      enum:
+      - ACCEPTED
+      - WAITING
+      - PROCESSING
+      - DONE
+      - ERROR
+      - CANCELLED
+      - PAUSED
+      type: string
+      description: An enumeration.
+    HttpErrorDetails:
+      title: HttpErrorDetails
+      required:
+      - error_code
+      - error_type
+      - error_message
+      type: object
+      properties:
+        error_code:
+          title: Error Code
+          type: string
+        error_type:
+          $ref: '#/components/schemas/ErrorType'
+        error_message:
+          title: Error Message
+          type: string
+        error_details:
+          title: Error Details
+          type: object
+          default: {}
+    VideoOutputObject:
+      title: VideoOutputObject
+      type: object
+      properties:
+        ext:
+          title: Ext
+          type: string
+          description: File extension.
+          default: mp4
+        mime:
+          title: Mime
+          type: string
+          default: video/mp4
+        format:
+          title: Format
+          type: string
+          description: File format.
+          default: mp4
+        tmp_url:
+          title: Tmp Url
+          type: string
+          description: Temporal URL of a processed image
+        object_key:
+          title: Object Key
+          type: string
+          description: Path to a processed image in a bucket
+        object_bucket:
+          title: Object Bucket
+          type: string
+          description: Bucket name
+        object_uri:
+          title: Object Uri
+          type: string
+          description: URI of a processed image in a bucket
+        claid_storage_uri:
+          title: Claid Storage Uri
+          type: string
+          description: URI of a processed image in a storage
+    Response_VideoStatusResponse_:
+      title: Response[VideoStatusResponse]
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/VideoStatusResponse'
+      description: Wrapper for responses
+    VideoOptionsObject:
+      title: VideoOptionsObject
+      required:
+      - prompt
+      type: object
+      properties:
+        prompt:
+          title: Prompt
+          anyOf:
+          - type: string
+            minLength: 3
+            maxLength: 5000
+          - $ref: '#/components/schemas/VideoPromptObject'
+          description: Prompt for the video.
+        negative_prompt:
+          title: Negative Prompt
+          maxLength: 5000
+          minLength: 3
+          type: string
+          description: Negative prompt for the video.
+        duration:
+          allOf:
+          - $ref: '#/components/schemas/DurationEnum'
+          description: Duration of the video.
+          default: '5'
+        guidance_scale:
+          title: Guidance Scale
+          maximum: 1
+          minimum: 0
+          type: number
+          description: Guidance scale for the video.
+          default: 0.5
+      additionalProperties: false
+    VideoRequestInResponse:
+      title: VideoRequestInResponse
+      required:
+      - input
+      - options
+      type: object
+      properties:
+        output:
+          title: Output
+          maxLength: 4096
+          minLength: 1
+          type: string
+          description: Customize the result output.
+          format: uri
+        input:
+          title: Input URL
+          maxLength: 4096
+          minLength: 1
+          type: string
+          description: URL of the input image. Image must be accessible by our system.
+          format: uri
+        options:
+          title: Options
+          allOf:
+          - $ref: '#/components/schemas/VideoOptionsObject'
+          description: Customize the video.
+      additionalProperties: false
+  securitySchemes:
+    OAuth2PasswordBearer:
+      type: oauth2
+      flows:
+        password:
+          scopes: {}
+          tokenUrl: token
+      description: "To work with the Claid API, send requests over HTTPS and authenticate using the `Authorization` header in the following format:`Authorization: Bearer <YOUR_API_KEY>`. You do not need to provide a password.\n\nTo get your API key, [sign in to your Claid account](https://claid.ai/login) and click ***Create API key*** button from the ***Overview*** or ***API keys*** pages.\n\nClaid API’s base URL is `https://api.claid.ai/v1/`. All available endpoints are listed in the [Storage](#tag/Storage) and [Image](#tag/Image) sections. \n\n## Bearer\n\nThis API uses OAuth 2.0 [bearer token](https://datatracker.ietf.org/doc/html/rfc6750) (API key) to authorize requests."
+externalDocs:
+  description: Claid API documentation
+  url: https://docs.claid.ai/

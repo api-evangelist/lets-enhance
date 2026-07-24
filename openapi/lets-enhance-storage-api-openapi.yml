@@ -1,0 +1,646 @@
+openapi: 3.1.0
+info:
+  title: Claid REST Image Storage API
+  version: v1
+  description: Claid REST API v1 - the AI image editing, enhancement, generation and image-to-video API operated by Let's Enhance (Claid.ai). Covers synchronous and asynchronous image editing, batch processing, direct upload, AI edit by natural-language instruction, AI fashion models, AI background scene creation, image generation, image-to-video generation, and cloud storage connector management. Consolidated verbatim from the per-endpoint OpenAPI 3.1 definitions published in the Claid API reference at https://docs.claid.ai/.
+servers:
+- url: https://api.claid.ai
+  description: Claid API production
+tags:
+- name: Storage
+  description: 'Perform operations with storage: check supported storage types, safely connect your cloud buckets and more.'
+paths:
+  /v1/storage/storage-types:
+    get:
+      tags:
+      - Storage
+      summary: List Storage Types
+      description: Retrieves a list of storage types supported by Claid.
+      operationId: list_storage_types_v1_storage_storage_types_get
+      responses:
+        '200':
+          description: List of storage types.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Response_List_apps.storage.models.StorageType__'
+        '401':
+          description: Authorization is required.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HttpErrorDetails'
+        '403':
+          description: Not enough permissions.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HttpErrorDetails'
+      security:
+      - OAuth2PasswordBearer:
+        - storage
+  /v1/storage/storages:
+    get:
+      tags:
+      - Storage
+      summary: List Storages
+      description: Retrieves a list of storages connected to your Claid account, as well as their `id`, `name`, `type`, and `parameters`.
+      operationId: list_storages_v1_storage_storages_get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Response_List_apps.storage.serializers.StorageOut_Pydantic__'
+        '401':
+          description: Authorization is required.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HttpErrorDetails'
+        '403':
+          description: Not enough permissions.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HttpErrorDetails'
+      security:
+      - OAuth2PasswordBearer:
+        - storage
+    post:
+      tags:
+      - Storage
+      summary: Create Storage
+      description: Connects storage to Claid. You can connect your AWS S3 or GCP bucket, or your own web folder.
+      operationId: create_storage_v1_storage_storages_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/StorageIn_Pydantic'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Response_StorageOutDetailed_Pydantic_'
+        '401':
+          description: Authorization is required.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HttpErrorDetails'
+        '403':
+          description: Not enough permissions.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HttpErrorDetails'
+        '422':
+          description: Unprocessable Entity.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HttpErrorDetails'
+      security:
+      - OAuth2PasswordBearer:
+        - storage
+  /v1/storage/storages/{storage_id}:
+    get:
+      tags:
+      - Storage
+      summary: Get Storage
+      description: Retrieves information about particular storage, including its `id`, `name`, `type`, and `parameters`.
+      operationId: get_storage_v1_storage_storages__storage_id__get
+      parameters:
+      - required: true
+        schema:
+          title: Storage Id
+          type: integer
+        name: storage_id
+        in: path
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Response_StorageOutDetailed_Pydantic_'
+        '401':
+          description: Authorization is required.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HttpErrorDetails'
+        '403':
+          description: Not enough permissions.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HttpErrorDetails'
+        '404':
+          description: Storage not found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HttpErrorDetails'
+        '422':
+          description: Unprocessable Entity.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HttpErrorDetails'
+      security:
+      - OAuth2PasswordBearer:
+        - storage
+    delete:
+      tags:
+      - Storage
+      summary: Delete Storage
+      description: 'Disconnects storage from Claid. Note: It doesn''t delete your bucket on your cloud platform.'
+      operationId: delete_storage_v1_storage_storages__storage_id__delete
+      parameters:
+      - required: true
+        schema:
+          title: Storage Id
+          type: integer
+        name: storage_id
+        in: path
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Response'
+        '401':
+          description: Authorization is required.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HttpErrorDetails'
+        '403':
+          description: Not enough permissions.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HttpErrorDetails'
+        '404':
+          description: Storage not found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HttpErrorDetails'
+        '422':
+          description: Unprocessable Entity.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HttpErrorDetails'
+      security:
+      - OAuth2PasswordBearer:
+        - storage
+    patch:
+      tags:
+      - Storage
+      summary: Patch Storage
+      description: Changes storage `name`, `type`, and/or `parameters`.
+      operationId: patch_storage_v1_storage_storages__storage_id__patch
+      parameters:
+      - required: true
+        schema:
+          title: Storage Id
+          type: integer
+        name: storage_id
+        in: path
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/StorageInUpdate_Pydantic'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Response_StorageOutDetailed_Pydantic_'
+        '401':
+          description: Authorization is required.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HttpErrorDetails'
+        '403':
+          description: Not enough permissions.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HttpErrorDetails'
+        '404':
+          description: Storage not found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HttpErrorDetails'
+        '422':
+          description: Unprocessable Entity.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HttpErrorDetails'
+      security:
+      - OAuth2PasswordBearer:
+        - storage
+components:
+  schemas:
+    Response:
+      title: Response
+      type: object
+      properties:
+        data:
+          title: Data
+      description: Wrapper for responses
+    GCSParameters_Pydantic:
+      title: GCS parameters
+      required:
+      - bucket
+      - credentials
+      type: object
+      properties:
+        path:
+          title: Path
+          type: string
+          description: An optional relative path that is prepended to the image request path when building the image's path.
+          default: ''
+        bucket:
+          title: Bucket
+          minLength: 1
+          type: string
+          description: A global GCS bucket name.
+        credentials:
+          $ref: '#/components/schemas/GCPCredentials'
+      additionalProperties: false
+    StorageIn_Pydantic:
+      title: storage
+      required:
+      - name
+      - type
+      - parameters
+      type: object
+      properties:
+        name:
+          title: The unique name of storage
+          maxLength: 50
+          type: string
+          description: 'The name of storage in Claid. Note: it doesn''t have to be the same as a global name of a bucket.'
+        type:
+          $ref: '#/components/schemas/StorageType'
+        parameters:
+          title: Parameters
+          anyOf:
+          - $ref: '#/components/schemas/S3Parameters_Pydantic'
+          - $ref: '#/components/schemas/GCSParameters_Pydantic'
+          - $ref: '#/components/schemas/WebFolderParameters_Pydantic'
+          description: Global parameters of storage (as opposed to Claid's internal properties, such as `name` and `type`)
+      additionalProperties: false
+    AWSCredentialsUpdate:
+      title: AWSCredentialsUpdate
+      type: object
+      properties:
+        access_key:
+          title: Access Key
+          minLength: 1
+          type: string
+          description: An optional Access Key
+        secret_access_key:
+          title: Secret Access Key
+          minLength: 1
+          type: string
+          description: An optional Secret Access Key
+      additionalProperties: false
+    Response_List_apps.storage.models.StorageType__:
+      title: Response[List[apps.storage.models.StorageType]]
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/StorageType'
+      description: Wrapper for responses
+    Response_StorageOutDetailed_Pydantic_:
+      title: Response[StorageOutDetailed_Pydantic]
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/StorageOutDetailed_Pydantic'
+      description: Wrapper for responses
+    GCPCredentialsUpdate:
+      title: GCPCredentialsUpdate
+      type: object
+      properties:
+        access_key:
+          title: Access Key
+          minLength: 1
+          type: string
+          description: An optional Access Key
+        secret_access_key:
+          title: Secret Access Key
+          minLength: 1
+          type: string
+          description: An optional Secret Access Key
+      additionalProperties: false
+    AWSCredentials:
+      title: AWSCredentials
+      required:
+      - access_key
+      - secret_access_key
+      type: object
+      properties:
+        access_key:
+          title: Access Key
+          minLength: 1
+          type: string
+          description: Access Key
+        secret_access_key:
+          title: Secret Access Key
+          minLength: 1
+          type: string
+          description: Secret Access Key
+      additionalProperties: false
+      description: 'Check [AWS security credentials docs](https://docs.aws.amazon.com/general/latest/gr/aws-security-credentials.html)
+
+        to learn how to get your access keys.'
+    StorageType:
+      title: StorageType
+      enum:
+      - web_folder
+      - s3
+      - gcs
+      type: string
+      description: An enumeration.
+    StorageOutDetailed_Pydantic:
+      title: storage
+      required:
+      - id
+      - name
+      - type
+      - parameters
+      - created_at
+      type: object
+      properties:
+        id:
+          title: Id
+          type: integer
+        name:
+          title: The unique name of storage
+          maxLength: 50
+          type: string
+        type:
+          $ref: '#/components/schemas/StorageType'
+        parameters:
+          title: Parameters
+          anyOf:
+          - $ref: '#/components/schemas/CloudDetailedBaseStorage'
+          - $ref: '#/components/schemas/WebFolderParameters_Pydantic'
+        created_at:
+          title: Created At
+          type: string
+          format: date-time
+    CloudDetailedBaseStorage:
+      title: cloud Storage
+      required:
+      - bucket
+      - credentials
+      type: object
+      properties:
+        path:
+          title: Path
+          type: string
+          description: An optional relative path that is prepended to the image request path when building the image's path.
+          default: ''
+        bucket:
+          title: Bucket
+          type: string
+        credentials:
+          $ref: '#/components/schemas/CredentialsOut'
+      additionalProperties: false
+    S3Parameters_Pydantic:
+      title: S3 parameters
+      required:
+      - bucket
+      - credentials
+      type: object
+      properties:
+        path:
+          title: Path
+          type: string
+          description: An optional relative path that is prepended to the image request path when building the image's path.
+          default: ''
+        bucket:
+          title: Bucket
+          minLength: 1
+          type: string
+          description: A global Amazon S3 bucket name.
+        credentials:
+          $ref: '#/components/schemas/AWSCredentials'
+      additionalProperties: false
+    StorageOut_Pydantic:
+      title: storage
+      required:
+      - id
+      - name
+      - type
+      - parameters
+      - created_at
+      type: object
+      properties:
+        id:
+          title: Id
+          type: integer
+        name:
+          title: The unique name of storage
+          maxLength: 50
+          type: string
+        type:
+          $ref: '#/components/schemas/StorageType'
+        parameters:
+          title: Parameters
+          anyOf:
+          - $ref: '#/components/schemas/CloudBaseStorage'
+          - $ref: '#/components/schemas/WebFolderParameters_Pydantic'
+        created_at:
+          title: Created At
+          type: string
+          format: date-time
+    StorageInUpdate_Pydantic:
+      title: update storage
+      type: object
+      properties:
+        name:
+          title: The unique name of storage
+          maxLength: 50
+          type: string
+        type:
+          $ref: '#/components/schemas/StorageType'
+        parameters:
+          title: Parameters
+          anyOf:
+          - $ref: '#/components/schemas/S3ParametersUpdate_Pydantic'
+          - $ref: '#/components/schemas/GCSParametersUpdate_Pydantic'
+          - $ref: '#/components/schemas/WebFolderParameters_Pydantic'
+      additionalProperties: false
+    S3ParametersUpdate_Pydantic:
+      title: S3ParametersUpdate_Pydantic
+      type: object
+      properties:
+        path:
+          title: Path
+          type: string
+          description: An optional relative path that is prepended to the image request path when building the image's path.
+        bucket:
+          title: Bucket
+          minLength: 1
+          type: string
+          description: An optional global Amazon S3 bucket name.
+        credentials:
+          $ref: '#/components/schemas/AWSCredentialsUpdate'
+      additionalProperties: false
+    CredentialsOut:
+      title: CredentialsOut
+      required:
+      - access_key
+      type: object
+      properties:
+        access_key:
+          title: Access Key
+          type: string
+      additionalProperties: false
+    ErrorType:
+      title: ErrorType
+      enum:
+      - auth
+      - dlvr
+      - general
+      - le
+      - survey
+      - storage
+      - image
+      - user_settings
+      - user
+      - validation
+      - analytics
+      - scene
+      - billing
+      - web
+      - runtime_settings
+      - animation
+      - custom_models
+      type: string
+      description: An enumeration.
+    GCSParametersUpdate_Pydantic:
+      title: GCSParametersUpdate_Pydantic
+      type: object
+      properties:
+        path:
+          title: Path
+          type: string
+          description: An optional relative path that is prepended to the image request path when building the image's path.
+        bucket:
+          title: Bucket
+          minLength: 1
+          type: string
+          description: An optional global GCS bucket name.
+        credentials:
+          $ref: '#/components/schemas/GCPCredentialsUpdate'
+      additionalProperties: false
+    GCPCredentials:
+      title: GCPCredentials
+      required:
+      - access_key
+      - secret_access_key
+      type: object
+      properties:
+        access_key:
+          title: Access Key
+          minLength: 1
+          type: string
+          description: Access Key
+        secret_access_key:
+          title: Secret Access Key
+          minLength: 1
+          type: string
+          description: Secret Access Key
+      additionalProperties: false
+      description: 'Check [GCP documentation](https://cloud.google.com/iam/docs/creating-managing-service-account-keys)
+
+        to learn how to get your access keys.'
+    CloudBaseStorage:
+      title: cloud Storage
+      required:
+      - bucket
+      type: object
+      properties:
+        path:
+          title: Path
+          type: string
+          description: An optional relative path that is prepended to the image request path when building the image's path.
+          default: ''
+        bucket:
+          title: Bucket
+          type: string
+      additionalProperties: false
+    HttpErrorDetails:
+      title: HttpErrorDetails
+      required:
+      - error_code
+      - error_type
+      - error_message
+      type: object
+      properties:
+        error_code:
+          title: Error Code
+          type: string
+        error_type:
+          $ref: '#/components/schemas/ErrorType'
+        error_message:
+          title: Error Message
+          type: string
+        error_details:
+          title: Error Details
+          type: object
+          default: {}
+    WebFolderParameters_Pydantic:
+      title: web folder parameters
+      required:
+      - base_url
+      type: object
+      properties:
+        base_url:
+          title: Base Url
+          type: string
+    Response_List_apps.storage.serializers.StorageOut_Pydantic__:
+      title: Response[List[apps.storage.serializers.StorageOut_Pydantic]]
+      type: object
+      properties:
+        data:
+          title: Data
+          type: array
+          items:
+            $ref: '#/components/schemas/StorageOut_Pydantic'
+      description: Wrapper for responses
+  securitySchemes:
+    OAuth2PasswordBearer:
+      type: oauth2
+      flows:
+        password:
+          scopes: {}
+          tokenUrl: token
+      description: "To work with the Claid API, send requests over HTTPS and authenticate using the `Authorization` header in the following format:`Authorization: Bearer <YOUR_API_KEY>`. You do not need to provide a password.\n\nTo get your API key, [sign in to your Claid account](https://claid.ai/login) and click ***Create API key*** button from the ***Overview*** or ***API keys*** pages.\n\nClaid API’s base URL is `https://api.claid.ai/v1/`. All available endpoints are listed in the [Storage](#tag/Storage) and [Image](#tag/Image) sections. \n\n## Bearer\n\nThis API uses OAuth 2.0 [bearer token](https://datatracker.ietf.org/doc/html/rfc6750) (API key) to authorize requests."
+externalDocs:
+  description: Claid API documentation
+  url: https://docs.claid.ai/
