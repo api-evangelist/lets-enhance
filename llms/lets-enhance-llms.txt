@@ -1,0 +1,47 @@
+# Claid.ai & LetsEnhance.io API Documentation
+
+## Claid API Documentation
+
+- [Overview](https://docs.claid.ai/overview.md): An introduction to Claid's API
+- [Quick Start](https://docs.claid.ai/quick-start.md): Get up and running with Claid API within minutes
+- [Authentication](https://docs.claid.ai/authentication.md)
+- [Rate limits](https://docs.claid.ai/rate-limits.md)
+- [Errors](https://docs.claid.ai/errors.md): The page provides the description of expected errors of Claid API and guidance how to handle them.
+- [Image I/O](https://docs.claid.ai/image-editing-api/image-i-o.md)
+- [Image Operations](https://docs.claid.ai/image-editing-api/image-operations.md)
+- [Restorations](https://docs.claid.ai/image-editing-api/image-operations/restorations.md): Restore lost details and decompress images
+- [Resizing](https://docs.claid.ai/image-editing-api/image-operations/resizing.md)
+- [Generative Editing](https://docs.claid.ai/image-editing-api/image-operations/generative-editing.md)
+- [Color Adjustments](https://docs.claid.ai/image-editing-api/image-operations/color-adjustments.md)
+- [Background](https://docs.claid.ai/image-editing-api/image-operations/background.md)
+- [Padding](https://docs.claid.ai/image-editing-api/image-operations/padding.md)
+- [Privacy](https://docs.claid.ai/image-editing-api/image-operations/privacy.md)
+- [API Reference](https://docs.claid.ai/image-editing-api/api-reference.md): request and response description
+- [Async API Reference](https://docs.claid.ai/image-editing-api/async-api-reference.md)
+- [Batch API Reference](https://docs.claid.ai/image-editing-api/batch-api-reference.md)
+- [Upload API Reference](https://docs.claid.ai/image-editing-api/upload-api-reference.md): This section explains how to upload an image for editing by sending a direct request to our API.
+- [Image AI Edit I/O](https://docs.claid.ai/image-ai-edit-api/image-ai-edit-i-o.md)
+- [Image AI Edit Options](https://docs.claid.ai/image-ai-edit-api/image-ai-edit-options.md): Modify images using natural language instructions.
+- [Async API Reference](https://docs.claid.ai/image-ai-edit-api/async-api-reference.md)
+- [AI Fashion Models I/O](https://docs.claid.ai/ai-fashion-models-api/ai-fashion-models-i-o.md)
+- [AI Fashion Models Options](https://docs.claid.ai/ai-fashion-models-api/ai-fashion-models-options.md): Learn how to control AI Fashion Models generation.
+- [Async API Reference](https://docs.claid.ai/ai-fashion-models-api/async-api-reference.md)
+- [Image Generation I/O](https://docs.claid.ai/image-generation-api/image-generation-i-o.md): Learn how to configure input and output to generate images with Claid API.
+- [Image Generation Options](https://docs.claid.ai/image-generation-api/image-generation-options.md): Learn how to control the quality and speed of image generation.
+- [API Reference](https://docs.claid.ai/image-generation-api/api-reference.md): request and response description
+- [AI Background  I/O](https://docs.claid.ai/ai-background-api/ai-background-i-o.md): Learn how to configure input and output to use the AI Background API.
+- [AI Background Options](https://docs.claid.ai/ai-background-api/ai-background-options.md)
+- [Object](https://docs.claid.ai/ai-background-api/ai-background-options/object.md): Learn how to control the positioning of your product images.
+- [Scene](https://docs.claid.ai/ai-background-api/ai-background-options/scene.md): Learn how to control the quality and speed of image generation.
+- [API Reference](https://docs.claid.ai/ai-background-api/api-reference.md): request and response description
+- [Image to Video I/O](https://docs.claid.ai/image-to-video-api/image-to-video-i-o.md): Learn how to configure input and output to use the Image to Video API.
+- [Image to Video Options](https://docs.claid.ai/image-to-video-api/image-to-video-options.md): Learn how to control Image to Video generation.
+- [Async API Reference](https://docs.claid.ai/image-to-video-api/async-api-reference.md): Request and response description.
+- [Overview](https://docs.claid.ai/storage-connectors/overview.md)
+- [AWS S3](https://docs.claid.ai/storage-connectors/aws-s3.md): How to add AWS S3 external storage
+- [Google Cloud Storage](https://docs.claid.ai/storage-connectors/google-cloud-storage.md): How to add GCS external storage
+- [Web Folder](https://docs.claid.ai/storage-connectors/web-folder.md): How to add Web Folder storage
+- [API Reference](https://docs.claid.ai/storage-connectors/api-reference.md)
+- [E-commerce](https://docs.claid.ai/guides/e-commerce.md)
+- [Real Estate](https://docs.claid.ai/guides/real-estate.md)
+- [Printing](https://docs.claid.ai/guides/printing.md)

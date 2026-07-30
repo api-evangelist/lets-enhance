@@ -1,0 +1,139 @@
+generated: '2026-07-19'
+method: searched
+source: https://docs.claid.ai/
+docs: https://docs.claid.ai/
+api: Claid API
+summary: >-
+  The Claid API is a declarative JSON pipeline API. A request describes the input image, the
+  operations to apply and the desired output; the service returns the processed result. Every
+  operation is authenticated with a scoped bearer API key over HTTPS. Work is executed synchronously,
+  asynchronously by task id, or in batch, and completion can be pushed to an HMAC-signed webhook.
+authentication:
+  style: bearer-api-key
+  header: Authorization
+  format: 'Bearer {YOUR_API_KEY}'
+  scoped: true
+  docs: https://docs.claid.ai/authentication
+  artifact: authentication/lets-enhance-authentication.yml
+versioning:
+  scheme: uri-path
+  current: v1
+  base_url: https://api.claid.ai/v1/
+  notes: >-
+    All published endpoints sit under the /v1/ path prefix. Claid publishes no dated-version or
+    version-header scheme and no public version-deprecation policy.
+request:
+  media_type: application/json
+  shape: >-
+    A declarative envelope with `input` (a URL to the source image), `operations` (the editing
+    pipeline to apply) and `output` (result format and destination). Alternative ingestion is a
+    direct multipart upload via POST /v1/image/edit/upload.
+  transport: HTTPS only
+response:
+  media_type: application/json
+  envelope: >-
+    Successful responses wrap the payload in a top-level `data` object. Image editing responses
+    report `input` and `output` metadata (ext, mime, format, width, height, mps) and a `tmp_url`
+    for the produced asset.
+  example: |-
+    {
+      "data": {
+        "input":  {"ext": "jpeg", "mps": 4.1472, "mime": "image/jpeg", "format": "JPEG", "width": 2880, "height": 1440},
+        "output": {"ext": "jpeg", "mps": 0.64,   "mime": "image/jpeg", "format": "JPEG", "width": 800,  "height": 800, "tmp_url": "....."}
+      }
+    }
+idempotency:
+  supported: false
+  notes: >-
+    Claid documents no idempotency key, no request-replay semantics and no Idempotency-Key parameter
+    in any published endpoint definition. Re-posting an image processing request creates a new job
+    and consumes new API call credits. Callers that need at-most-once semantics must deduplicate on
+    their own side, keyed on the task id returned by the async endpoints.
+async:
+  model: submit-then-poll, with optional webhook push
+  submit:
+  - POST /v1/image/edit/async
+  - POST /v1/image/edit/batch
+  - POST /v1/image/ai-edit
+  - POST /v1/image/ai-fashion-models
+  - POST /v1/video/generate
+  accepted_response:
+    fields:
+    - name: id
+      type: integer
+      description: Task ID.
+    - name: status
+      type: string
+      description: 'Processing status. For a valid submission this is always: ACCEPTED.'
+    - name: result_url
+      type: string
+      description: >-
+        URL of the GET endpoint used to retrieve the result and to check status while processing.
+    - name: created_at
+      type: string
+      description: Exact time the processing was requested.
+    - name: request
+      type: object
+      description: The body of the request that was used for processing.
+  status_values:
+  - ACCEPTED
+  - PROCESSING
+  - DONE
+  poll:
+  - GET /v1/image/edit/async/{task_id}
+  - GET /v1/image/edit/batch/{task_id}
+  - GET /v1/image/ai-edit/{ai_edit_id}
+  - GET /v1/image/ai-fashion-models/{processing_request_id}
+  - GET /v1/video/generate/{animation_id}
+  docs: https://docs.claid.ai/image-editing-api/async-api-reference
+pagination:
+  supported: false
+  notes: >-
+    No published endpoint declares pagination parameters. The only collection endpoints are
+    GET /v1/storage/storages and GET /v1/storage/storage-types, which return the full set.
+request_tracing:
+  header: x-request-id
+  direction: response
+  description: >-
+    Every API response carries an `x-request-id` header (a UUID). Claid support asks for this value
+    when reporting an image processing issue.
+  example: 'x-request-id: 4005f581-723f-4c79-85a1-bdd752718887'
+  support_contact: support@claid.ai
+rate_limit_signaling:
+  headers:
+  - RateLimit-Limit
+  - RateLimit-Remaining
+  - RateLimit-Reset
+  style: >-
+    RateLimit-Limit is a list of policies, e.g. `120, 120;w=60, 4;w=1`, where the first value is the
+    limit currently in effect and each `n;w=s` pair is n requests per s seconds.
+  exceeded_status: 429
+  artifact: rate-limits/lets-enhance-rate-limits.yml
+  docs: https://docs.claid.ai/rate-limits
+errors:
+  format: proprietary
+  envelope_fields:
+  - error_code
+  - error_type
+  - error_message
+  - error_details
+  problem_json: false
+  artifact: errors/lets-enhance-error-codes.yml
+  docs: https://docs.claid.ai/errors
+webhooks:
+  supported: true
+  artifact: asyncapi/lets-enhance-claid-webhooks.yml
+  signature_header: X-Claid-Hmac-SHA256
+  signature_algorithm: HMAC-SHA256
+  configuration_url: https://claid.ai/account/webhook
+storage:
+  model: >-
+    Results are returned as temporary URLs by default, or written to a storage connector the account
+    has registered. Supported connector types are AWS S3, Google Cloud Storage and web folders.
+  docs: https://docs.claid.ai/storage-connectors/overview
+related:
+  authentication: authentication/lets-enhance-authentication.yml
+  scopes: scopes/lets-enhance-scopes.yml
+  errors: errors/lets-enhance-error-codes.yml
+  rate_limits: rate-limits/lets-enhance-rate-limits.yml
+  lifecycle: lifecycle/lets-enhance-lifecycle.yml

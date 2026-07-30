@@ -1,0 +1,75 @@
+generated: '2026-07-19'
+method: derived
+source: openapi/lets-enhance-claid-openapi.json
+docs: https://docs.claid.ai/
+notes: >-
+  Derived from the published Claid OpenAPI 3.1 definitions and the Claid developer documentation.
+  Let's Enhance publishes no security-certification or compliance program (no SOC 2, ISO 27001, PCI
+  DSS, HIPAA or FedRAMP attestation page was found), so no Compliance pointer is emitted.
+standards:
+- id: openapi-3.1
+  conforms: true
+  evidence: >-
+    Claid publishes OpenAPI 3.1.0 definitions inline in its API reference for every endpoint.
+- id: oauth2
+  conforms: partial
+  evidence: >-
+    securitySchemes declares an oauth2 scheme (OAuth2PasswordBearer, password flow with tokenUrl
+    "token") and four scopes, but the documented developer flow is a static dashboard-minted API key
+    presented as a bearer token — there is no authorization-server round trip.
+- id: rfc6750-bearer-token
+  conforms: true
+  evidence: >-
+    Authorization: Bearer {API_KEY}; the OpenAPI scheme description cites RFC 6750 explicitly.
+- id: oidc
+  conforms: false
+  evidence: No OpenID Connect discovery document or openIdConnect security scheme.
+- id: rfc9457-problem-details
+  conforms: false
+  evidence: >-
+    Errors use a proprietary JSON envelope (error_code / error_type / error_message /
+    error_details) with media type application/json, not application/problem+json.
+- id: rfc9116-security-txt
+  conforms: false
+  evidence: /.well-known/security.txt returns 404 on api.claid.ai, claid.ai and letsenhance.io.
+- id: rfc8594-sunset-header
+  conforms: false
+  evidence: No Sunset or Deprecation header support is documented.
+- id: rfc9727-api-catalog
+  conforms: false
+  evidence: /.well-known/api-catalog is not published.
+- id: ietf-ratelimit-headers
+  conforms: partial
+  evidence: >-
+    Responses carry RateLimit-Limit / RateLimit-Remaining / RateLimit-Reset with the
+    "quota-policy" list form (120;w=60, 4;w=1) from the IETF RateLimit header fields draft.
+- id: webhook-hmac-signing
+  conforms: true
+  evidence: >-
+    Webhooks are signed with HMAC-SHA256 over the raw body, delivered in the
+    X-Claid-Hmac-SHA256 header.
+- id: asyncapi
+  conforms: false
+  evidence: >-
+    A real webhook surface exists but no AsyncAPI document is published. Captured instead as a
+    webhook catalog in asyncapi/lets-enhance-claid-webhooks.yml.
+- id: json-api
+  conforms: false
+  evidence: Responses use a proprietary top-level `data` envelope, not the JSON:API media type.
+- id: idempotency-key
+  conforms: false
+  evidence: No idempotency key header or parameter is documented or declared in the spec.
+- id: pagination
+  conforms: false
+  evidence: No collection endpoint declares pagination parameters.
+compliance_program:
+  published: false
+  certifications: []
+  notes: >-
+    No trust center, compliance page or named certification was found on claid.ai or letsenhance.io.
+    Legal terms are published at https://letsenhance.io/terms and
+    https://letsenhance.io/privacy.
+related:
+  conventions: conventions/lets-enhance-conventions.yml
+  security: security/lets-enhance-domain-security.yml
+  well_known: well-known/lets-enhance-well-known.yml

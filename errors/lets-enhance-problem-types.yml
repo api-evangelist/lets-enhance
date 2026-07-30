@@ -1,0 +1,159 @@
+generated: '2026-07-19'
+method: derived
+source: openapi/lets-enhance-claid-openapi.json
+format: proprietary
+notes: Derived from the 4xx/5xx responses declared in the Claid OpenAPI 3.1 definitions. Claid does not
+  emit application/problem+json (RFC 9457); every error response uses the proprietary Claid error envelope
+  documented at https://docs.claid.ai/errors and captured in errors/lets-enhance-error-codes.yml.
+envelope: errors/lets-enhance-error-codes.yml
+summary:
+  distinct_problems: 9
+  statuses:
+  - 401
+  - 402
+  - 403
+  - 404
+  - 422
+  - 429
+problems:
+- status: 401
+  title: Authorization is required
+  media_types:
+  - application/json
+  source_operations:
+  - openapi/lets-enhance-claid-openapi.json#async_ai_edit_generation_api_status_v1_image_ai_edit__ai_edit_id__get
+  - openapi/lets-enhance-claid-openapi.json#async_ai_edit_generation_api_v1_image_ai_edit_post
+  - openapi/lets-enhance-claid-openapi.json#async_image_edit_result_v1_image_edit_async__task_id__get
+  - openapi/lets-enhance-claid-openapi.json#async_image_edit_v1_image_edit_async_post
+  - openapi/lets-enhance-claid-openapi.json#async_try_on_generation_api_v1_image_ai_fashion_models_post
+  - openapi/lets-enhance-claid-openapi.json#async_try_on_generation_async_status_v1_image_ai_fashion_models__processing_request_id__get
+  - openapi/lets-enhance-claid-openapi.json#create_scene_api_v1_scene_create_post
+  - openapi/lets-enhance-claid-openapi.json#create_storage_v1_storage_storages_post
+  - openapi/lets-enhance-claid-openapi.json#delete_storage_v1_storage_storages__storage_id__delete
+  - openapi/lets-enhance-claid-openapi.json#get_storage_v1_storage_storages__storage_id__get
+  - openapi/lets-enhance-claid-openapi.json#image_edit_batch_async_results_v1_image_edit_batch__task_id__get
+  - openapi/lets-enhance-claid-openapi.json#image_edit_upload_v1_image_edit_upload_post
+  - openapi/lets-enhance-claid-openapi.json#image_edit_v1_image_edit_post
+  - openapi/lets-enhance-claid-openapi.json#image_generate_v1_image_generate_post
+  - openapi/lets-enhance-claid-openapi.json#list_storage_types_v1_storage_storage_types_get
+  - openapi/lets-enhance-claid-openapi.json#list_storages_v1_storage_storages_get
+  - openapi/lets-enhance-claid-openapi.json#patch_storage_v1_storage_storages__storage_id__patch
+  - openapi/lets-enhance-claid-openapi.json#process_batch_image_edit_v1_image_edit_batch_post
+  - openapi/lets-enhance-claid-openapi.json#video_generate_api_status_v1_video_generate__animation_id__get
+  - openapi/lets-enhance-claid-openapi.json#video_generate_api_v1_video_generate_post
+  operation_count: 20
+- status: 402
+  title: No API calls left
+  media_types:
+  - application/json
+  source_operations:
+  - openapi/lets-enhance-claid-openapi.json#async_ai_edit_generation_api_v1_image_ai_edit_post
+  - openapi/lets-enhance-claid-openapi.json#async_image_edit_v1_image_edit_async_post
+  - openapi/lets-enhance-claid-openapi.json#async_try_on_generation_api_v1_image_ai_fashion_models_post
+  - openapi/lets-enhance-claid-openapi.json#create_scene_api_v1_scene_create_post
+  - openapi/lets-enhance-claid-openapi.json#image_edit_upload_v1_image_edit_upload_post
+  - openapi/lets-enhance-claid-openapi.json#image_edit_v1_image_edit_post
+  - openapi/lets-enhance-claid-openapi.json#image_generate_v1_image_generate_post
+  - openapi/lets-enhance-claid-openapi.json#process_batch_image_edit_v1_image_edit_batch_post
+  - openapi/lets-enhance-claid-openapi.json#video_generate_api_v1_video_generate_post
+  operation_count: 9
+- status: 403
+  title: Not enough permissions
+  media_types:
+  - application/json
+  source_operations:
+  - openapi/lets-enhance-claid-openapi.json#async_ai_edit_generation_api_status_v1_image_ai_edit__ai_edit_id__get
+  - openapi/lets-enhance-claid-openapi.json#async_ai_edit_generation_api_v1_image_ai_edit_post
+  - openapi/lets-enhance-claid-openapi.json#async_image_edit_result_v1_image_edit_async__task_id__get
+  - openapi/lets-enhance-claid-openapi.json#async_image_edit_v1_image_edit_async_post
+  - openapi/lets-enhance-claid-openapi.json#async_try_on_generation_api_v1_image_ai_fashion_models_post
+  - openapi/lets-enhance-claid-openapi.json#async_try_on_generation_async_status_v1_image_ai_fashion_models__processing_request_id__get
+  - openapi/lets-enhance-claid-openapi.json#create_scene_api_v1_scene_create_post
+  - openapi/lets-enhance-claid-openapi.json#create_storage_v1_storage_storages_post
+  - openapi/lets-enhance-claid-openapi.json#delete_storage_v1_storage_storages__storage_id__delete
+  - openapi/lets-enhance-claid-openapi.json#get_storage_v1_storage_storages__storage_id__get
+  - openapi/lets-enhance-claid-openapi.json#image_edit_batch_async_results_v1_image_edit_batch__task_id__get
+  - openapi/lets-enhance-claid-openapi.json#image_edit_upload_v1_image_edit_upload_post
+  - openapi/lets-enhance-claid-openapi.json#image_edit_v1_image_edit_post
+  - openapi/lets-enhance-claid-openapi.json#image_generate_v1_image_generate_post
+  - openapi/lets-enhance-claid-openapi.json#list_storage_types_v1_storage_storage_types_get
+  - openapi/lets-enhance-claid-openapi.json#list_storages_v1_storage_storages_get
+  - openapi/lets-enhance-claid-openapi.json#patch_storage_v1_storage_storages__storage_id__patch
+  - openapi/lets-enhance-claid-openapi.json#process_batch_image_edit_v1_image_edit_batch_post
+  - openapi/lets-enhance-claid-openapi.json#video_generate_api_status_v1_video_generate__animation_id__get
+  - openapi/lets-enhance-claid-openapi.json#video_generate_api_v1_video_generate_post
+  operation_count: 20
+- status: 404
+  title: Batch image edit pipeline not found
+  media_types:
+  - application/json
+  source_operations:
+  - openapi/lets-enhance-claid-openapi.json#async_image_edit_result_v1_image_edit_async__task_id__get
+  - openapi/lets-enhance-claid-openapi.json#image_edit_batch_async_results_v1_image_edit_batch__task_id__get
+  operation_count: 2
+- status: 404
+  title: Storage not found
+  media_types:
+  - application/json
+  source_operations:
+  - openapi/lets-enhance-claid-openapi.json#delete_storage_v1_storage_storages__storage_id__delete
+  - openapi/lets-enhance-claid-openapi.json#get_storage_v1_storage_storages__storage_id__get
+  - openapi/lets-enhance-claid-openapi.json#patch_storage_v1_storage_storages__storage_id__patch
+  operation_count: 3
+- status: 404
+  title: Web image not found
+  media_types:
+  - application/json
+  source_operations:
+  - openapi/lets-enhance-claid-openapi.json#async_ai_edit_generation_api_status_v1_image_ai_edit__ai_edit_id__get
+  - openapi/lets-enhance-claid-openapi.json#async_try_on_generation_async_status_v1_image_ai_fashion_models__processing_request_id__get
+  - openapi/lets-enhance-claid-openapi.json#video_generate_api_status_v1_video_generate__animation_id__get
+  operation_count: 3
+- status: 422
+  title: Unprocessable Entity
+  media_types:
+  - application/json
+  source_operations:
+  - openapi/lets-enhance-claid-openapi.json#async_ai_edit_generation_api_v1_image_ai_edit_post
+  - openapi/lets-enhance-claid-openapi.json#async_image_edit_result_v1_image_edit_async__task_id__get
+  - openapi/lets-enhance-claid-openapi.json#async_image_edit_v1_image_edit_async_post
+  - openapi/lets-enhance-claid-openapi.json#async_try_on_generation_api_v1_image_ai_fashion_models_post
+  - openapi/lets-enhance-claid-openapi.json#create_scene_api_v1_scene_create_post
+  - openapi/lets-enhance-claid-openapi.json#create_storage_v1_storage_storages_post
+  - openapi/lets-enhance-claid-openapi.json#delete_storage_v1_storage_storages__storage_id__delete
+  - openapi/lets-enhance-claid-openapi.json#get_storage_v1_storage_storages__storage_id__get
+  - openapi/lets-enhance-claid-openapi.json#image_edit_batch_async_results_v1_image_edit_batch__task_id__get
+  - openapi/lets-enhance-claid-openapi.json#image_edit_upload_v1_image_edit_upload_post
+  - openapi/lets-enhance-claid-openapi.json#image_edit_v1_image_edit_post
+  - openapi/lets-enhance-claid-openapi.json#image_generate_v1_image_generate_post
+  - openapi/lets-enhance-claid-openapi.json#patch_storage_v1_storage_storages__storage_id__patch
+  - openapi/lets-enhance-claid-openapi.json#process_batch_image_edit_v1_image_edit_batch_post
+  - openapi/lets-enhance-claid-openapi.json#video_generate_api_v1_video_generate_post
+  operation_count: 15
+- status: 422
+  title: Validation Error
+  media_types:
+  - application/json
+  source_operations:
+  - openapi/lets-enhance-claid-openapi.json#async_ai_edit_generation_api_status_v1_image_ai_edit__ai_edit_id__get
+  - openapi/lets-enhance-claid-openapi.json#async_try_on_generation_async_status_v1_image_ai_fashion_models__processing_request_id__get
+  - openapi/lets-enhance-claid-openapi.json#video_generate_api_status_v1_video_generate__animation_id__get
+  operation_count: 3
+- status: 429
+  title: Too many requests
+  media_types:
+  - application/json
+  source_operations:
+  - openapi/lets-enhance-claid-openapi.json#async_ai_edit_generation_api_v1_image_ai_edit_post
+  - openapi/lets-enhance-claid-openapi.json#async_image_edit_v1_image_edit_async_post
+  - openapi/lets-enhance-claid-openapi.json#async_try_on_generation_api_v1_image_ai_fashion_models_post
+  - openapi/lets-enhance-claid-openapi.json#create_scene_api_v1_scene_create_post
+  - openapi/lets-enhance-claid-openapi.json#image_edit_upload_v1_image_edit_upload_post
+  - openapi/lets-enhance-claid-openapi.json#image_edit_v1_image_edit_post
+  - openapi/lets-enhance-claid-openapi.json#image_generate_v1_image_generate_post
+  - openapi/lets-enhance-claid-openapi.json#process_batch_image_edit_v1_image_edit_batch_post
+  - openapi/lets-enhance-claid-openapi.json#video_generate_api_v1_video_generate_post
+  operation_count: 9
+related:
+  error_codes: errors/lets-enhance-error-codes.yml
+  conventions: conventions/lets-enhance-conventions.yml

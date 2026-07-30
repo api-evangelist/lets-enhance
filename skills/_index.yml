@@ -1,0 +1,76 @@
+generated: '2026-07-19'
+method: generated
+source: openapi/lets-enhance-claid-openapi.json
+provider: Let's Enhance
+api: Claid API
+notes: >-
+  Let's Enhance publishes no AGENTS.md or provider-authored agent skills. These skills are generated
+  from the published Claid OpenAPI 3.1 definitions and the Claid developer documentation. Every
+  operationId referenced below appears verbatim in openapi/lets-enhance-claid-openapi.json.
+skills:
+- file: lets-enhance-enhance-product-image.md
+  name: Enhance a product image with the Claid API
+  description: >-
+    Upscale, restore, colour-correct and resize a single product photo synchronously, and read the
+    result metadata correctly.
+  api: openapi/lets-enhance-claid-openapi.json
+  scopes:
+  - image_editing
+  operations:
+  - image_edit_v1_image_edit_post
+  - image_edit_upload_v1_image_edit_upload_post
+- file: lets-enhance-bulk-image-processing.md
+  name: Process images in bulk with the Claid async and batch APIs
+  description: >-
+    Submit asynchronous and batch editing jobs, poll by task id, and receive HMAC-signed completion
+    webhooks instead of polling.
+  api: openapi/lets-enhance-claid-openapi.json
+  scopes:
+  - image_editing
+  operations:
+  - async_image_edit_v1_image_edit_async_post
+  - async_image_edit_result_v1_image_edit_async__task_id__get
+  - process_batch_image_edit_v1_image_edit_batch_post
+  - image_edit_batch_async_results_v1_image_edit_batch__task_id__get
+- file: lets-enhance-generate-product-scenes.md
+  name: Generate product scenes, backgrounds and AI edits with the Claid API
+  description: >-
+    Create AI backgrounds and scenes, apply natural-language edits, generate images from prompts,
+    and produce AI fashion model shots.
+  api: openapi/lets-enhance-claid-openapi.json
+  scopes:
+  - image_editing
+  - image_generation
+  operations:
+  - create_scene_api_v1_scene_create_post
+  - image_generate_v1_image_generate_post
+  - async_ai_edit_generation_api_v1_image_ai_edit_post
+  - async_ai_edit_generation_api_status_v1_image_ai_edit__ai_edit_id__get
+  - async_try_on_generation_api_v1_image_ai_fashion_models_post
+  - async_try_on_generation_async_status_v1_image_ai_fashion_models__processing_request_id__get
+- file: lets-enhance-image-to-video.md
+  name: Turn a still image into video with the Claid API
+  description: >-
+    Submit an image-to-video generation job and collect the rendered animation by polling or
+    webhook.
+  api: openapi/lets-enhance-claid-openapi.json
+  scopes:
+  - video_generation
+  operations:
+  - video_generate_api_v1_video_generate_post
+  - video_generate_api_status_v1_video_generate__animation_id__get
+- file: lets-enhance-storage-connectors.md
+  name: Manage Claid storage connectors
+  description: >-
+    Register and maintain AWS S3, Google Cloud Storage and web folder storage connectors so results
+    land in your own bucket instead of a temporary URL.
+  api: openapi/lets-enhance-claid-openapi.json
+  scopes:
+  - storage
+  operations:
+  - list_storage_types_v1_storage_storage_types_get
+  - list_storages_v1_storage_storages_get
+  - create_storage_v1_storage_storages_post
+  - get_storage_v1_storage_storages__storage_id__get
+  - patch_storage_v1_storage_storages__storage_id__patch
+  - delete_storage_v1_storage_storages__storage_id__delete

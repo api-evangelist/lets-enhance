@@ -1,0 +1,80 @@
+generated: '2026-07-19'
+method: searched
+source: https://docs.claid.ai/image-editing-api/async-api-reference
+docs: https://docs.claid.ai/image-editing-api/async-api-reference
+type: Webhooks
+spec_type: none
+api: Claid API
+notes: >-
+  Claid documents a real webhook surface for asynchronous pipeline completion but publishes no
+  AsyncAPI document. This artifact captures the webhook catalog verbatim from the async API
+  reference. No AsyncAPI file is fabricated.
+transport:
+  protocol: https
+  method: POST
+  direction: claid-to-subscriber
+  delivery_target: >-
+    A subscriber-supplied HTTPS endpoint, for example https://yourdomain.com/webhooks/claid
+configuration:
+  url: https://claid.ai/account/webhook
+  path: Integrations -> Webhook Settings in the Claid dashboard
+  settings:
+  - name: URL
+    description: The endpoint where notifications are received.
+  - name: Subscribed events
+    description: Which event types to receive.
+  - name: Set new secret
+    description: >-
+      Optional shared secret that enables HMAC-SHA256 webhook signature verification.
+events:
+- name: Success pipelines
+  trigger: A request completes successfully.
+  applies_to:
+  - POST /v1/image/edit/async
+  - POST /v1/image/edit/batch
+  - POST /v1/image/ai-edit
+  - POST /v1/image/ai-fashion-models
+  - POST /v1/video/generate
+- name: Failed pipelines
+  trigger: A request fails.
+  applies_to:
+  - POST /v1/image/edit/async
+  - POST /v1/image/edit/batch
+  - POST /v1/image/ai-edit
+  - POST /v1/image/ai-fashion-models
+  - POST /v1/video/generate
+payload:
+  media_type: application/json
+  shape: >-
+    The webhook body carries the same response data documented for the asynchronous result endpoint
+    (see "Read a response" in the async API reference) — the task id, processing status, result_url,
+    created_at and the original request body.
+  status_values:
+  - ACCEPTED
+  - PROCESSING
+  - DONE
+security:
+  signature:
+    enabled_by: setting a shared secret in Webhook Settings
+    header: X-Claid-Hmac-SHA256
+    algorithm: HMAC-SHA256
+    computed_over: the raw (unparsed) request body
+    key: the shared secret configured in the Claid dashboard
+    verification: >-
+      Read the raw body of the incoming POST as a string, compute the HMAC-SHA256 digest using the
+      raw body as the message and the shared secret as the key, and compare it to the value of the
+      X-Claid-Hmac-SHA256 header. If the values match the webhook is valid and unmodified.
+    guidance: Store the shared secret securely on the server.
+    optional: true
+    recommended: true
+  code_samples_published:
+  - python
+  - javascript
+  - typescript
+use_cases:
+- Automating downstream workflows when an image or video job finishes.
+- Monitoring request statuses without polling.
+- Triggering actions when a generation job completes successfully or with an error.
+related:
+  conventions: conventions/lets-enhance-conventions.yml
+  openapi: openapi/lets-enhance-claid-openapi.json

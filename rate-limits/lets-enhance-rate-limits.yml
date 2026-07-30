@@ -1,0 +1,48 @@
+generated: '2026-07-19'
+method: searched
+source: https://docs.claid.ai/rate-limits
+docs: https://docs.claid.ai/rate-limits
+api: Claid API
+summary: >-
+  Claid applies burst safeguards to image processing requests. By default an account may issue up to
+  120 requests per minute and 4 requests per second. Limits are raised on request for higher volume
+  or batch processing by contacting sales@claid.ai. Every image processing response carries
+  RateLimit-* headers describing the remaining quota.
+rate_limits:
+- name: Requests per minute
+  limit_count: 120
+  interval: 60
+  interval_unit: second
+  scope: account
+  policy: '120;w=60'
+- name: Requests per second
+  limit_count: 4
+  interval: 1
+  interval_unit: second
+  scope: account
+  policy: '4;w=1'
+headers:
+- name: RateLimit-Limit
+  description: >-
+    The request quota associated with the user in the current time window. Returned as a list, e.g.
+    `120, 120;w=60, 4;w=1` — the first value is the limit currently in effect.
+- name: RateLimit-Remaining
+  description: Remaining requests that can be issued in the current time window.
+- name: RateLimit-Reset
+  description: Number of seconds until the quota resets.
+exceeded:
+  status: 429
+  error_code: '2001'
+  error_type: general
+  error_message: Too Many Requests. Rate limit exceeded.
+  behavior: >-
+    RateLimit-Remaining goes to -1 and RateLimit-Reset gives the seconds until requests are accepted
+    again.
+increase:
+  contact: sales@claid.ai
+  note: >-
+    Contact Claid sales to expand the limits, or use image batch processing
+    (POST /v1/image/edit/batch) to process multiple images efficiently under a single request.
+related:
+  conventions: conventions/lets-enhance-conventions.yml
+  errors: errors/lets-enhance-error-codes.yml

@@ -1,0 +1,115 @@
+generated: '2026-07-19'
+method: searched
+source: https://docs.claid.ai/errors
+docs: https://docs.claid.ai/errors
+api: Claid API
+format: proprietary
+notes: >-
+  Claid does not use RFC 9457 problem+json. It returns a proprietary JSON error envelope on every
+  non-2xx response. Claid publishes the envelope shape and the HTTP status catalog, but does not
+  publish an exhaustive registry of `error_code` values; the codes recorded below are the ones that
+  appear verbatim in the published documentation examples.
+envelope:
+  media_type: application/json
+  location: >-
+    Top level on most responses; nested under a `detail` object on rate-limit (429) responses as
+    shown in the rate-limits documentation.
+  fields:
+  - name: error_code
+    type: string
+    description: Claid internal error identifier.
+  - name: error_type
+    type: string
+    description: The topic group the error belongs to (for example auth, validation, general).
+  - name: error_message
+    type: string
+    description: >-
+      Human-readable description. When several reasons caused the failure they are concatenated as
+      separate sentences divided by a dot. This is the field Claid recommends surfacing to humans.
+  - name: error_details
+    type: object
+    description: >-
+      For request validation errors, a formatted key:value map of field path to list of messages.
+      May be an empty object when the failure was not field-level.
+  example: |-
+    {
+        "error_code": "111",
+        "error_type": "auth",
+        "error_message": "Authorization is required.",
+        "error_details": {}
+    }
+error_types:
+- id: auth
+  description: Authentication and authorization failures.
+- id: validation
+  description: Request payload validation failures, with field-level detail in error_details.
+- id: general
+  description: Generic failures including rate limiting.
+error_codes:
+- code: '111'
+  error_type: auth
+  message: Authorization is required.
+  http_status: 401
+  remediation: >-
+    Send a valid API key as `Authorization: Bearer {YOUR_API_KEY}`. See
+    https://docs.claid.ai/authentication
+- code: '2001'
+  error_type: general
+  message: Too Many Requests. Rate limit exceeded.
+  http_status: 429
+  remediation: >-
+    Back off until the RateLimit-Reset window elapses, or contact sales@claid.ai to raise limits.
+    See https://docs.claid.ai/rate-limits
+- code: '9000'
+  error_type: validation
+  message: Request payload failed validation; per-field reasons are returned in error_details.
+  http_status: 422
+  remediation: Correct the fields listed in error_details and retry.
+http_statuses:
+- status: 200
+  title: OK
+  description: Everything worked as expected.
+- status: 400
+  title: Bad Request
+  description: >-
+    Generic error with several possible causes, such as the object not being retrievable from
+    storage, or an unparseable JSON payload. Read error_message for the reason.
+- status: 401
+  title: Unauthorized
+  description: Unauthorized to access the requested resource.
+  remediation: Authenticate via API key — https://docs.claid.ai/authentication
+- status: 402
+  title: No API calls left
+  description: The account has run out of API calls.
+  remediation: Purchase more API call credits to continue using Claid.
+- status: 403
+  title: Forbidden
+  description: The API key does not have permissions to perform the request.
+  remediation: Check the permission scopes and correctness of the API key.
+- status: 404
+  title: Not Found
+  description: The requested resource does not exist.
+- status: 409
+  title: Conflict
+  description: The request cannot be processed because of a conflict in the current resource state.
+- status: 422
+  title: Unprocessable Entity
+  description: >-
+    The payload has logical or validation issues. Concrete reasons are in error_message and
+    error_details.
+- status: 429
+  title: Too Many Requests
+  description: The request cannot be served due to the API rate limit.
+  remediation: See https://docs.claid.ai/rate-limits
+- status: 500
+  title: Internal Server Error
+  description: Temporary internal error. Rare; if persistent, contact support with request details.
+support:
+  contact: support@claid.ai
+  guidance: >-
+    When reporting an image processing issue, provide the `x-request-id` response header value from
+    the failing request.
+related:
+  problem_types: errors/lets-enhance-problem-types.yml
+  conventions: conventions/lets-enhance-conventions.yml
+  rate_limits: rate-limits/lets-enhance-rate-limits.yml

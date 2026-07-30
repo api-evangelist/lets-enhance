@@ -1,0 +1,328 @@
+generated: '2026-07-19'
+method: generated
+source: openapi/lets-enhance-claid-openapi.json
+description: Recommended x-agentic-access execution contracts, classified heuristically from
+  the OpenAPI. A governance starting point for exposing this API to AI agents — review and bind
+  audience per deployment. See research/curity/agentic-governance/.
+summary:
+  operations: 20
+  by_action_class:
+    acting: 12
+    connected: 8
+  by_consequence:
+    write: 12
+    read: 8
+  human_in_the_loop_required: 0
+operations:
+- path: /v1/scene/create
+  method: post
+  operationId: create_scene_api_v1_scene_create_post
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    scope:
+    - image_generation
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /v1/image/ai-fashion-models
+  method: post
+  operationId: async_try_on_generation_api_v1_image_ai_fashion_models_post
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    scope:
+    - image_editing
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /v1/image/ai-fashion-models/{processing_request_id}
+  method: get
+  operationId: async_try_on_generation_async_status_v1_image_ai_fashion_models__processing_request_id__get
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    scope:
+    - image_editing
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /v1/image/ai-edit
+  method: post
+  operationId: async_ai_edit_generation_api_v1_image_ai_edit_post
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    scope:
+    - image_editing
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /v1/image/ai-edit/{ai_edit_id}
+  method: get
+  operationId: async_ai_edit_generation_api_status_v1_image_ai_edit__ai_edit_id__get
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    scope:
+    - image_editing
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /v1/image/edit
+  method: post
+  operationId: image_edit_v1_image_edit_post
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    scope:
+    - image_editing
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /v1/image/edit/async
+  method: post
+  operationId: async_image_edit_v1_image_edit_async_post
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    scope:
+    - image_editing
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /v1/image/edit/async/{task_id}
+  method: get
+  operationId: async_image_edit_result_v1_image_edit_async__task_id__get
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    scope:
+    - image_editing
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /v1/image/edit/batch
+  method: post
+  operationId: process_batch_image_edit_v1_image_edit_batch_post
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    scope:
+    - image_editing
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /v1/image/edit/batch/{task_id}
+  method: get
+  operationId: image_edit_batch_async_results_v1_image_edit_batch__task_id__get
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    scope:
+    - image_editing
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /v1/image/edit/upload
+  method: post
+  operationId: image_edit_upload_v1_image_edit_upload_post
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    scope:
+    - image_editing
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /v1/image/generate
+  method: post
+  operationId: image_generate_v1_image_generate_post
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    scope:
+    - image_editing
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /v1/video/generate
+  method: post
+  operationId: video_generate_api_v1_video_generate_post
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    scope:
+    - video_generation
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /v1/video/generate/{animation_id}
+  method: get
+  operationId: video_generate_api_status_v1_video_generate__animation_id__get
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    scope:
+    - video_generation
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /v1/storage/storage-types
+  method: get
+  operationId: list_storage_types_v1_storage_storage_types_get
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    scope:
+    - storage
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /v1/storage/storages
+  method: get
+  operationId: list_storages_v1_storage_storages_get
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    scope:
+    - storage
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /v1/storage/storages
+  method: post
+  operationId: create_storage_v1_storage_storages_post
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    scope:
+    - storage
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /v1/storage/storages/{storage_id}
+  method: get
+  operationId: get_storage_v1_storage_storages__storage_id__get
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    scope:
+    - storage
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /v1/storage/storages/{storage_id}
+  method: delete
+  operationId: delete_storage_v1_storage_storages__storage_id__delete
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    scope:
+    - storage
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /v1/storage/storages/{storage_id}
+  method: patch
+  operationId: patch_storage_v1_storage_storages__storage_id__patch
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    scope:
+    - storage
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required

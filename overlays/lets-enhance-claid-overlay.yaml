@@ -1,0 +1,123 @@
+overlay: 1.0.0
+info:
+  title: API Evangelist enhancements for the Claid API (Let's Enhance)
+  version: 1.0.0
+extends: openapi/lets-enhance-claid-openapi.json
+x-apievangelist:
+  generated: '2026-07-19'
+  method: generated
+  source: >-
+    Enhancements derived from the Claid developer documentation at https://docs.claid.ai/ and from
+    the artifacts in this repository. The harvested OpenAPI is never mutated; every addition is
+    expressed here as an overlay action.
+actions:
+- target: $.info
+  description: >-
+    Record the provider identity, the documentation entry points and the API Evangelist artifacts
+    that describe cross-cutting behaviour the spec does not carry.
+  update:
+    contact:
+      name: Claid API support
+      email: support@claid.ai
+      url: https://docs.claid.ai/
+    x-provider: Let's Enhance
+    x-provider-website: https://letsenhance.io/
+    x-developer-portal: https://claid.ai/
+    x-status-page: https://status.letsenhance.io/
+    x-apievangelist-artifacts:
+      authentication: authentication/lets-enhance-authentication.yml
+      scopes: scopes/lets-enhance-scopes.yml
+      conventions: conventions/lets-enhance-conventions.yml
+      errors: errors/lets-enhance-error-codes.yml
+      problem_types: errors/lets-enhance-problem-types.yml
+      rate_limits: rate-limits/lets-enhance-rate-limits.yml
+      webhooks: asyncapi/lets-enhance-claid-webhooks.yml
+      lifecycle: lifecycle/lets-enhance-lifecycle.yml
+      conformance: conformance/lets-enhance-conformance.yml
+      data_model: data-model/lets-enhance-data-model.yml
+      skills: skills/_index.yml
+      mcp: mcp/lets-enhance-mcp.yml
+- target: $.info
+  description: >-
+    Attach the documented rate-limit contract, which the published spec does not express.
+  update:
+    x-rate-limits:
+      docs: https://docs.claid.ai/rate-limits
+      default:
+      - limit: 120
+        window_seconds: 60
+      - limit: 4
+        window_seconds: 1
+      response_headers:
+      - RateLimit-Limit
+      - RateLimit-Remaining
+      - RateLimit-Reset
+      exceeded_status: 429
+      increase_contact: sales@claid.ai
+- target: $.info
+  description: >-
+    Attach the documented error envelope. Claid returns a proprietary JSON error body rather than
+    RFC 9457 problem+json, and the spec's response objects do not describe it.
+  update:
+    x-error-envelope:
+      media_type: application/json
+      problem_json: false
+      docs: https://docs.claid.ai/errors
+      fields:
+      - error_code
+      - error_type
+      - error_message
+      - error_details
+      error_types:
+      - auth
+      - validation
+      - general
+- target: $.info
+  description: >-
+    Record the response-side request correlation header Claid support asks for when triaging.
+  update:
+    x-request-id-header: x-request-id
+- target: $.info
+  description: >-
+    Record the webhook surface. Claid publishes no AsyncAPI, so the event contract is captured here
+    and in asyncapi/lets-enhance-claid-webhooks.yml.
+  update:
+    x-webhooks:
+      configuration_url: https://claid.ai/account/webhook
+      docs: https://docs.claid.ai/image-editing-api/async-api-reference
+      events:
+      - Success pipelines
+      - Failed pipelines
+      signature:
+        header: X-Claid-Hmac-SHA256
+        algorithm: HMAC-SHA256
+        computed_over: raw request body
+- target: $.info
+  description: >-
+    Record the absence of an idempotency contract so agent tooling does not assume safe retries on
+    the write operations.
+  update:
+    x-idempotency:
+      supported: false
+      note: >-
+        Claid documents no idempotency key. Re-posting a processing request creates a new job and
+        consumes new API call credits; deduplicate client-side on the returned task id.
+- target: $.components.securitySchemes.OAuth2PasswordBearer
+  description: >-
+    Clarify the real developer flow. The scheme is modelled as oauth2/password, but in practice the
+    credential is a long-lived dashboard-minted API key sent as a bearer token.
+  update:
+    x-actual-flow: static-api-key-as-bearer-token
+    x-key-management-url: https://claid.ai/account/api
+    x-scope-groups:
+      Storage:
+      - storage
+      Image editing:
+      - image_editing
+      - image_generation
+      - video_generation
+- target: $.servers
+  description: Document the production server explicitly.
+  update:
+  - url: https://api.claid.ai
+    description: Claid API production

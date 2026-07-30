@@ -1,0 +1,18 @@
+{
+  "provider": "lets-enhance",
+  "sources": [
+    "lets-enhance-image-api-openapi.yml",
+    "lets-enhance-storage-api-openapi.yml",
+    "lets-enhance-video-api-openapi.yml"
+  ],
+  "outputs": [
+    "lets-enhance-image-api-openapi.yml",
+    "lets-enhance-storage-api-openapi.yml",
+    "lets-enhance-video-api-openapi.yml"
+  ],
+  "archived": [],
+  "errors": [],
+  "warnings": [],
+  "notes": [],
+  "skipped": []
+}

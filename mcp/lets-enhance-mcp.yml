@@ -1,0 +1,164 @@
+generated: '2026-07-19'
+method: derived
+status: candidate
+source: openapi/lets-enhance-claid-openapi.json
+notes: Let's Enhance / Claid publishes no official hosted or remote MCP server. No entry was found in
+  the official MCP registry, on npm under @modelcontextprotocol, in the letsenhance GitHub organization,
+  or in the Claid documentation. The tool surface below is a candidate derived one-to-one from the published
+  OpenAPI operations, not a provider claim.
+server:
+  name: lets-enhance-claid
+  transport: http
+  url: null
+  auth:
+    type: bearer
+    header: Authorization
+    env: CLAID_API_KEY
+    docs: https://docs.claid.ai/authentication
+  base_url: https://api.claid.ai/v1/
+summary:
+  tool_count: 20
+tools:
+- name: create_image_ai-edit
+  description: Async Ai Edit Generation Api
+  method: POST
+  path: /v1/image/ai-edit
+  scopes:
+  - image_editing
+  source_operation: openapi/lets-enhance-claid-openapi.json#async_ai_edit_generation_api_v1_image_ai_edit_post
+- name: get_image_ai-edit
+  description: Async Ai Edit Generation Api Status
+  method: GET
+  path: /v1/image/ai-edit/{ai_edit_id}
+  scopes:
+  - image_editing
+  source_operation: openapi/lets-enhance-claid-openapi.json#async_ai_edit_generation_api_status_v1_image_ai_edit__ai_edit_id__get
+- name: create_image_ai-fashion-models
+  description: Async Try On Generation Api
+  method: POST
+  path: /v1/image/ai-fashion-models
+  scopes:
+  - image_editing
+  source_operation: openapi/lets-enhance-claid-openapi.json#async_try_on_generation_api_v1_image_ai_fashion_models_post
+- name: get_image_ai-fashion-models
+  description: Async Try On Generation Async Status
+  method: GET
+  path: /v1/image/ai-fashion-models/{processing_request_id}
+  scopes:
+  - image_editing
+  source_operation: openapi/lets-enhance-claid-openapi.json#async_try_on_generation_async_status_v1_image_ai_fashion_models__processing_request_id__get
+- name: create_image_edit
+  description: Image Edit
+  method: POST
+  path: /v1/image/edit
+  scopes:
+  - image_editing
+  source_operation: openapi/lets-enhance-claid-openapi.json#image_edit_v1_image_edit_post
+- name: create_image_edit_async
+  description: Async Image Edit
+  method: POST
+  path: /v1/image/edit/async
+  scopes:
+  - image_editing
+  source_operation: openapi/lets-enhance-claid-openapi.json#async_image_edit_v1_image_edit_async_post
+- name: get_image_edit_async
+  description: Async Image Edit Result
+  method: GET
+  path: /v1/image/edit/async/{task_id}
+  scopes:
+  - image_editing
+  source_operation: openapi/lets-enhance-claid-openapi.json#async_image_edit_result_v1_image_edit_async__task_id__get
+- name: create_image_edit_batch
+  description: Process Batch Image Edit
+  method: POST
+  path: /v1/image/edit/batch
+  scopes:
+  - image_editing
+  source_operation: openapi/lets-enhance-claid-openapi.json#process_batch_image_edit_v1_image_edit_batch_post
+- name: get_image_edit_batch
+  description: Image Edit Batch Async Results
+  method: GET
+  path: /v1/image/edit/batch/{task_id}
+  scopes:
+  - image_editing
+  source_operation: openapi/lets-enhance-claid-openapi.json#image_edit_batch_async_results_v1_image_edit_batch__task_id__get
+- name: create_image_edit_upload
+  description: Image Edit Upload
+  method: POST
+  path: /v1/image/edit/upload
+  scopes:
+  - image_editing
+  source_operation: openapi/lets-enhance-claid-openapi.json#image_edit_upload_v1_image_edit_upload_post
+- name: create_image_generate
+  description: Image Generate
+  method: POST
+  path: /v1/image/generate
+  scopes:
+  - image_editing
+  source_operation: openapi/lets-enhance-claid-openapi.json#image_generate_v1_image_generate_post
+- name: create_scene_create
+  description: Create Scene Api
+  method: POST
+  path: /v1/scene/create
+  scopes:
+  - image_generation
+  source_operation: openapi/lets-enhance-claid-openapi.json#create_scene_api_v1_scene_create_post
+- name: list_storage_storage-types
+  description: List Storage Types
+  method: GET
+  path: /v1/storage/storage-types
+  scopes:
+  - storage
+  source_operation: openapi/lets-enhance-claid-openapi.json#list_storage_types_v1_storage_storage_types_get
+- name: list_storage_storages
+  description: List Storages
+  method: GET
+  path: /v1/storage/storages
+  scopes:
+  - storage
+  source_operation: openapi/lets-enhance-claid-openapi.json#list_storages_v1_storage_storages_get
+- name: create_storage_storages
+  description: Create Storage
+  method: POST
+  path: /v1/storage/storages
+  scopes:
+  - storage
+  source_operation: openapi/lets-enhance-claid-openapi.json#create_storage_v1_storage_storages_post
+- name: get_storage_storages
+  description: Get Storage
+  method: GET
+  path: /v1/storage/storages/{storage_id}
+  scopes:
+  - storage
+  source_operation: openapi/lets-enhance-claid-openapi.json#get_storage_v1_storage_storages__storage_id__get
+- name: delete_storage_storages
+  description: Delete Storage
+  method: DELETE
+  path: /v1/storage/storages/{storage_id}
+  scopes:
+  - storage
+  source_operation: openapi/lets-enhance-claid-openapi.json#delete_storage_v1_storage_storages__storage_id__delete
+- name: update_storage_storages
+  description: Patch Storage
+  method: PATCH
+  path: /v1/storage/storages/{storage_id}
+  scopes:
+  - storage
+  source_operation: openapi/lets-enhance-claid-openapi.json#patch_storage_v1_storage_storages__storage_id__patch
+- name: create_video_generate
+  description: Video Generate Api
+  method: POST
+  path: /v1/video/generate
+  scopes:
+  - video_generation
+  source_operation: openapi/lets-enhance-claid-openapi.json#video_generate_api_v1_video_generate_post
+- name: get_video_generate
+  description: Video Generate Api Status
+  method: GET
+  path: /v1/video/generate/{animation_id}
+  scopes:
+  - video_generation
+  source_operation: openapi/lets-enhance-claid-openapi.json#video_generate_api_status_v1_video_generate__animation_id__get
+related:
+  openapi: openapi/lets-enhance-claid-openapi.json
+  skills: skills/_index.yml

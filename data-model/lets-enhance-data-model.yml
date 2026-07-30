@@ -1,0 +1,1803 @@
+generated: '2026-07-19'
+method: derived
+source: openapi/lets-enhance-claid-openapi.json
+notes: 'Entity graph derived from the component schemas and $ref links in the published Claid OpenAPI
+  3.1 definitions. Claid is a pipeline API rather than a resource CRUD API: most schemas are request-option
+  objects composed into an editing pipeline, so relationships are composition ($ref from a parent options
+  object) rather than foreign-key references. The one genuine persisted resource family is Storage.'
+summary:
+  entities: 164
+  relationships: 187
+  root_schemas: 30
+  shape: composition-graph
+root_schemas:
+- schema: AiEditAPIRequest
+  role: request
+  operations:
+  - async_ai_edit_generation_api_v1_image_ai_edit_post
+- schema: AsyncEditRequest
+  role: request
+  operations:
+  - async_image_edit_v1_image_edit_async_post
+- schema: BatchEditRequest
+  role: request
+  operations:
+  - process_batch_image_edit_v1_image_edit_batch_post
+- schema: Body_image_edit_upload_v1_image_edit_upload_post
+  role: request
+  operations:
+  - image_edit_upload_v1_image_edit_upload_post
+- schema: EditRequest
+  role: request
+  operations:
+  - image_edit_v1_image_edit_post
+- schema: GenerateRequest
+  role: request
+  operations:
+  - image_generate_v1_image_generate_post
+- schema: HTTPValidationError
+  role: response
+  operations:
+  - async_try_on_generation_async_status_v1_image_ai_fashion_models__processing_request_id__get
+  - async_ai_edit_generation_api_status_v1_image_ai_edit__ai_edit_id__get
+  - video_generate_api_status_v1_video_generate__animation_id__get
+- schema: HttpErrorDetails
+  role: response
+  operations:
+  - create_scene_api_v1_scene_create_post
+  - async_try_on_generation_api_v1_image_ai_fashion_models_post
+  - async_try_on_generation_async_status_v1_image_ai_fashion_models__processing_request_id__get
+  - async_ai_edit_generation_api_v1_image_ai_edit_post
+  - async_ai_edit_generation_api_status_v1_image_ai_edit__ai_edit_id__get
+  - image_edit_v1_image_edit_post
+  - async_image_edit_v1_image_edit_async_post
+  - async_image_edit_result_v1_image_edit_async__task_id__get
+  - process_batch_image_edit_v1_image_edit_batch_post
+  - image_edit_batch_async_results_v1_image_edit_batch__task_id__get
+  - image_edit_upload_v1_image_edit_upload_post
+  - image_generate_v1_image_generate_post
+  - video_generate_api_v1_video_generate_post
+  - video_generate_api_status_v1_video_generate__animation_id__get
+  - list_storage_types_v1_storage_storage_types_get
+  - list_storages_v1_storage_storages_get
+  - create_storage_v1_storage_storages_post
+  - get_storage_v1_storage_storages__storage_id__get
+  - delete_storage_v1_storage_storages__storage_id__delete
+  - patch_storage_v1_storage_storages__storage_id__patch
+- schema: ImageVideoRequest
+  role: request
+  operations:
+  - video_generate_api_v1_video_generate_post
+- schema: Response
+  role: response
+  operations:
+  - delete_storage_v1_storage_storages__storage_id__delete
+- schema: Response_AiEditAcceptedResponse_
+  role: response
+  operations:
+  - async_ai_edit_generation_api_v1_image_ai_edit_post
+- schema: Response_AiEditResultResponse_
+  role: response
+  operations:
+  - async_ai_edit_generation_api_status_v1_image_ai_edit__ai_edit_id__get
+- schema: Response_AsyncAcceptedResponse_
+  role: response
+  operations:
+  - async_image_edit_v1_image_edit_async_post
+- schema: Response_AsyncResultResponse_
+  role: response
+  operations:
+  - async_image_edit_result_v1_image_edit_async__task_id__get
+- schema: Response_BatchAcceptedResponse_
+  role: response
+  operations:
+  - process_batch_image_edit_v1_image_edit_batch_post
+- schema: Response_BatchResultResponse_
+  role: response
+  operations:
+  - image_edit_batch_async_results_v1_image_edit_batch__task_id__get
+- schema: Response_EditResponse_
+  role: response
+  operations:
+  - image_edit_v1_image_edit_post
+  - image_edit_upload_v1_image_edit_upload_post
+- schema: Response_GenerateResponse_
+  role: response
+  operations:
+  - image_generate_v1_image_generate_post
+- schema: Response_List_apps.storage.models.StorageType__
+  role: response
+  operations:
+  - list_storage_types_v1_storage_storage_types_get
+- schema: Response_List_apps.storage.serializers.StorageOut_Pydantic__
+  role: response
+  operations:
+  - list_storages_v1_storage_storages_get
+- schema: Response_ScenePipelineResponseOut_
+  role: response
+  operations:
+  - create_scene_api_v1_scene_create_post
+- schema: Response_StorageOutDetailed_Pydantic_
+  role: response
+  operations:
+  - create_storage_v1_storage_storages_post
+  - get_storage_v1_storage_storages__storage_id__get
+  - patch_storage_v1_storage_storages__storage_id__patch
+- schema: Response_TryOnAPIAcceptedResponse_
+  role: response
+  operations:
+  - async_try_on_generation_api_v1_image_ai_fashion_models_post
+- schema: Response_TryOnAPIResultResponse_
+  role: response
+  operations:
+  - async_try_on_generation_async_status_v1_image_ai_fashion_models__processing_request_id__get
+- schema: Response_VideoAcceptedResponse_
+  role: response
+  operations:
+  - video_generate_api_v1_video_generate_post
+- schema: Response_VideoStatusResponse_
+  role: response
+  operations:
+  - video_generate_api_status_v1_video_generate__animation_id__get
+- schema: SceneCreateAPIIn
+  role: request
+  operations:
+  - create_scene_api_v1_scene_create_post
+- schema: StorageInUpdate_Pydantic
+  role: request
+  operations:
+  - patch_storage_v1_storage_storages__storage_id__patch
+- schema: StorageIn_Pydantic
+  role: request
+  operations:
+  - create_storage_v1_storage_storages_post
+- schema: TryOnAPIRequest
+  role: request
+  operations:
+  - async_try_on_generation_api_v1_image_ai_fashion_models_post
+entities:
+- name: AIEditModelAPI
+  title: AIEditModelAPI
+  type: string
+  field_count: 0
+  required: []
+- name: AIEditRequestOutputObject
+  title: AIEditRequestOutputObject
+  type: object
+  field_count: 3
+  required: []
+  relationships:
+  - target: AiEditFormatEnum
+    kind: has_one
+    via: format
+- name: APIV1Status
+  title: APIV1Status
+  type: string
+  field_count: 0
+  required: []
+- name: AWSCredentials
+  title: AWSCredentials
+  type: object
+  field_count: 2
+  required:
+  - access_key
+  - secret_access_key
+- name: AWSCredentialsUpdate
+  title: AWSCredentialsUpdate
+  type: object
+  field_count: 2
+  required: []
+- name: AdjustmentsOptions
+  title: adjustments options
+  type: object
+  field_count: 5
+  required: []
+  relationships:
+  - target: HdrOptions
+    kind: has_one
+    via: hdr
+- name: AiEditAPIRequest
+  title: AiEditAPIRequest
+  type: object
+  field_count: 3
+  required:
+  - input
+  - options
+  relationships:
+  - target: AIEditRequestOutputObject
+    kind: has_one
+    via: output
+  - target: AiEditRequestOptionsObject
+    kind: has_one
+    via: options
+- name: AiEditAcceptedResponse
+  title: AiEditAcceptedResponse
+  type: object
+  field_count: 5
+  required:
+  - id
+  - status
+  - created_at
+  - request
+  - result_url
+  relationships:
+  - target: APIV1Status
+    kind: has_one
+    via: status
+- name: AiEditAspectRatio
+  title: AiEditAspectRatio
+  type: string
+  field_count: 0
+  required: []
+- name: AiEditError
+  title: AiEditError
+  type: object
+  field_count: 2
+  required:
+  - error
+  - created_at
+- name: AiEditFormatEnum
+  title: AiEditFormatEnum
+  type: string
+  field_count: 0
+  required: []
+- name: AiEditImageObject
+  title: AiEditImageObject
+  type: object
+  field_count: 6
+  required: []
+- name: AiEditOutputImageObject
+  title: AiEditOutputImageObject
+  type: object
+  field_count: 11
+  required: []
+- name: AiEditRequestOptionsObject
+  title: AiEditRequestOptionsObject
+  type: object
+  field_count: 5
+  required:
+  - prompt
+  relationships:
+  - target: AIEditModelAPI
+    kind: has_one
+    via: model
+  - target: AiEditAspectRatio
+    kind: has_one
+    via: aspect_ratio
+- name: AiEditResult
+  title: AiEditResult
+  type: object
+  field_count: 2
+  required:
+  - input_object
+  - output_objects
+  relationships:
+  - target: AiEditImageObject
+    kind: has_one
+    via: input_object
+  - target: AiEditOutputImageObject
+    kind: has_many
+    via: output_objects
+- name: AiEditResultResponse
+  title: AiEditResultResponse
+  type: object
+  field_count: 6
+  required:
+  - id
+  - status
+  - created_at
+  - request
+  relationships:
+  - target: APIV1Status
+    kind: has_one
+    via: status
+  - target: AiEditError
+    kind: has_many
+    via: errors
+  - target: AiEditResult
+    kind: has_one
+    via: result
+- name: AsyncAcceptedResponse
+  title: AsyncAcceptedResponse
+  type: object
+  field_count: 7
+  required:
+  - id
+  - status
+  - created_at
+  - request
+  relationships:
+  - target: APIV1Status
+    kind: has_one
+    via: status
+  - target: AsyncEditRequest
+    kind: has_one
+    via: request
+  - target: BatchEditRequest
+    kind: has_one
+    via: request
+  - target: BatchPipelineError
+    kind: has_many
+    via: errors
+  - target: AsyncPipelineResultItem
+    kind: has_one
+    via: result
+- name: AsyncEditRequest
+  title: AsyncEditRequest
+  type: object
+  field_count: 3
+  required:
+  - input
+  - operations
+  relationships:
+  - target: ImageOperations
+    kind: has_one
+    via: operations
+  - target: ImageOutputOptions
+    kind: has_one
+    via: output
+- name: AsyncPipelineResultItem
+  title: AsyncPipelineResultItem
+  type: object
+  field_count: 2
+  required:
+  - input_object
+  - output_object
+  relationships:
+  - target: PipelineInputObject
+    kind: has_one
+    via: input_object
+  - target: PipelineOutputObject
+    kind: has_one
+    via: output_object
+- name: AsyncResultResponse
+  title: AsyncResultResponse
+  type: object
+  field_count: 7
+  required:
+  - id
+  - status
+  - created_at
+  - request
+  relationships:
+  - target: APIV1Status
+    kind: has_one
+    via: status
+  - target: AsyncEditRequest
+    kind: has_one
+    via: request
+  - target: BatchEditRequest
+    kind: has_one
+    via: request
+  - target: BatchPipelineError
+    kind: has_many
+    via: errors
+  - target: AsyncPipelineResultItem
+    kind: has_one
+    via: result
+- name: AvifCompressionEnum
+  title: AVIF Compression
+  type: string
+  field_count: 0
+  required: []
+- name: AvifLosslessCompressionOptions
+  title: AvifLosslessCompressionOptions
+  type: object
+  field_count: 1
+  required:
+  - type
+- name: AvifLossyCompressionOptions
+  title: AvifLossyCompressionOptions
+  type: object
+  field_count: 2
+  required:
+  - type
+- name: BackgroundBlurLevelEnum
+  title: Background blur strength level
+  type: string
+  field_count: 0
+  required: []
+- name: BackgroundBlurOptions
+  title: background blur options
+  type: object
+  field_count: 4
+  required: []
+  relationships:
+  - target: BackgroundSelectiveOptions
+    kind: has_one
+    via: selective
+  - target: BackgroundCategoryEnum
+    kind: has_one
+    via: category
+  - target: BackgroundBlurTypeEnum
+    kind: has_one
+    via: type
+  - target: BackgroundBlurLevelEnum
+    kind: has_one
+    via: level
+- name: BackgroundBlurTypeEnum
+  title: Type of background blur
+  type: string
+  field_count: 0
+  required: []
+- name: BackgroundCategoryEnum
+  title: Category of objects
+  type: string
+  field_count: 0
+  required: []
+- name: BackgroundEnum
+  title: Transparent
+  type: string
+  field_count: 0
+  required: []
+- name: BackgroundOptions
+  title: background options
+  type: object
+  field_count: 3
+  required: []
+  relationships:
+  - target: BackgroundRemovalOptions
+    kind: has_one
+    via: remove
+  - target: BackgroundEnum
+    kind: has_one
+    via: color
+  - target: BackgroundBlurOptions
+    kind: has_one
+    via: blur
+- name: BackgroundRemovalOptions
+  title: background removal options
+  type: object
+  field_count: 3
+  required: []
+  relationships:
+  - target: BackgroundSelectiveOptions
+    kind: has_one
+    via: selective
+  - target: BackgroundCategoryEnum
+    kind: has_one
+    via: category
+- name: BackgroundSelectiveOptions
+  title: BackgroundSelectiveOptions
+  type: object
+  field_count: 1
+  required:
+  - object_to_keep
+- name: BatchAcceptedResponse
+  title: BatchAcceptedResponse
+  type: object
+  field_count: 7
+  required:
+  - id
+  - status
+  - created_at
+  - request
+  relationships:
+  - target: APIV1Status
+    kind: has_one
+    via: status
+  - target: AsyncEditRequest
+    kind: has_one
+    via: request
+  - target: BatchEditRequest
+    kind: has_one
+    via: request
+  - target: BatchPipelineError
+    kind: has_many
+    via: errors
+  - target: BatchPipelineResultItem
+    kind: has_many
+    via: results
+- name: BatchEditInputOptions
+  title: image input options
+  type: object
+  field_count: 2
+  required:
+  - source
+- name: BatchEditRequest
+  title: BatchEditRequest
+  type: object
+  field_count: 3
+  required:
+  - input
+  - operations
+  relationships:
+  - target: BatchEditInputOptions
+    kind: has_one
+    via: input
+  - target: ImageOperations
+    kind: has_one
+    via: operations
+  - target: ImageOutputOptions
+    kind: has_one
+    via: output
+- name: BatchPipelineError
+  title: BatchPipelineError
+  type: object
+  field_count: 3
+  required:
+  - error
+  - created_at
+  relationships:
+  - target: PipelineInputObjectInError
+    kind: has_one
+    via: input_object
+- name: BatchPipelineOutputObject
+  title: BatchPipelineOutputObject
+  type: object
+  field_count: 13
+  required:
+  - ext
+  - mps
+  - mime
+  - format
+  - width
+  - height
+- name: BatchPipelineResultItem
+  title: BatchPipelineResultItem
+  type: object
+  field_count: 2
+  required:
+  - input_object
+  - output_object
+  relationships:
+  - target: PipelineInputObject
+    kind: has_one
+    via: input_object
+  - target: BatchPipelineOutputObject
+    kind: has_one
+    via: output_object
+- name: BatchResultResponse
+  title: BatchResultResponse
+  type: object
+  field_count: 7
+  required:
+  - id
+  - status
+  - created_at
+  - request
+  relationships:
+  - target: APIV1Status
+    kind: has_one
+    via: status
+  - target: AsyncEditRequest
+    kind: has_one
+    via: request
+  - target: BatchEditRequest
+    kind: has_one
+    via: request
+  - target: BatchPipelineError
+    kind: has_many
+    via: errors
+  - target: AsyncPipelineResultItem
+    kind: has_many
+    via: results
+- name: Body_image_edit_upload_v1_image_edit_upload_post
+  title: Body_image_edit_upload_v1_image_edit_upload_post
+  type: object
+  field_count: 2
+  required:
+  - file
+  - data
+- name: BoundsOptions
+  title: bounds options
+  type: object
+  field_count: 1
+  required:
+  - type
+- name: CMYKColorProfileEnum
+  title: Type of color space
+  type: string
+  field_count: 0
+  required: []
+- name: CMYKColorSpaceOptions
+  title: CMYKColorSpaceOptions
+  type: object
+  field_count: 2
+  required:
+  - type
+  relationships:
+  - target: CMYKColorProfileEnum
+    kind: has_one
+    via: color_profile
+- name: CanvasOptions
+  title: canvas options
+  type: object
+  field_count: 1
+  required:
+  - type
+- name: CloudBaseStorage
+  title: cloud Storage
+  type: object
+  field_count: 2
+  required:
+  - bucket
+- name: CloudDetailedBaseStorage
+  title: cloud Storage
+  type: object
+  field_count: 3
+  required:
+  - bucket
+  - credentials
+  relationships:
+  - target: CredentialsOut
+    kind: has_one
+    via: credentials
+- name: ColorEnum
+  title: Transparent
+  type: string
+  field_count: 0
+  required: []
+- name: ColorSpaceEnum
+  title: Type of color space
+  type: string
+  field_count: 0
+  required: []
+- name: CoverOptions
+  title: cover options
+  type: object
+  field_count: 1
+  required:
+  - type
+- name: CredentialsOut
+  title: CredentialsOut
+  type: object
+  field_count: 1
+  required:
+  - access_key
+- name: CropOptions
+  title: crop options
+  type: object
+  field_count: 2
+  required:
+  - type
+  relationships:
+  - target: FitCropEnum
+    kind: has_one
+    via: crop
+- name: DecompressEnum
+  title: Decompress
+  type: string
+  field_count: 0
+  required: []
+- name: DurationEnum
+  title: DurationEnum
+  type: string
+  field_count: 0
+  required: []
+- name: EditRequest
+  title: EditRequest
+  type: object
+  field_count: 3
+  required:
+  - input
+  - operations
+  relationships:
+  - target: ImageOperations
+    kind: has_one
+    via: operations
+  - target: ImageOutputOptions
+    kind: has_one
+    via: output
+- name: EditResponse
+  title: EditResponse
+  type: object
+  field_count: 3
+  required:
+  - input
+  - output
+  relationships:
+  - target: PipelineInputObject
+    kind: has_one
+    via: input
+  - target: PipelineOutputObject
+    kind: has_one
+    via: output
+- name: ErrorType
+  title: ErrorType
+  type: string
+  field_count: 0
+  required: []
+- name: FitCropEnum
+  title: Crop
+  type: string
+  field_count: 0
+  required: []
+- name: FitEnum
+  title: Fit
+  type: string
+  field_count: 0
+  required: []
+- name: FormatAvifOptions
+  title: avif options
+  type: object
+  field_count: 2
+  required:
+  - type
+  relationships:
+  - target: AvifCompressionEnum
+    kind: has_one
+    via: compression
+  - target: AvifLosslessCompressionOptions
+    kind: has_one
+    via: compression
+  - target: AvifLossyCompressionOptions
+    kind: has_one
+    via: compression
+- name: FormatCompressionLevelEnum
+  title: Compression
+  type: string
+  field_count: 0
+  required: []
+- name: FormatEnum
+  title: Format
+  type: string
+  field_count: 0
+  required: []
+- name: FormatJpegOptions
+  title: jpeg options
+  type: object
+  field_count: 3
+  required:
+  - type
+- name: FormatPngOptions
+  title: png options
+  type: object
+  field_count: 2
+  required:
+  - type
+  relationships:
+  - target: FormatCompressionLevelEnum
+    kind: has_one
+    via: compression
+- name: FormatTiffOptions
+  title: FormatTiffOptions
+  type: object
+  field_count: 2
+  required:
+  - type
+  relationships:
+  - target: TiffCompressionEnum
+    kind: has_one
+    via: compression
+  - target: TiffLosslessCompressionOptions
+    kind: has_one
+    via: compression
+  - target: TiffLossyCompressionOptions
+    kind: has_one
+    via: compression
+- name: FormatWebpOptions
+  title: webp options
+  type: object
+  field_count: 2
+  required:
+  - type
+  relationships:
+  - target: WebpCompressionEnum
+    kind: has_one
+    via: compression
+  - target: WebpLosslessCompressionOptions
+    kind: has_one
+    via: compression
+  - target: WebpLossyCompressionOptions
+    kind: has_one
+    via: compression
+- name: GCPCredentials
+  title: GCPCredentials
+  type: object
+  field_count: 2
+  required:
+  - access_key
+  - secret_access_key
+- name: GCPCredentialsUpdate
+  title: GCPCredentialsUpdate
+  type: object
+  field_count: 2
+  required: []
+- name: GCSParametersUpdate_Pydantic
+  title: GCSParametersUpdate_Pydantic
+  type: object
+  field_count: 3
+  required: []
+  relationships:
+  - target: GCPCredentialsUpdate
+    kind: has_one
+    via: credentials
+- name: GCSParameters_Pydantic
+  title: GCS parameters
+  type: object
+  field_count: 3
+  required:
+  - bucket
+  - credentials
+  relationships:
+  - target: GCPCredentials
+    kind: has_one
+    via: credentials
+- name: GeneratePipelineInputObject
+  title: GeneratePipelineInputObject
+  type: object
+  field_count: 1
+  required:
+  - text
+- name: GenerateRequest
+  title: GenerateRequest
+  type: object
+  field_count: 3
+  required:
+  - input
+  relationships:
+  - target: ImageGenerateOptions
+    kind: has_one
+    via: options
+- name: GenerateResponse
+  title: GenerateResponse
+  type: object
+  field_count: 3
+  required:
+  - input
+  - output
+  relationships:
+  - target: GeneratePipelineInputObject
+    kind: has_one
+    via: input
+  - target: PipelineOutputObject
+    kind: has_many
+    via: output
+- name: GenerativeOptions
+  title: generative transformations options
+  type: object
+  field_count: 1
+  required: []
+  relationships:
+  - target: StyleTransferOptions
+    kind: has_one
+    via: style_transfer
+- name: HTTPValidationError
+  title: HTTPValidationError
+  type: object
+  field_count: 1
+  required: []
+  relationships:
+  - target: ValidationError
+    kind: has_many
+    via: detail
+- name: HdrOptions
+  title: hdr options
+  type: object
+  field_count: 2
+  required: []
+- name: HttpErrorDetails
+  title: HttpErrorDetails
+  type: object
+  field_count: 4
+  required:
+  - error_code
+  - error_type
+  - error_message
+  relationships:
+  - target: ErrorType
+    kind: has_one
+    via: error_type
+- name: ImageGenerateOptions
+  title: ImageGenerateOptions
+  type: object
+  field_count: 2
+  required: []
+- name: ImageOperations
+  title: image operations options
+  type: object
+  field_count: 7
+  required: []
+  relationships:
+  - target: RestorationsOptions
+    kind: has_one
+    via: restorations
+  - target: AdjustmentsOptions
+    kind: has_one
+    via: adjustments
+  - target: BackgroundOptions
+    kind: has_one
+    via: background
+  - target: ResizingOptions
+    kind: has_one
+    via: resizing
+  - target: PrivacyOptions
+    kind: has_one
+    via: privacy
+  - target: GenerativeOptions
+    kind: has_one
+    via: generative
+- name: ImageOutputOptions
+  title: image output options
+  type: object
+  field_count: 3
+  required: []
+  relationships:
+  - target: FormatAvifOptions
+    kind: has_one
+    via: format
+  - target: FormatEnum
+    kind: has_one
+    via: format
+  - target: FormatJpegOptions
+    kind: has_one
+    via: format
+  - target: FormatPngOptions
+    kind: has_one
+    via: format
+  - target: FormatTiffOptions
+    kind: has_one
+    via: format
+  - target: FormatWebpOptions
+    kind: has_one
+    via: format
+  - target: MetadataOptions
+    kind: has_one
+    via: metadata
+- name: ImageVideoRequest
+  title: ImageVideoRequest
+  type: object
+  field_count: 3
+  required:
+  - input
+  - options
+  relationships:
+  - target: VideoOptionsObject
+    kind: has_one
+    via: options
+- name: MetadataOptions
+  title: image color space options
+  type: object
+  field_count: 2
+  required: []
+  relationships:
+  - target: CMYKColorSpaceOptions
+    kind: has_one
+    via: color_space
+  - target: ColorSpaceEnum
+    kind: has_one
+    via: color_space
+  - target: RGBColorSpaceOptions
+    kind: has_one
+    via: color_space
+- name: ObjectPosition
+  title: ObjectPosition
+  type: object
+  field_count: 2
+  required: []
+- name: OutpaintOptions
+  title: outpaint options
+  type: object
+  field_count: 3
+  required:
+  - type
+- name: PhotoVersionEnum
+  title: Version
+  type: string
+  field_count: 0
+  required: []
+- name: PipelineInputObject
+  title: PipelineInputObject
+  type: object
+  field_count: 6
+  required:
+  - ext
+  - mps
+  - mime
+  - format
+  - width
+  - height
+- name: PipelineInputObjectInError
+  title: PipelineInputObjectInError
+  type: object
+  field_count: 6
+  required:
+  - ext
+  - mps
+  - mime
+  - format
+  - width
+  - height
+- name: PipelineOutputObject
+  title: PipelineOutputObject
+  type: object
+  field_count: 11
+  required:
+  - ext
+  - mps
+  - mime
+  - format
+  - width
+  - height
+- name: PreferenceEnum
+  title: Preference control
+  type: string
+  field_count: 0
+  required: []
+- name: PrivacyOptions
+  title: PrivacyOptions
+  type: object
+  field_count: 2
+  required: []
+- name: RGBColorSpaceOptions
+  title: RGBColorSpaceOptions
+  type: object
+  field_count: 1
+  required:
+  - type
+- name: ResizingOptions
+  title: resizing options
+  type: object
+  field_count: 3
+  required: []
+  relationships:
+  - target: SizesEnum
+    kind: has_one
+    via: width
+  - target: SizesEnum
+    kind: has_one
+    via: height
+  - target: BoundsOptions
+    kind: has_one
+    via: fit
+  - target: CanvasOptions
+    kind: has_one
+    via: fit
+  - target: CoverOptions
+    kind: has_one
+    via: fit
+  - target: CropOptions
+    kind: has_one
+    via: fit
+  - target: FitEnum
+    kind: has_one
+    via: fit
+  - target: OutpaintOptions
+    kind: has_one
+    via: fit
+- name: Response
+  title: Response
+  type: object
+  field_count: 1
+  required: []
+- name: Response_AiEditAcceptedResponse_
+  title: Response[AiEditAcceptedResponse]
+  type: object
+  field_count: 1
+  required: []
+  relationships:
+  - target: AiEditAcceptedResponse
+    kind: has_one
+    via: data
+- name: Response_AiEditResultResponse_
+  title: Response[AiEditResultResponse]
+  type: object
+  field_count: 1
+  required: []
+  relationships:
+  - target: AiEditResultResponse
+    kind: has_one
+    via: data
+- name: Response_AsyncAcceptedResponse_
+  title: Response[AsyncAcceptedResponse]
+  type: object
+  field_count: 1
+  required: []
+  relationships:
+  - target: AsyncAcceptedResponse
+    kind: has_one
+    via: data
+- name: Response_AsyncResultResponse_
+  title: Response[AsyncResultResponse]
+  type: object
+  field_count: 1
+  required: []
+  relationships:
+  - target: AsyncResultResponse
+    kind: has_one
+    via: data
+- name: Response_BatchAcceptedResponse_
+  title: Response[BatchAcceptedResponse]
+  type: object
+  field_count: 1
+  required: []
+  relationships:
+  - target: BatchAcceptedResponse
+    kind: has_one
+    via: data
+- name: Response_BatchResultResponse_
+  title: Response[BatchResultResponse]
+  type: object
+  field_count: 1
+  required: []
+  relationships:
+  - target: BatchResultResponse
+    kind: has_one
+    via: data
+- name: Response_EditResponse_
+  title: Response[EditResponse]
+  type: object
+  field_count: 1
+  required: []
+  relationships:
+  - target: EditResponse
+    kind: has_one
+    via: data
+- name: Response_GenerateResponse_
+  title: Response[GenerateResponse]
+  type: object
+  field_count: 1
+  required: []
+  relationships:
+  - target: GenerateResponse
+    kind: has_one
+    via: data
+- name: Response_List_apps.storage.models.StorageType__
+  title: Response[List[apps.storage.models.StorageType]]
+  type: object
+  field_count: 1
+  required: []
+  relationships:
+  - target: StorageType
+    kind: has_many
+    via: data
+- name: Response_List_apps.storage.serializers.StorageOut_Pydantic__
+  title: Response[List[apps.storage.serializers.StorageOut_Pydantic]]
+  type: object
+  field_count: 1
+  required: []
+  relationships:
+  - target: StorageOut_Pydantic
+    kind: has_many
+    via: data
+- name: Response_ScenePipelineResponseOut_
+  title: Response[ScenePipelineResponseOut]
+  type: object
+  field_count: 1
+  required: []
+  relationships:
+  - target: ScenePipelineResponseOut
+    kind: has_one
+    via: data
+- name: Response_StorageOutDetailed_Pydantic_
+  title: Response[StorageOutDetailed_Pydantic]
+  type: object
+  field_count: 1
+  required: []
+  relationships:
+  - target: StorageOutDetailed_Pydantic
+    kind: has_one
+    via: data
+- name: Response_TryOnAPIAcceptedResponse_
+  title: Response[TryOnAPIAcceptedResponse]
+  type: object
+  field_count: 1
+  required: []
+  relationships:
+  - target: TryOnAPIAcceptedResponse
+    kind: has_one
+    via: data
+- name: Response_TryOnAPIResultResponse_
+  title: Response[TryOnAPIResultResponse]
+  type: object
+  field_count: 1
+  required: []
+  relationships:
+  - target: TryOnAPIResultResponse
+    kind: has_one
+    via: data
+- name: Response_VideoAcceptedResponse_
+  title: Response[VideoAcceptedResponse]
+  type: object
+  field_count: 1
+  required: []
+  relationships:
+  - target: VideoAcceptedResponse
+    kind: has_one
+    via: data
+- name: Response_VideoStatusResponse_
+  title: Response[VideoStatusResponse]
+  type: object
+  field_count: 1
+  required: []
+  relationships:
+  - target: VideoStatusResponse
+    kind: has_one
+    via: data
+- name: RestorationsOptions
+  title: restorations options
+  type: object
+  field_count: 3
+  required: []
+  relationships:
+  - target: DecompressEnum
+    kind: has_one
+    via: decompress
+  - target: UpscaleEnum
+    kind: has_one
+    via: upscale
+  - target: UpscalePhotoOptions
+    kind: has_one
+    via: upscale
+- name: S3ParametersUpdate_Pydantic
+  title: S3ParametersUpdate_Pydantic
+  type: object
+  field_count: 3
+  required: []
+  relationships:
+  - target: AWSCredentialsUpdate
+    kind: has_one
+    via: credentials
+- name: S3Parameters_Pydantic
+  title: S3 parameters
+  type: object
+  field_count: 3
+  required:
+  - bucket
+  - credentials
+  relationships:
+  - target: AWSCredentials
+    kind: has_one
+    via: credentials
+- name: SceneAspectRatioEnum
+  title: SceneAspectRatioEnum
+  type: string
+  field_count: 0
+  required: []
+- name: SceneCreateAPIIn
+  title: scene creation options
+  type: object
+  field_count: 3
+  required:
+  - object
+  - scene
+  relationships:
+  - target: SceneCreateAPIOutputIn
+    kind: has_one
+    via: output
+  - target: SceneCreateAPIObjectAbsoluteIn
+    kind: has_one
+    via: object
+  - target: SceneCreateAPIObjectOriginalIn
+    kind: has_one
+    via: object
+  - target: SceneCreateAPIObjectPaddingIn
+    kind: has_one
+    via: object
+  - target: SceneCreateAPISceneBackgroundEffectIn
+    kind: has_one
+    via: scene
+  - target: SceneCreateAPIScenePromptIn
+    kind: has_one
+    via: scene
+  - target: SceneCreateAPISceneTemplateIn
+    kind: has_one
+    via: scene
+- name: SceneCreateAPIObjectAbsoluteIn
+  title: SceneCreateAPIObjectAbsoluteIn
+  type: object
+  field_count: 5
+  required:
+  - image_url
+  relationships:
+  - target: ObjectPosition
+    kind: has_one
+    via: position
+- name: SceneCreateAPIObjectOriginalIn
+  title: SceneCreateAPIObjectOriginalIn
+  type: object
+  field_count: 2
+  required:
+  - image_url
+  - placement_type
+- name: SceneCreateAPIObjectPaddingIn
+  title: SceneCreateAPIObjectPaddingIn
+  type: object
+  field_count: 3
+  required:
+  - image_url
+  - placement_type
+  - padding
+- name: SceneCreateAPIOutputIn
+  title: Output customization
+  type: object
+  field_count: 3
+  required: []
+  relationships:
+  - target: FormatAvifOptions
+    kind: has_one
+    via: format
+  - target: FormatEnum
+    kind: has_one
+    via: format
+  - target: FormatJpegOptions
+    kind: has_one
+    via: format
+  - target: FormatPngOptions
+    kind: has_one
+    via: format
+  - target: FormatWebpOptions
+    kind: has_one
+    via: format
+- name: SceneCreateAPISceneBackgroundEffectIn
+  title: Scene background effect
+  type: object
+  field_count: 5
+  required:
+  - effect
+  relationships:
+  - target: SceneCreateModelEnum
+    kind: has_one
+    via: model
+  - target: SceneEffectEnum
+    kind: has_one
+    via: effect
+  - target: ColorEnum
+    kind: has_one
+    via: color
+  - target: TemplateViewAutoEnum
+    kind: has_one
+    via: view
+  - target: SceneAspectRatioEnum
+    kind: has_one
+    via: aspect_ratio
+- name: SceneCreateAPIScenePromptIn
+  title: Template-free scene
+  type: object
+  field_count: 7
+  required:
+  - prompt
+  relationships:
+  - target: SceneCreateModelEnum
+    kind: has_one
+    via: model
+  - target: ScenePromptAdvancedIn
+    kind: has_one
+    via: prompt
+  - target: SceneAspectRatioEnum
+    kind: has_one
+    via: aspect_ratio
+  - target: PreferenceEnum
+    kind: has_one
+    via: preference
+- name: SceneCreateAPISceneTemplateIn
+  title: Template-based scene
+  type: object
+  field_count: 8
+  required:
+  - template_url
+  - view
+  relationships:
+  - target: SceneCreateModelEnum
+    kind: has_one
+    via: model
+  - target: TemplateModeEnum
+    kind: has_one
+    via: template_mode
+  - target: TemplateViewEnum
+    kind: has_one
+    via: view
+  - target: ScenePromptAdvancedIn
+    kind: has_one
+    via: prompt
+- name: SceneCreateModelEnum
+  title: SceneCreateModelEnum
+  type: string
+  field_count: 0
+  required: []
+- name: SceneEffectEnum
+  title: Additional scene effect
+  type: string
+  field_count: 0
+  required: []
+- name: ScenePipelineResponseOut
+  title: ScenePipelineResponseOut
+  type: object
+  field_count: 3
+  required:
+  - input
+  - output
+  relationships:
+  - target: PipelineInputObject
+    kind: has_one
+    via: input
+  - target: PipelineOutputObject
+    kind: has_many
+    via: output
+- name: ScenePromptAdvancedIn
+  title: ScenePromptAdvancedIn
+  type: object
+  field_count: 3
+  required: []
+- name: SizesEnum
+  title: Auto
+  type: string
+  field_count: 0
+  required: []
+- name: StorageInUpdate_Pydantic
+  title: update storage
+  type: object
+  field_count: 3
+  required: []
+  relationships:
+  - target: StorageType
+    kind: has_one
+    via: type
+  - target: GCSParametersUpdate_Pydantic
+    kind: has_one
+    via: parameters
+  - target: S3ParametersUpdate_Pydantic
+    kind: has_one
+    via: parameters
+  - target: WebFolderParameters_Pydantic
+    kind: has_one
+    via: parameters
+- name: StorageIn_Pydantic
+  title: storage
+  type: object
+  field_count: 3
+  required:
+  - name
+  - type
+  - parameters
+  relationships:
+  - target: StorageType
+    kind: has_one
+    via: type
+  - target: GCSParameters_Pydantic
+    kind: has_one
+    via: parameters
+  - target: S3Parameters_Pydantic
+    kind: has_one
+    via: parameters
+  - target: WebFolderParameters_Pydantic
+    kind: has_one
+    via: parameters
+- name: StorageOutDetailed_Pydantic
+  title: storage
+  type: object
+  field_count: 5
+  required:
+  - id
+  - name
+  - type
+  - parameters
+  - created_at
+  relationships:
+  - target: StorageType
+    kind: has_one
+    via: type
+  - target: CloudDetailedBaseStorage
+    kind: has_one
+    via: parameters
+  - target: WebFolderParameters_Pydantic
+    kind: has_one
+    via: parameters
+- name: StorageOut_Pydantic
+  title: storage
+  type: object
+  field_count: 5
+  required:
+  - id
+  - name
+  - type
+  - parameters
+  - created_at
+  relationships:
+  - target: StorageType
+    kind: has_one
+    via: type
+  - target: CloudBaseStorage
+    kind: has_one
+    via: parameters
+  - target: WebFolderParameters_Pydantic
+    kind: has_one
+    via: parameters
+- name: StorageType
+  title: StorageType
+  type: string
+  field_count: 0
+  required: []
+- name: StyleTransferOptions
+  title: style transfer options
+  type: object
+  field_count: 5
+  required:
+  - style_reference_image
+- name: TemplateModeEnum
+  title: Template mode
+  type: string
+  field_count: 0
+  required: []
+- name: TemplateViewAutoEnum
+  title: Template view direction
+  type: string
+  field_count: 0
+  required: []
+- name: TemplateViewEnum
+  title: Template view direction
+  type: string
+  field_count: 0
+  required: []
+- name: TiffCompressionEnum
+  title: TIFF Compression
+  type: string
+  field_count: 0
+  required: []
+- name: TiffLosslessCompressionOptions
+  title: TiffLosslessCompressionOptions
+  type: object
+  field_count: 1
+  required:
+  - type
+- name: TiffLossyCompressionOptions
+  title: TiffLossyCompressionOptions
+  type: object
+  field_count: 2
+  required:
+  - type
+- name: TryOnAPIAcceptedResponse
+  title: TryOnAPIAcceptedResponse
+  type: object
+  field_count: 5
+  required:
+  - id
+  - status
+  - created_at
+  - request
+  - result_url
+  relationships:
+  - target: APIV1Status
+    kind: has_one
+    via: status
+- name: TryOnAPIAspectRatio
+  title: TryOnAPIAspectRatio
+  type: string
+  field_count: 0
+  required: []
+- name: TryOnAPIError
+  title: TryOnAPIError
+  type: object
+  field_count: 2
+  required:
+  - error
+  - created_at
+- name: TryOnAPIFormatEnum
+  title: TryOnAPIFormatEnum
+  type: string
+  field_count: 0
+  required: []
+- name: TryOnAPIImageObject
+  title: TryOnAPIImageObject
+  type: object
+  field_count: 6
+  required: []
+- name: TryOnAPIOutputImageObject
+  title: TryOnAPIOutputImageObject
+  type: object
+  field_count: 11
+  required: []
+- name: TryOnAPIRequest
+  title: TryOnAPIRequest
+  type: object
+  field_count: 3
+  required:
+  - input
+  - options
+  relationships:
+  - target: TryOnAPIRequestOutputObject
+    kind: has_one
+    via: output
+  - target: TryOnAPIRequestInputOptions
+    kind: has_one
+    via: input
+  - target: TryOnAPIRequestOptionsObject
+    kind: has_one
+    via: options
+- name: TryOnAPIRequestInputOptions
+  title: TryOnAPIRequestInputOptions
+  type: object
+  field_count: 2
+  required:
+  - clothing
+- name: TryOnAPIRequestOptionsObject
+  title: TryOnAPIRequestOptionsObject
+  type: object
+  field_count: 3
+  required: []
+  relationships:
+  - target: TryOnAPIAspectRatio
+    kind: has_one
+    via: aspect_ratio
+- name: TryOnAPIRequestOutputObject
+  title: TryOnAPIRequestOutputObject
+  type: object
+  field_count: 3
+  required: []
+  relationships:
+  - target: TryOnAPIFormatEnum
+    kind: has_one
+    via: format
+- name: TryOnAPIResult
+  title: TryOnAPIResult
+  type: object
+  field_count: 2
+  required:
+  - input_objects
+  - output_objects
+  relationships:
+  - target: TryOnAPIImageObject
+    kind: has_many
+    via: input_objects
+  - target: TryOnAPIOutputImageObject
+    kind: has_many
+    via: output_objects
+- name: TryOnAPIResultResponse
+  title: TryOnAPIResultResponse
+  type: object
+  field_count: 6
+  required:
+  - id
+  - status
+  - created_at
+  - request
+  relationships:
+  - target: APIV1Status
+    kind: has_one
+    via: status
+  - target: TryOnAPIError
+    kind: has_many
+    via: errors
+  - target: TryOnAPIResult
+    kind: has_one
+    via: result
+- name: UpscaleEnum
+  title: Upscale
+  type: string
+  field_count: 0
+  required: []
+- name: UpscalePhotoOptions
+  title: photo upscale options
+  type: object
+  field_count: 2
+  required:
+  - type
+  - version
+  relationships:
+  - target: PhotoVersionEnum
+    kind: has_one
+    via: version
+- name: ValidationError
+  title: ValidationError
+  type: object
+  field_count: 3
+  required:
+  - loc
+  - msg
+  - type
+- name: VideoAcceptedResponse
+  title: VideoAcceptedResponse
+  type: object
+  field_count: 5
+  required:
+  - id
+  - status
+  - created_at
+  - request
+  - result_url
+  relationships:
+  - target: APIV1Status
+    kind: has_one
+    via: status
+  - target: VideoRequestInResponse
+    kind: has_one
+    via: request
+- name: VideoError
+  title: VideoError
+  type: object
+  field_count: 2
+  required:
+  - error
+  - created_at
+- name: VideoInputObject
+  title: VideoInputObject
+  type: object
+  field_count: 7
+  required: []
+- name: VideoOptionsObject
+  title: VideoOptionsObject
+  type: object
+  field_count: 4
+  required:
+  - prompt
+  relationships:
+  - target: VideoPromptObject
+    kind: has_one
+    via: prompt
+  - target: DurationEnum
+    kind: has_one
+    via: duration
+- name: VideoOutputObject
+  title: VideoOutputObject
+  type: object
+  field_count: 8
+  required: []
+- name: VideoPromptObject
+  title: VideoPromptObject
+  type: object
+  field_count: 3
+  required: []
+- name: VideoRequestInResponse
+  title: VideoRequestInResponse
+  type: object
+  field_count: 3
+  required:
+  - input
+  - options
+  relationships:
+  - target: VideoOptionsObject
+    kind: has_one
+    via: options
+- name: VideoResult
+  title: VideoResult
+  type: object
+  field_count: 2
+  required:
+  - input_object
+  - output_object
+  relationships:
+  - target: VideoInputObject
+    kind: has_one
+    via: input_object
+  - target: VideoOutputObject
+    kind: has_one
+    via: output_object
+- name: VideoStatusResponse
+  title: VideoStatusResponse
+  type: object
+  field_count: 6
+  required:
+  - id
+  - status
+  - created_at
+  - request
+  relationships:
+  - target: APIV1Status
+    kind: has_one
+    via: status
+  - target: VideoRequestInResponse
+    kind: has_one
+    via: request
+  - target: VideoError
+    kind: has_many
+    via: errors
+  - target: VideoResult
+    kind: has_one
+    via: result
+- name: WebFolderParameters_Pydantic
+  title: web folder parameters
+  type: object
+  field_count: 1
+  required:
+  - base_url
+- name: WebpCompressionEnum
+  title: WEBP Compression
+  type: string
+  field_count: 0
+  required: []
+- name: WebpLosslessCompressionOptions
+  title: WebpLosslessCompressionOptions
+  type: object
+  field_count: 1
+  required:
+  - type
+- name: WebpLossyCompressionOptions
+  title: WebpLossyCompressionOptions
+  type: object
+  field_count: 2
+  required:
+  - type
+related:
+  openapi: openapi/lets-enhance-claid-openapi.json
+  conventions: conventions/lets-enhance-conventions.yml

@@ -1,0 +1,47 @@
+generated: '2026-07-19'
+method: searched
+source: https://docs.claid.ai/
+api: Claid API
+versioning:
+  scheme: uri-path
+  current: v1
+  base_url: https://api.claid.ai/v1/
+  docs: https://docs.claid.ai/quick-start
+  notes: >-
+    Every published Claid endpoint is under /v1/. Claid publishes no version history, no dated
+    version train and no version-negotiation header.
+deprecation:
+  policy_url: null
+  policy_published: false
+  sunset_header: false
+  deprecation_header: false
+  notes: >-
+    No deprecation policy, RFC 8594 Sunset/Deprecation header support, or end-of-life schedule is
+    published by Claid or Let's Enhance. No operation in the published OpenAPI is marked deprecated.
+deprecated_operations: []
+changelog:
+  published: false
+  notes: >-
+    No dated developer changelog or release-notes page was found on claid.ai, docs.claid.ai or
+    letsenhance.io. Product announcements appear ad hoc on the Claid blog.
+  blog: https://claid.ai/blog/
+status_page:
+  url: https://status.letsenhance.io/
+  provider: Instatus
+  verified: '2026-07-19'
+  notes: >-
+    Public status page for Let's Enhance, published on Instatus, with subscription and a public
+    status API.
+sla:
+  url: null
+  published: false
+  notes: No public uptime SLA or uptime target is published.
+support:
+  help_center: https://help.letsenhance.io/
+  api_support: support@claid.ai
+  product_support: support@letsenhance.io
+  sales: sales@claid.ai
+  demo: https://claid.ai/schedule-demo
+related:
+  conventions: conventions/lets-enhance-conventions.yml
+  openapi: openapi/lets-enhance-claid-openapi.json

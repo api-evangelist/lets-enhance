@@ -1,0 +1,94 @@
+generated: '2026-07-19'
+method: searched
+source: live probe of /.well-known/ paths on the Let's Enhance / Claid hosts
+summary:
+  hosts_probed: 3
+  documents_found: 0
+  note: Let's Enhance publishes no /.well-known/ discovery documents on any of its hosts. claid.ai and
+    letsenhance.io are Gatsby single-page apps that answer HTTP 200 with the HTML shell for every unknown
+    path, so 200s on those hosts are soft-404s, not documents.
+hosts:
+- host: https://api.claid.ai
+  documents:
+  - path: /.well-known/security.txt
+    description: RFC 9116 security.txt
+    status: 404
+    content_type: application/json
+    present: false
+  - path: /.well-known/openid-configuration
+    description: OpenID Connect discovery
+    status: 404
+    content_type: application/json
+    present: false
+  - path: /.well-known/oauth-authorization-server
+    description: RFC 8414 OAuth authorization server metadata
+    status: 404
+    content_type: application/json
+    present: false
+  - path: /.well-known/api-catalog
+    description: RFC 9727 API catalog
+    status: 404
+    content_type: application/json
+    present: false
+  - path: /.well-known/ai-plugin.json
+    description: AI plugin manifest
+    status: 404
+    content_type: application/json
+    present: false
+- host: https://claid.ai
+  documents:
+  - path: /.well-known/security.txt
+    description: RFC 9116 security.txt
+    status: 404
+    content_type: application/xml
+    present: false
+  - path: /.well-known/openid-configuration
+    description: OpenID Connect discovery
+    status: 200
+    content_type: text/html
+    present: false
+    note: 'soft-404: host is a single-page app that returns the HTML shell with HTTP 200 for unknown paths'
+  - path: /.well-known/oauth-authorization-server
+    description: RFC 8414 OAuth authorization server metadata
+    status: 200
+    content_type: text/html
+    present: false
+    note: 'soft-404: host is a single-page app that returns the HTML shell with HTTP 200 for unknown paths'
+  - path: /.well-known/api-catalog
+    description: RFC 9727 API catalog
+    status: 200
+    content_type: text/html
+    present: false
+    note: 'soft-404: host is a single-page app that returns the HTML shell with HTTP 200 for unknown paths'
+  - path: /.well-known/ai-plugin.json
+    description: AI plugin manifest
+    status: 404
+    content_type: application/xml
+    present: false
+- host: https://letsenhance.io
+  documents:
+  - path: /.well-known/security.txt
+    description: RFC 9116 security.txt
+    status: 404
+    content_type: application/xml
+    present: false
+  - path: /.well-known/openid-configuration
+    description: OpenID Connect discovery
+    status: 404
+    content_type: application/xml
+    present: false
+  - path: /.well-known/oauth-authorization-server
+    description: RFC 8414 OAuth authorization server metadata
+    status: 404
+    content_type: application/xml
+    present: false
+  - path: /.well-known/api-catalog
+    description: RFC 9727 API catalog
+    status: 404
+    content_type: application/xml
+    present: false
+  - path: /.well-known/ai-plugin.json
+    description: AI plugin manifest
+    status: 404
+    content_type: application/xml
+    present: false

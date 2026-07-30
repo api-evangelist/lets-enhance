@@ -1,0 +1,87 @@
+generated: '2026-07-19'
+method: searched
+source: openapi/lets-enhance-claid-openapi.json
+docs: https://docs.claid.ai/authentication
+notes: >-
+  Scope strings are taken verbatim from the `security` requirements of the OpenAPI 3.1 definitions
+  Claid publishes for each endpoint in its API reference. The Claid dashboard presents these to
+  developers as coarser permission groups — Storage, Image editing, or both under Admin — assigned
+  per API key at creation time or later via API keys -> Edit key.
+schemes:
+- name: OAuth2PasswordBearer
+  source: openapi/lets-enhance-claid-openapi.json
+  type: oauth2
+  flows:
+  - flow: password
+    tokenUrl: token
+  description: >-
+    OAuth 2.0 bearer token (API key) authorization. Send requests over HTTPS with
+    `Authorization: Bearer <YOUR_API_KEY>`; no password is required.
+scopes:
+- scope: image_editing
+  description: >-
+    Image editing operations — synchronous and asynchronous edit pipelines, batch edit, direct
+    upload edit, natural-language AI edit, AI fashion models, and image generation.
+  dashboard_group: Image editing
+  operations:
+  - POST /v1/image/edit
+  - POST /v1/image/edit/async
+  - GET /v1/image/edit/async/{task_id}
+  - POST /v1/image/edit/batch
+  - GET /v1/image/edit/batch/{task_id}
+  - POST /v1/image/edit/upload
+  - POST /v1/image/ai-edit
+  - GET /v1/image/ai-edit/{ai_edit_id}
+  - POST /v1/image/ai-fashion-models
+  - GET /v1/image/ai-fashion-models/{processing_request_id}
+  - POST /v1/image/generate
+  sources:
+  - openapi/lets-enhance-claid-openapi.json
+- scope: image_generation
+  description: AI background scene creation.
+  dashboard_group: Image editing
+  operations:
+  - POST /v1/scene/create
+  sources:
+  - openapi/lets-enhance-claid-openapi.json
+- scope: video_generation
+  description: Image-to-video generation and job status retrieval.
+  dashboard_group: Image editing
+  operations:
+  - POST /v1/video/generate
+  - GET /v1/video/generate/{animation_id}
+  sources:
+  - openapi/lets-enhance-claid-openapi.json
+- scope: storage
+  description: >-
+    Storage connector management — list storage types, and create, read, update and delete
+    connected AWS S3, Google Cloud Storage and web folder storages.
+  dashboard_group: Storage
+  operations:
+  - GET /v1/storage/storage-types
+  - GET /v1/storage/storages
+  - POST /v1/storage/storages
+  - GET /v1/storage/storages/{storage_id}
+  - PATCH /v1/storage/storages/{storage_id}
+  - DELETE /v1/storage/storages/{storage_id}
+  sources:
+  - openapi/lets-enhance-claid-openapi.json
+dashboard_permission_groups:
+- name: Storage
+  scopes:
+  - storage
+- name: Image editing
+  scopes:
+  - image_editing
+  - image_generation
+  - video_generation
+- name: Admin
+  description: Both Storage and Image editing permissions.
+  scopes:
+  - storage
+  - image_editing
+  - image_generation
+  - video_generation
+guidance: >-
+  Claid recommends creating API keys with the minimal permission scopes necessary for the use case.
+  A request made with a key lacking the required scope returns HTTP 403 "Not enough permissions".
