@@ -1,0 +1,740 @@
+{
+  "item": [
+    {
+      "id": "2082ddf6-f558-48f1-89d4-9a14fc9e66c5",
+      "name": "Video",
+      "description": {
+        "content": "Encompasses operations with videos.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "9b7cb744-f5a0-4d40-ae9e-66bd9040c3c4",
+          "name": "Video Generate Api",
+          "request": {
+            "name": "Video Generate Api",
+            "description": {
+              "content": "Generate an animation asynchronously",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "video",
+                "generate"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": {
+              "type": "oauth2",
+              "oauth2": [
+                {
+                  "key": "accessTokenUrl",
+                  "value": "token"
+                },
+                {
+                  "key": "grant_type",
+                  "value": "password_credentials"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"input\": \"<uri>\",\n  \"options\": {\n    \"prompt\": \"<string>\",\n    \"negative_prompt\": \"<string>\",\n    \"duration\": \"5\",\n    \"guidance_scale\": 0.5\n  },\n  \"output\": \"<uri>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "2110255e-d3f8-48a3-acb5-8f85e4899493",
+              "name": "Successful Response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "video",
+                    "generate"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"input\": \"<uri>\",\n  \"options\": {\n    \"prompt\": \"string\",\n    \"negative_prompt\": \"string\",\n    \"duration\": \"5\",\n    \"guidance_scale\": 0.5\n  },\n  \"output\": \"<uri>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": {\n    \"id\": 3205,\n    \"status\": \"WAITING\",\n    \"created_at\": \"2000-05-13T02:17:42.603Z\",\n    \"request\": {\n      \"input\": \"http://vYvsOrxsHvtNFdCOtKgECP.pzuvRkNhuMC9K,\",\n      \"options\": {\n        \"prompt\": \"string\",\n        \"negative_prompt\": \"string\",\n        \"duration\": \"5\",\n        \"guidance_scale\": 0.5\n      },\n      \"output\": \"http://ksgKhAl.hsvyJby7712V-nCqRPurJ4KxIsm25gm6b,2B3PKyeuQ3c\"\n    },\n    \"result_url\": \"https://Xj.pjsSfiNd6bjvuwubHC,C8zgMduEo+Z0WblF1qLISwDdfJVmFYfhTReLHkJ1-lf.BflmMbz8tKyejRQ\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "a34fc963-8333-46c6-930a-1c3b8782bd85",
+              "name": "Authorization is required.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "video",
+                    "generate"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"input\": \"<uri>\",\n  \"options\": {\n    \"prompt\": \"string\",\n    \"negative_prompt\": \"string\",\n    \"duration\": \"5\",\n    \"guidance_scale\": 0.5\n  },\n  \"output\": \"<uri>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error_code\": \"string\",\n  \"error_type\": \"validation\",\n  \"error_message\": \"string\",\n  \"error_details\": {}\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "f312a341-1bac-4f78-898a-c65decd568ff",
+              "name": "No API calls left.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "video",
+                    "generate"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"input\": \"<uri>\",\n  \"options\": {\n    \"prompt\": \"string\",\n    \"negative_prompt\": \"string\",\n    \"duration\": \"5\",\n    \"guidance_scale\": 0.5\n  },\n  \"output\": \"<uri>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Payment Required",
+              "code": 402,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error_code\": \"string\",\n  \"error_type\": \"validation\",\n  \"error_message\": \"string\",\n  \"error_details\": {}\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "90303b25-7057-4db7-9d7a-e83b91e767ec",
+              "name": "Not enough permissions.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "video",
+                    "generate"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"input\": \"<uri>\",\n  \"options\": {\n    \"prompt\": \"string\",\n    \"negative_prompt\": \"string\",\n    \"duration\": \"5\",\n    \"guidance_scale\": 0.5\n  },\n  \"output\": \"<uri>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error_code\": \"string\",\n  \"error_type\": \"validation\",\n  \"error_message\": \"string\",\n  \"error_details\": {}\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "44904b1c-895c-4afe-a55c-d50939a7c617",
+              "name": "Unprocessable Entity.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "video",
+                    "generate"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"input\": \"<uri>\",\n  \"options\": {\n    \"prompt\": \"string\",\n    \"negative_prompt\": \"string\",\n    \"duration\": \"5\",\n    \"guidance_scale\": 0.5\n  },\n  \"output\": \"<uri>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error_code\": \"string\",\n  \"error_type\": \"validation\",\n  \"error_message\": \"string\",\n  \"error_details\": {}\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "9fede1a6-0d2d-4302-8727-f0947aa73592",
+              "name": "Too many requests.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "video",
+                    "generate"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"input\": \"<uri>\",\n  \"options\": {\n    \"prompt\": \"string\",\n    \"negative_prompt\": \"string\",\n    \"duration\": \"5\",\n    \"guidance_scale\": 0.5\n  },\n  \"output\": \"<uri>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error_code\": \"string\",\n  \"error_type\": \"validation\",\n  \"error_message\": \"string\",\n  \"error_details\": {}\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "df6e65f3-659b-4930-9de6-a93a687d748f",
+          "name": "Video Generate Api Status",
+          "request": {
+            "name": "Video Generate Api Status",
+            "description": {
+              "content": "Get the status of the animation generation task",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "video",
+                "generate",
+                ":animation_id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<integer>",
+                  "key": "animation_id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": {
+              "type": "oauth2",
+              "oauth2": [
+                {
+                  "key": "accessTokenUrl",
+                  "value": "token"
+                },
+                {
+                  "key": "grant_type",
+                  "value": "password_credentials"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "b456315a-d349-47dd-84bf-ca5c86571d56",
+              "name": "Successful Response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "video",
+                    "generate",
+                    ":animation_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "animation_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": {\n    \"id\": 5345,\n    \"status\": \"CANCELLED\",\n    \"created_at\": \"1983-05-28T23:46:06.128Z\",\n    \"request\": {\n      \"input\": \"http://ipVLp.qznB3kjI7LhM3If7MdUsc2TPrDA8jscDcgaZKwMnsJ\",\n      \"options\": {\n        \"prompt\": \"string\",\n        \"negative_prompt\": \"string\",\n        \"duration\": \"5\",\n        \"guidance_scale\": 0.5\n      },\n      \"output\": \"http://RmBY.fsi5PYEo3SoyVUPIK.eOEZ8OvN\"\n    },\n    \"errors\": [\n      {\n        \"error\": \"string\",\n        \"created_at\": \"1985-06-10T01:17:43.919Z\"\n      },\n      {\n        \"error\": \"string\",\n        \"created_at\": \"2001-01-05T17:02:24.843Z\"\n      }\n    ],\n    \"result\": {\n      \"input_object\": {\n        \"ext\": \"string\",\n        \"mps\": 6220.606298991173,\n        \"mime\": \"string\",\n        \"format\": \"string\",\n        \"width\": 9574,\n        \"height\": 2218,\n        \"generated_prompt\": \"string\"\n      },\n      \"output_object\": {\n        \"ext\": \"mp4\",\n        \"mime\": \"video/mp4\",\n        \"format\": \"mp4\",\n        \"tmp_url\": \"string\",\n        \"object_key\": \"string\",\n        \"object_bucket\": \"string\",\n        \"object_uri\": \"string\",\n        \"claid_storage_uri\": \"string\"\n      }\n    }\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "6449326f-0b25-415d-9657-d9425c836edd",
+              "name": "Authorization is required.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "video",
+                    "generate",
+                    ":animation_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "animation_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error_code\": \"string\",\n  \"error_type\": \"validation\",\n  \"error_message\": \"string\",\n  \"error_details\": {}\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "bddd1ab7-f4bf-471d-9e67-ee01487841a9",
+              "name": "Not enough permissions.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "video",
+                    "generate",
+                    ":animation_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "animation_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error_code\": \"string\",\n  \"error_type\": \"validation\",\n  \"error_message\": \"string\",\n  \"error_details\": {}\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "8e5bf923-5f8f-4bc1-b705-a7408de05e29",
+              "name": "Web image not found.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "video",
+                    "generate",
+                    ":animation_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "animation_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error_code\": \"string\",\n  \"error_type\": \"validation\",\n  \"error_message\": \"string\",\n  \"error_details\": {}\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "4252d834-269f-4b1b-a3bf-7d19f6e517a4",
+              "name": "Validation Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "video",
+                    "generate",
+                    ":animation_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "animation_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    },\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.claid.ai",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "783a00d6-3bed-4387-89b5-72af691797ba",
+    "name": "Claid REST Image Video API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Claid REST API v1 - the AI image editing, enhancement, generation and image-to-video API operated by Let's Enhance (Claid.ai). Covers synchronous and asynchronous image editing, batch processing, direct upload, AI edit by natural-language instruction, AI fashion models, AI background scene creation, image generation, image-to-video generation, and cloud storage connector management. Consolidated verbatim from the per-endpoint OpenAPI 3.1 definitions published in the Claid API reference at https://docs.claid.ai/.",
+      "type": "text/plain"
+    }
+  }
+}

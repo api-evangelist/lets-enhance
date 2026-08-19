@@ -1,0 +1,69 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Claid REST Image Video API",
+    "version": "v1"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Video",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Video Generate Api",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.claid.ai/v1/video/generate",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "oauth2",
+              "flow": "resource_owner_password_credentials",
+              "accessTokenUrl": "token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Generate an animation asynchronously"
+        },
+        {
+          "info": {
+            "name": "Video Generate Api Status",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.claid.ai/v1/video/generate/:animation_id",
+            "params": [
+              {
+                "name": "animation_id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "auth": {
+              "type": "oauth2",
+              "flow": "resource_owner_password_credentials",
+              "accessTokenUrl": "token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Get the status of the animation generation task"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

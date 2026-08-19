@@ -162,3 +162,9 @@ tools:
 related:
   openapi: openapi/lets-enhance-claid-openapi.json
   skills: skills/_index.yml
+deployment:
+  mode: none
+  verified: derived
+  tools: 20
+  checked: '2026-08-12'
+  source: catalog MCP census

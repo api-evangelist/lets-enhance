@@ -1,0 +1,318 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Claid REST Image API",
+    "version": "v1"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Image",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Create Scene Api",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.claid.ai/v1/scene/create",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "oauth2",
+              "flow": "resource_owner_password_credentials",
+              "accessTokenUrl": "token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Specifies: \n- object to place on the scene and its properties (`object`)\n- scene properties (`scene`)\n- how many images will be created and where they will be stored (`output`)"
+        },
+        {
+          "info": {
+            "name": "Async Try On Generation Api",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.claid.ai/v1/image/ai-fashion-models",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "oauth2",
+              "flow": "resource_owner_password_credentials",
+              "accessTokenUrl": "token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "AI Fashion Models generation"
+        },
+        {
+          "info": {
+            "name": "Async Try On Generation Async Status",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.claid.ai/v1/image/ai-fashion-models/:processing_request_id",
+            "params": [
+              {
+                "name": "processing_request_id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "auth": {
+              "type": "oauth2",
+              "flow": "resource_owner_password_credentials",
+              "accessTokenUrl": "token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "AI Fashion Models generation result"
+        },
+        {
+          "info": {
+            "name": "Async Ai Edit Generation Api",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.claid.ai/v1/image/ai-edit",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "oauth2",
+              "flow": "resource_owner_password_credentials",
+              "accessTokenUrl": "token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "AI Edit"
+        },
+        {
+          "info": {
+            "name": "Async Ai Edit Generation Api Status",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.claid.ai/v1/image/ai-edit/:ai_edit_id",
+            "params": [
+              {
+                "name": "ai_edit_id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "auth": {
+              "type": "oauth2",
+              "flow": "resource_owner_password_credentials",
+              "accessTokenUrl": "token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Get AI Edit generation result"
+        },
+        {
+          "info": {
+            "name": "Image Edit",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.claid.ai/v1/image/edit",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "oauth2",
+              "flow": "resource_owner_password_credentials",
+              "accessTokenUrl": "token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Specifies: \n- what image will be processed (`input`)\n- how it will be processed (`operations`)\n- where it will be stored (`output`)"
+        },
+        {
+          "info": {
+            "name": "Async Image Edit",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.claid.ai/v1/image/edit/async",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "oauth2",
+              "flow": "resource_owner_password_credentials",
+              "accessTokenUrl": "token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Specifies: \n- what image will be processed (`input`)\n- how it will be processed (`operations`)\n- where it will be stored (`output`)"
+        },
+        {
+          "info": {
+            "name": "Async Image Edit Result",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.claid.ai/v1/image/edit/async/:task_id",
+            "params": [
+              {
+                "name": "task_id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "auth": {
+              "type": "oauth2",
+              "flow": "resource_owner_password_credentials",
+              "accessTokenUrl": "token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Async Image Edit Result"
+        },
+        {
+          "info": {
+            "name": "Process Batch Image Edit",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.claid.ai/v1/image/edit/batch",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "oauth2",
+              "flow": "resource_owner_password_credentials",
+              "accessTokenUrl": "token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Specifies: \n- what images will be processed (`input`)\n- how they will be processed (`operations`)\n- where they will be stored (`output`)"
+        },
+        {
+          "info": {
+            "name": "Image Edit Batch Async Results",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.claid.ai/v1/image/edit/batch/:task_id",
+            "params": [
+              {
+                "name": "task_id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "auth": {
+              "type": "oauth2",
+              "flow": "resource_owner_password_credentials",
+              "accessTokenUrl": "token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Image Edit Batch Async Results"
+        },
+        {
+          "info": {
+            "name": "Image Edit Upload",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.claid.ai/v1/image/edit/upload",
+            "body": {
+              "type": "multipart-form",
+              "data": []
+            },
+            "auth": {
+              "type": "oauth2",
+              "flow": "resource_owner_password_credentials",
+              "accessTokenUrl": "token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Specifies: \n- how the image will be processed (`operations`)\n- where it will be stored (`output`)"
+        },
+        {
+          "info": {
+            "name": "Image Generate",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.claid.ai/v1/image/generate",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "oauth2",
+              "flow": "resource_owner_password_credentials",
+              "accessTokenUrl": "token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Specifies: \n- text prompt for image generation (`input`)\n- image generation options (`options`)\n- where results will be stored (`output`)"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

@@ -1,0 +1,167 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Claid REST Image Storage API",
+    "version": "v1"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Storage",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List Storage Types",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.claid.ai/v1/storage/storage-types",
+            "auth": {
+              "type": "oauth2",
+              "flow": "resource_owner_password_credentials",
+              "accessTokenUrl": "token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Retrieves a list of storage types supported by Claid."
+        },
+        {
+          "info": {
+            "name": "List Storages",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.claid.ai/v1/storage/storages",
+            "auth": {
+              "type": "oauth2",
+              "flow": "resource_owner_password_credentials",
+              "accessTokenUrl": "token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Retrieves a list of storages connected to your Claid account, as well as their `id`, `name`, `type`, and `parameters`."
+        },
+        {
+          "info": {
+            "name": "Create Storage",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.claid.ai/v1/storage/storages",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "oauth2",
+              "flow": "resource_owner_password_credentials",
+              "accessTokenUrl": "token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Connects storage to Claid. You can connect your AWS S3 or GCP bucket, or your own web folder."
+        },
+        {
+          "info": {
+            "name": "Get Storage",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.claid.ai/v1/storage/storages/:storage_id",
+            "params": [
+              {
+                "name": "storage_id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "auth": {
+              "type": "oauth2",
+              "flow": "resource_owner_password_credentials",
+              "accessTokenUrl": "token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Retrieves information about particular storage, including its `id`, `name`, `type`, and `parameters`."
+        },
+        {
+          "info": {
+            "name": "Patch Storage",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://api.claid.ai/v1/storage/storages/:storage_id",
+            "params": [
+              {
+                "name": "storage_id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "oauth2",
+              "flow": "resource_owner_password_credentials",
+              "accessTokenUrl": "token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Changes storage `name`, `type`, and/or `parameters`."
+        },
+        {
+          "info": {
+            "name": "Delete Storage",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.claid.ai/v1/storage/storages/:storage_id",
+            "params": [
+              {
+                "name": "storage_id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "auth": {
+              "type": "oauth2",
+              "flow": "resource_owner_password_credentials",
+              "accessTokenUrl": "token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Disconnects storage from Claid. Note: It doesn't delete your bucket on your cloud platform."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}
