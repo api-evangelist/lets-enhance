@@ -1,9 +1,7 @@
 {
   "provider": "lets-enhance",
   "sources": [
-    "lets-enhance-image-api-openapi.yml",
-    "lets-enhance-storage-api-openapi.yml",
-    "lets-enhance-video-api-openapi.yml"
+    "_original/lets-enhance-claid-openapi.json"
   ],
   "outputs": [
     "lets-enhance-image-api-openapi.yml",
@@ -13,6 +11,14 @@
   "archived": [],
   "errors": [],
   "warnings": [],
-  "notes": [],
-  "skipped": []
+  "notes": [
+    "sourced from openapi/_original/ (1 archived document(s)); previously refined output at the top level was skipped rather than re-split",
+    "lets-enhance-claid-openapi.json: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
+    "apis.yml register: already-registered"
+  ],
+  "skipped": [
+    "lets-enhance-image-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "lets-enhance-storage-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "lets-enhance-video-api-openapi.yml: previously refined output, superseded by openapi/_original/"
+  ]
 }

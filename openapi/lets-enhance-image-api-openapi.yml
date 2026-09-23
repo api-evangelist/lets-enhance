@@ -1,8 +1,8 @@
-openapi: 3.1.0
+openapi: 3.2.0
 info:
   title: Claid REST Image API
   version: v1
-  description: Claid REST API v1 - the AI image editing, enhancement, generation and image-to-video API operated by Let's Enhance (Claid.ai). Covers synchronous and asynchronous image editing, batch processing, direct upload, AI edit by natural-language instruction, AI fashion models, AI background scene creation, image generation, image-to-video generation, and cloud storage connector management. Consolidated verbatim from the per-endpoint OpenAPI 3.1 definitions published in the Claid API reference at https://docs.claid.ai/.
+  description: Claid REST API v1 - the AI image editing, enhancement, generation and image-to-video API operated by Let's Enhance (Claid.ai).
 servers:
 - url: https://api.claid.ai
   description: Claid API production
@@ -15,7 +15,13 @@ paths:
       tags:
       - Image
       summary: Create Scene Api
-      description: "Specifies: \n- object to place on the scene and its properties (`object`)\n- scene properties (`scene`)\n- how many images will be created and where they will be stored (`output`)"
+      description: 'Specifies:
+
+        - object to place on the scene and its properties (`object`)
+
+        - scene properties (`scene`)
+
+        - how many images will be created and where they will be stored (`output`)'
       operationId: create_scene_api_v1_scene_create_post
       requestBody:
         content:
@@ -273,7 +279,13 @@ paths:
       tags:
       - Image
       summary: Image Edit
-      description: "Specifies: \n- what image will be processed (`input`)\n- how it will be processed (`operations`)\n- where it will be stored (`output`)"
+      description: 'Specifies:
+
+        - what image will be processed (`input`)
+
+        - how it will be processed (`operations`)
+
+        - where it will be stored (`output`)'
       operationId: image_edit_v1_image_edit_post
       requestBody:
         content:
@@ -327,7 +339,13 @@ paths:
       tags:
       - Image
       summary: Async Image Edit
-      description: "Specifies: \n- what image will be processed (`input`)\n- how it will be processed (`operations`)\n- where it will be stored (`output`)"
+      description: 'Specifies:
+
+        - what image will be processed (`input`)
+
+        - how it will be processed (`operations`)
+
+        - where it will be stored (`output`)'
       operationId: async_image_edit_v1_image_edit_async_post
       requestBody:
         content:
@@ -428,7 +446,13 @@ paths:
       tags:
       - Image
       summary: Process Batch Image Edit
-      description: "Specifies: \n- what images will be processed (`input`)\n- how they will be processed (`operations`)\n- where they will be stored (`output`)"
+      description: 'Specifies:
+
+        - what images will be processed (`input`)
+
+        - how they will be processed (`operations`)
+
+        - where they will be stored (`output`)'
       operationId: process_batch_image_edit_v1_image_edit_batch_post
       requestBody:
         content:
@@ -529,7 +553,11 @@ paths:
       tags:
       - Image
       summary: Image Edit Upload
-      description: "Specifies: \n- how the image will be processed (`operations`)\n- where it will be stored (`output`)"
+      description: 'Specifies:
+
+        - how the image will be processed (`operations`)
+
+        - where it will be stored (`output`)'
       operationId: image_edit_upload_v1_image_edit_upload_post
       requestBody:
         content:
@@ -583,7 +611,13 @@ paths:
       tags:
       - Image
       summary: Image Generate
-      description: "Specifies: \n- text prompt for image generation (`input`)\n- image generation options (`options`)\n- where results will be stored (`output`)"
+      description: 'Specifies:
+
+        - text prompt for image generation (`input`)
+
+        - image generation options (`options`)
+
+        - where results will be stored (`output`)'
       operationId: image_generate_v1_image_generate_post
       requestBody:
         content:
@@ -634,524 +668,21 @@ paths:
         - image_editing
 components:
   schemas:
-    AsyncPipelineResultItem:
-      title: AsyncPipelineResultItem
-      required:
-      - input_object
-      - output_object
-      type: object
-      properties:
-        input_object:
-          $ref: '#/components/schemas/PipelineInputObject'
-        output_object:
-          $ref: '#/components/schemas/PipelineOutputObject'
-    AsyncResultResponse:
-      title: AsyncResultResponse
-      required:
-      - id
-      - status
-      - created_at
-      - request
-      type: object
-      properties:
-        id:
-          title: Id
-          type: integer
-        status:
-          $ref: '#/components/schemas/APIV1Status'
-        result_url:
-          title: Result Url
-          maxLength: 65536
-          minLength: 1
-          type: string
-          format: uri
-        created_at:
-          title: Created At
-          type: string
-          format: date-time
-        request:
-          title: Request
-          anyOf:
-          - $ref: '#/components/schemas/BatchEditRequest'
-          - $ref: '#/components/schemas/AsyncEditRequest'
-          - type: object
-        errors:
-          title: Errors
-          type: array
-          items:
-            $ref: '#/components/schemas/BatchPipelineError'
-          default: []
-        result:
-          title: Result
-          allOf:
-          - $ref: '#/components/schemas/AsyncPipelineResultItem'
-          default: {}
-    TryOnAPIRequest:
-      title: TryOnAPIRequest
-      required:
-      - input
-      - options
-      type: object
-      properties:
-        output:
-          title: Output
-          anyOf:
-          - $ref: '#/components/schemas/TryOnAPIRequestOutputObject'
-          - type: string
-            minLength: 1
-            maxLength: 4096
-            format: uri
-          description: Customize output format, destination and number of images.
-          default:
-            number_of_images: 1
-            format: png
-        input:
-          title: Input
-          allOf:
-          - $ref: '#/components/schemas/TryOnAPIRequestInputOptions'
-          description: Input model and clothing images for the generation.
-        options:
-          title: Options
-          allOf:
-          - $ref: '#/components/schemas/TryOnAPIRequestOptionsObject'
-          description: Customize the generation.
-      additionalProperties: false
-    BatchEditInputOptions:
-      title: image input options
-      required:
-      - source
-      type: object
-      properties:
-        source:
-          title: Input folder URL
-          maxLength: 4096
-          minLength: 1
-          type: string
-          description: URL of the input file or folder. Should be from 1 to 512 characters. Must be accessible by our system.
-          format: uri
-        recursive:
-          title: Recursive
-          type: boolean
-          description: 'If `true`, recursively processes all images in subfolders as well, works only if source is folder. '
-          default: false
-      additionalProperties: false
-    PipelineInputObject:
-      title: PipelineInputObject
-      required:
-      - ext
-      - mps
-      - mime
-      - format
-      - width
-      - height
-      type: object
-      properties:
-        ext:
-          title: Ext
-          type: string
-          description: 'File extension. Can have values: `"jpg"`, `"png"`, `"avif"`'
-        mps:
-          title: Mps
-          type: number
-          description: Megapixel count
-        mime:
-          title: Mime
-          type: string
-          description: MIME type (also known as ‘media type’)
-        format:
-          title: Format
-          type: string
-          description: 'File format. Can have values: `"jpeg"`, `"png"`, `"avif"`'
-        width:
-          title: Width
-          type: integer
-          description: Image width in pixels
-        height:
-          title: Height
-          type: integer
-          description: Image height in pixels
-    AiEditError:
-      title: AiEditError
-      required:
-      - error
-      - created_at
-      type: object
-      properties:
-        error:
-          title: Error
-          type: string
-        created_at:
-          title: Created At
-          type: string
-          format: date-time
-    PipelineInputObjectInError:
-      title: PipelineInputObjectInError
-      required:
-      - ext
-      - mps
-      - mime
-      - format
-      - width
-      - height
-      type: object
-      properties:
-        ext:
-          title: Ext
-          type: string
-          description: 'File extension. Can have values: `"jpg"`, `"png"`, `"avif"`'
-        mps:
-          title: Mps
-          type: number
-          description: Megapixel count
-        mime:
-          title: Mime
-          type: string
-          description: MIME type (also known as ‘media type’)
-        format:
-          title: Format
-          type: string
-          description: 'File format. Can have values: `"jpeg"`, `"png"`, `"avif"`'
-        width:
-          title: Width
-          type: integer
-          description: Image width in pixels
-        height:
-          title: Height
-          type: integer
-          description: Image height in pixels
-    CropOptions:
-      title: crop options
-      required:
-      - type
-      type: object
-      properties:
-        type:
-          title: Type
-          enum:
-          - crop
-          type: string
-        crop:
-          title: Crop mode
-          allOf:
-          - $ref: '#/components/schemas/FitCropEnum'
-          description: "Selects the crop mode: \n\n| Value | Description |\n| --- | --- |\n| `\"center\"` | Cropping relative to the center of the image.|\n| `\"smart\"` | Content aware image cropping.|\n"
-          default: center
-      additionalProperties: false
-    EditResponse:
-      title: EditResponse
-      required:
-      - input
-      - output
-      type: object
-      properties:
-        input:
-          $ref: '#/components/schemas/PipelineInputObject'
-        output:
-          $ref: '#/components/schemas/PipelineOutputObject'
-        profiling:
-          title: Profiling
-          type: object
-    SceneCreateAPIObjectPaddingIn:
-      title: SceneCreateAPIObjectPaddingIn
-      required:
-      - image_url
-      - placement_type
-      - padding
-      type: object
-      properties:
-        image_url:
-          title: Object image file URL
-          maxLength: 4096
-          minLength: 1
-          type: string
-          description: URL of the input image. Should be from 1 to 4096 characters. Image must be accessible by our system. For better results, the background of the image should be transparent.
-          format: uri
-        placement_type:
-          title: Placement Type
-          enum:
-          - padding
-          type: string
-          description: '`"padding"` placement type allows to add a space around the object equally to each of 4 sides, or for height&width separately.'
-        padding:
-          title: Padding around the object
-          type: string
-          description: Add a space around the object equally to each of 4 sides, or for height&width separately. Can not be bigger than half of image width/height.
-      additionalProperties: false
-    TryOnAPIAcceptedResponse:
-      title: TryOnAPIAcceptedResponse
-      required:
-      - id
-      - status
-      - created_at
-      - request
-      - result_url
-      type: object
-      properties:
-        id:
-          title: Id
-          type: integer
-        status:
-          $ref: '#/components/schemas/APIV1Status'
-        created_at:
-          title: Created At
-          type: string
-          format: date-time
-        request:
-          title: Request
-          type: object
-        result_url:
-          title: Result Url
-          maxLength: 65536
-          minLength: 1
-          type: string
-          format: uri
-    ScenePipelineResponseOut:
-      title: ScenePipelineResponseOut
-      required:
-      - input
-      - output
-      type: object
-      properties:
-        input:
-          $ref: '#/components/schemas/PipelineInputObject'
-        output:
-          title: Output
-          type: array
-          items:
-            $ref: '#/components/schemas/PipelineOutputObject'
-        profiling:
-          title: Profiling
-          type: object
-    TiffLossyCompressionOptions:
-      title: TiffLossyCompressionOptions
-      required:
-      - type
-      type: object
-      properties:
-        type:
-          title: Type
-          enum:
-          - lossy
-          type: string
-          description: Must have value `"lossy"`
-        quality:
-          title: Quality
-          maximum: 100
-          minimum: 1
-          type: integer
-          default: 75
-      additionalProperties: false
-    SceneEffectEnum:
-      title: Additional scene effect
-      enum:
-      - shadows
-      type: string
-      description: 'Selects the scene effect.
-
-
-        | Value | Description |
-
-        | --- | --- |
-
-        | `"shadows"` | Apply shadow generation on the image.|
-
-        '
-    ColorEnum:
-      title: Transparent
-      enum:
-      - transparent
-      type: string
-      description: Makes the background of the image transparent, only works for `"png"` output format.
-    BatchPipelineError:
-      title: BatchPipelineError
-      required:
-      - error
-      - created_at
-      type: object
-      properties:
-        error:
-          title: Error
-          type: string
-        created_at:
-          title: Created At
-          type: string
-        input_object:
-          $ref: '#/components/schemas/PipelineInputObjectInError'
-    AsyncAcceptedResponse:
-      title: AsyncAcceptedResponse
-      required:
-      - id
-      - status
-      - created_at
-      - request
-      type: object
-      properties:
-        id:
-          title: Id
-          type: integer
-        status:
-          $ref: '#/components/schemas/APIV1Status'
-        result_url:
-          title: Result Url
-          maxLength: 65536
-          minLength: 1
-          type: string
-          format: uri
-        created_at:
-          title: Created At
-          type: string
-          format: date-time
-        request:
-          title: Request
-          anyOf:
-          - $ref: '#/components/schemas/BatchEditRequest'
-          - $ref: '#/components/schemas/AsyncEditRequest'
-          - type: object
-        errors:
-          title: Errors
-          type: array
-          items:
-            $ref: '#/components/schemas/BatchPipelineError'
-          default: []
-        result:
-          title: Result
-          allOf:
-          - $ref: '#/components/schemas/AsyncPipelineResultItem'
-          default: {}
-    MetadataOptions:
-      title: image color space options
-      type: object
-      properties:
-        dpi:
-          title: DPI
-          type: integer
-          description: Dots per inch.
-        color_space:
-          title: Color Space
-          anyOf:
-          - $ref: '#/components/schemas/ColorSpaceEnum'
-          - $ref: '#/components/schemas/RGBColorSpaceOptions'
-          - $ref: '#/components/schemas/CMYKColorSpaceOptions'
-          description: Specifies desirable color space of the output image. By default, preserves the color space of the original image.
-      additionalProperties: false
-    SceneCreateAPIScenePromptIn:
-      title: Template-free scene
-      required:
-      - prompt
-      type: object
-      properties:
-        model:
-          title: Scene creation model
-          allOf:
-          - $ref: '#/components/schemas/SceneCreateModelEnum'
-          description: Selects the scene creation model. By default, the model is 'v1'.
-          default: v1
-        prompt:
-          title: Text prompt for scene creation
-          anyOf:
-          - type: string
-            minLength: 3
-            maxLength: 2048
-          - $ref: '#/components/schemas/ScenePromptAdvancedIn'
-          description: Text prompt that will be used to create the scene. Should be from 3 to 2048 characters.
-        negative_prompt:
-          title: Negative text prompt for scene creation
-          maxLength: 2048
-          minLength: 3
-          type: string
-          description: 'Text prompt that will exclude things from the scene. Should be from 3 to 2048 characters. '
-        steps:
-          title: Number of inference steps
-          exclusiveMaximum: 50
-          minimum: 1
-          type: integer
-          description: The more inference steps you use, the better the results, but the more steps, the longer it takes to generate. If you want faster results, you can use fewer steps. If you want higher-quality results, you can use more steps. By default each `template_mode` has an optimal `steps` value.
-        color:
-          title: Color
-          type: string
-          description: 'Color as a hexadecimal. Examples: `"#ffffff"`, `"#000000"`.'
-        aspect_ratio:
-          title: Scene aspect ratio
-          allOf:
-          - $ref: '#/components/schemas/SceneAspectRatioEnum'
-          description: Aspect ratio of the scene. By default, the aspect ratio is 1:1.
-          default: '1:1'
-        preference:
-          title: Preference control
-          allOf:
-          - $ref: '#/components/schemas/PreferenceEnum'
-          description: 'Preference control allows you to balance between generation speed and output image quality. Higher speed decreases image quality but enables quicker experimentation to find the best parameters for your background.
-
-
-            | Value | Description |
-
-            | --- | --- |
-
-            | `"fast"` | Faster generation, lower quality.|
-
-            | `"optimal"` | Balance between speed and quality.|| `"best"` | Highest quality, slower generation.|'
-          default: optimal
-      additionalProperties: false
-    APIV1Status:
-      title: APIV1Status
-      enum:
-      - ACCEPTED
-      - WAITING
-      - PROCESSING
-      - DONE
-      - ERROR
-      - CANCELLED
-      - PAUSED
-      type: string
-      description: An enumeration.
-    EditRequest:
-      title: EditRequest
-      required:
-      - input
-      - operations
-      type: object
-      properties:
-        input:
-          title: Input URL
-          maxLength: 4096
-          minLength: 1
-          type: string
-          description: URL of the input image. Should be from 1 to 512 characters. Image must be accessible by our system.
-          format: uri
-        operations:
-          title: Operations
-          allOf:
-          - $ref: '#/components/schemas/ImageOperations'
-          description: Customize the editing workflow so that the output images meet your requirements.
-        output:
-          title: Output
-          anyOf:
-          - $ref: '#/components/schemas/ImageOutputOptions'
-          - type: string
-            minLength: 1
-            maxLength: 4096
-            format: uri
-          description: Customize the result output.
-          default:
-            format: jpeg
-      additionalProperties: false
-    Response_TryOnAPIAcceptedResponse_:
-      title: Response[TryOnAPIAcceptedResponse]
+    Response_AiEditResultResponse_:
+      title: Response[AiEditResultResponse]
       type: object
       properties:
         data:
-          $ref: '#/components/schemas/TryOnAPIAcceptedResponse'
+          $ref: '#/components/schemas/AiEditResultResponse'
       description: Wrapper for responses
-    FormatEnum:
-      title: Format
+    PhotoVersionEnum:
+      title: Version
       enum:
-      - jpeg
-      - png
-      - webp
-      - avif
-      - tiff
+      - '1'
+      - '2'
+      - '3'
       type: string
-      description: 'Converts the image into specified format. Examples: `"jpeg"`, `"png"`.'
+      description: "Upscales the image with specified version of photo upscaling neural network. \n\n| Value | Description |\n| --- | --- |\n| `\"1\"` | Is deprecated and not recommended.|\n| `\"2\"` | Used for restoring image quality that is taken by mobile devices or digital camera.|\n| `\"3\"` | Used for restoring image quality, a bit more aggressively than `\"2\"`.|\n"
     PipelineOutputObject:
       title: PipelineOutputObject
       required:
@@ -1207,8 +738,8 @@ components:
           title: Claid Storage Uri
           type: string
           description: URI of a processed image in a storage
-    CMYKColorSpaceOptions:
-      title: CMYKColorSpaceOptions
+    FormatTiffOptions:
+      title: FormatTiffOptions
       required:
       - type
       type: object
@@ -1216,688 +747,48 @@ components:
         type:
           title: Type
           enum:
-          - CMYK
+          - tiff
           type: string
-        color_profile:
-          allOf:
-          - $ref: '#/components/schemas/CMYKColorProfileEnum'
-          description: "Specifies color profile that will be used for color space. \n\nSelects the type of color space profile: \n\n| Value | Description | Paper | Max. total ink (TAC) | Characterisation data | \n| --- | --- | --- | --- | --- |\n| `\"ISO_Coated\"` | (Coated FOGRA39, ISO 12647-2:2004) Is used by default. Standard for glossy and matte coated paper. | Grades 1 and 2, gloss and matte coated. | 330% | FOGRA39 |\n| `\"ISO_Uncoated\"` | (Uncoated FOGRA29, ISO 12647-2:2004) Standard for uncoated white natural paper. | Grade 4, uncoated white offset. | 300% | FOGRA29 |\n| `\"USWeb_Coated\"` | (SWOP2006_Coated3v2) Standard for glossy and matte coated paper in the United States. | Grades 1, 2 and 3 gloss coated, matte coated and uncoated paper. | 300% | CGATS TR003 |\n| `\"USWeb_Uncoated\"` | (GRACoL 2013 Uncoated) Standard for uncoated white natural paper in the United States. | Grade 4, uncoated white offset. | 260% |  CGATS21-2-CRPC3 |\n"
-          default: USWeb_Coated
+          description: Must have value `"tiff"`
+        compression:
+          title: Compression
+          anyOf:
+          - $ref: '#/components/schemas/TiffCompressionEnum'
+          - $ref: '#/components/schemas/TiffLossyCompressionOptions'
+          - $ref: '#/components/schemas/TiffLosslessCompressionOptions'
+          description: The TIFF codec supports both lossless and lossy modes of operation, so you can select the one that is appropriate for your goals. Lossy JPEG compression allows you to reduce the size of the image significantly in exchange for some loss of data, reducing the quality of an image. You can specify the amount of loss you are willing to accept. By default it's set to to 75. Lossless LZW (Lempel-Ziv-Welch) compression allows you to save maximum image details in exchange for a significantly increased file size.
+          default:
+            type: lossless
       additionalProperties: false
-    Response_BatchAcceptedResponse_:
-      title: Response[BatchAcceptedResponse]
-      type: object
-      properties:
-        data:
-          $ref: '#/components/schemas/BatchAcceptedResponse'
-      description: Wrapper for responses
-    FitEnum:
-      title: Fit
+    FitCropEnum:
+      title: Crop
       enum:
-      - crop
-      - cover
-      - bounds
-      - canvas
-      - outpaint
+      - center
+      - smart
       type: string
-      description: "Selects the fit mode: \n(Note: All fit modes preserve the original image aspect ratio. Meaning, the image can be cropped but it won't be stretched or squeezed.)\n\n| Value | Description |\n| --- | --- |\n| `\"crop\"` | Scales an image until it fully covers the specified dimensions, the rest gets cropped. Fit `crop` support `\"center\"` and `\"smart\"` modes for cropping.|\n| `\"cover\"` | Resize the image to entirely cover the specified region, making one dimension larger if needed.|\n| `\"bounds\"` | Resize the image to fit entirely within the specified region, making one dimension smaller if needed. |\n| `\"canvas\"` | Input image will be placed on the canvas established by `width` and `height`. Extra space will be filled with the background `color`.|\n| `\"outpaint\"` | Extra space will be generated with the coherent background.|"
-    BackgroundBlurOptions:
-      title: background blur options
-      type: object
-      properties:
-        selective:
-          title: Selective
-          allOf:
-          - $ref: '#/components/schemas/BackgroundSelectiveOptions'
-          description: Allows to select an object to keep on the image and blur the background around it.
-        category:
-          allOf:
-          - $ref: '#/components/schemas/BackgroundCategoryEnum'
-          description: "Selects the category of objects on the image: \n\n| Value | Description |\n| --- | --- |\n| `\"general\"` | The category that is suitable for all objects and is used by default.|\n| `\"cars\"` | The advanced category that will have better results for removing the background with cars on foreground.|\n| `\"products\"` | The advanced category that will have better results for background removal of various types of products and groceries.|\n"
-        type:
-          allOf:
-          - $ref: '#/components/schemas/BackgroundBlurTypeEnum'
-          description: "Selects the type of blur to be applied to the background: \n\n| Value | Description |\n| --- | --- |\n| `\"regular\"` | Gaussian blur. Creates an effect of laying a translucent material like vellum on top of the image background, is used by default.|\n| `\"lens\"` | Lens blur with linear focus. Mimics the blur applied to a photo when a wide aperture is used to achieve a narrow depth of field, so that the foreground objects stands out.|\n"
-          default: regular
-        level:
-          allOf:
-          - $ref: '#/components/schemas/BackgroundBlurLevelEnum'
-          description: "Selects the level of blur strength to be applied to the background: \n\n| Value | Description |\n| --- | --- |\n| `\"low\"` | Low blur strength.|\n| `\"medium\"` | Medium blur strength, is used by default.|\n| `\"high\"` | High blur strength.|\n"
-          default: medium
-      additionalProperties: false
-    BatchPipelineResultItem:
-      title: BatchPipelineResultItem
-      required:
-      - input_object
-      - output_object
-      type: object
-      properties:
-        input_object:
-          $ref: '#/components/schemas/PipelineInputObject'
-        output_object:
-          $ref: '#/components/schemas/BatchPipelineOutputObject'
-    AiEditFormatEnum:
-      title: AiEditFormatEnum
+      description: "Selects the crop mode: \n\n| Value | Description |\n| --- | --- |\n| `\"center\"` | Cropping relative to the center of the image.|\n| `\"smart\"` | Content aware image cropping.|\n"
+    SceneEffectEnum:
+      title: Additional scene effect
       enum:
-      - jpeg
-      - png
+      - shadows
       type: string
-      description: An enumeration.
-    AiEditOutputImageObject:
-      title: AiEditOutputImageObject
-      type: object
-      properties:
-        ext:
-          title: Ext
-          type: string
-          description: File extension.
-        mps:
-          title: Mps
-          type: number
-          description: Megapixel count
-        mime:
-          title: Mime
-          type: string
-          description: MIME type (also known as 'media type')
-        format:
-          title: Format
-          type: string
-          description: File format.
-        width:
-          title: Width
-          type: integer
-          description: Image width in pixels
-        height:
-          title: Height
-          type: integer
-          description: Image height in pixels
-        tmp_url:
-          title: Tmp Url
-          type: string
-          description: Temporal URL of a processed image
-        object_key:
-          title: Object Key
-          type: string
-          description: Path to a processed image in a bucket
-        object_bucket:
-          title: Object Bucket
-          type: string
-          description: Bucket name
-        object_uri:
-          title: Object Uri
-          type: string
-          description: URI of a processed image in a bucket
-        claid_storage_uri:
-          title: Claid Storage Uri
-          type: string
-          description: URI of a processed image in a storage
-    Response_TryOnAPIResultResponse_:
-      title: Response[TryOnAPIResultResponse]
-      type: object
-      properties:
-        data:
-          $ref: '#/components/schemas/TryOnAPIResultResponse'
-      description: Wrapper for responses
-    TryOnAPIResult:
-      title: TryOnAPIResult
-      required:
-      - input_objects
-      - output_objects
-      type: object
-      properties:
-        input_objects:
-          title: Input Objects
-          type: array
-          items:
-            $ref: '#/components/schemas/TryOnAPIImageObject'
-        output_objects:
-          title: Output Objects
-          type: array
-          items:
-            $ref: '#/components/schemas/TryOnAPIOutputImageObject'
-    CanvasOptions:
-      title: canvas options
-      required:
-      - type
-      type: object
-      properties:
-        type:
-          title: Type
-          enum:
-          - canvas
-          type: string
-      additionalProperties: false
-    BackgroundRemovalOptions:
-      title: background removal options
-      type: object
-      properties:
-        clipping:
-          title: Clip to object
-          type: boolean
-          description: If `true` image will be cropped up to the edges of the foreground object.
-          default: false
-        selective:
-          title: Selective
-          allOf:
-          - $ref: '#/components/schemas/BackgroundSelectiveOptions'
-          description: Allows to select an object to keep on the image and remove the background around it.
-        category:
-          title: Category
-          allOf:
-          - $ref: '#/components/schemas/BackgroundCategoryEnum'
-          description: The background removal category hints the type of objects on the image.
-      additionalProperties: false
-    HdrOptions:
-      title: hdr options
-      type: object
-      properties:
-        intensity:
-          title: Intensity
-          maximum: 100
-          minimum: 0
-          type: integer
-          description: HDR effect intensity.
-          default: 100
-        stitching:
-          title: Stitching
-          type: boolean
-          description: Set to true for seamless HDR effect on stitched 360 photos.
-          default: false
-      additionalProperties: false
-    Body_image_edit_upload_v1_image_edit_upload_post:
-      title: Body_image_edit_upload_v1_image_edit_upload_post
-      required:
-      - file
-      - data
-      type: object
-      properties:
-        file:
-          title: File
-          type: string
-          format: binary
-        data:
-          title: Data
-          type: string
-    Response_AsyncResultResponse_:
-      title: Response[AsyncResultResponse]
-      type: object
-      properties:
-        data:
-          $ref: '#/components/schemas/AsyncResultResponse'
-      description: Wrapper for responses
-    FormatJpegOptions:
-      title: jpeg options
-      required:
-      - type
-      type: object
-      properties:
-        type:
-          title: Type
-          enum:
-          - jpeg
-          type: string
-          description: Must have value `"jpeg"`
-        quality:
-          title: Quality
-          maximum: 100
-          minimum: 1
-          type: integer
-          default: 85
-        progressive:
-          title: Progressive
-          type: boolean
-          description: Progressive JPEG loads in a browser in successive waves until a clear picture is formed. This improves image's loading speed.
-          default: true
-      additionalProperties: false
-    ImageOperations:
-      title: image operations options
-      type: object
-      properties:
-        restorations:
-          title: Restorations
-          allOf:
-          - $ref: '#/components/schemas/RestorationsOptions'
-          description: Restore lost details and decompress image with a wide range of AI-powered neural networks. By default, both operations is turned off.
-          default:
-            polish: false
-        adjustments:
-          title: Adjustments
-          allOf:
-          - $ref: '#/components/schemas/AdjustmentsOptions'
-          description: 'Change image histogram: set brightness, saturation, dynamic range, balance out colors and lighting. By default, no adjustments are made.'
-        background:
-          title: Background
-          allOf:
-          - $ref: '#/components/schemas/BackgroundOptions'
-          description: Remove the background and set a solid color. By default, no changes are made.
-          default:
-            remove: false
-            blur: false
-            use_original_alpha: false
-        resizing:
-          title: Resizing
-          allOf:
-          - $ref: '#/components/schemas/ResizingOptions'
-          description: Set the final image size. Crop or fit image in canvas. By default, API will perform all calculations respecting the original image aspect ratio.
-          default:
-            width: auto
-            height: auto
-            fit: crop
-        padding:
-          title: Padding
-          type: string
-          description: Add a space around the object equally to each of 4 sides, or for height&width separately. Can not be bigger than half of image width/height. By default, padding is not applied.
-        privacy:
-          title: Privacy
-          allOf:
-          - $ref: '#/components/schemas/PrivacyOptions'
-          description: Manage sensitive information on the image.
-          default:
-            blur_car_plate: false
-            identity_crop: false
-        generative:
-          title: Generative
-          allOf:
-          - $ref: '#/components/schemas/GenerativeOptions'
-          description: Transform the image using generative models.
-      additionalProperties: false
-    DecompressEnum:
-      title: Decompress
-      enum:
-      - moderate
-      - strong
-      - auto
-      type: string
-      description: 'Selects the restoration mode.
+      description: 'Selects the scene effect.
 
 
         | Value | Description |
 
         | --- | --- |
 
-        | `null` | DEFAULT. No restoration applied.|
+        | `"shadows"` | Apply shadow generation on the image.|
 
-        | `"moderate"` | Removes JPEG artifacts from the image.|
-
-        | `"strong"` | Removes JPEG artifacts more aggressively than `"moderate"`.|
-
-        | `"auto"` | Automatically detects and remove JPEG artifacts if needed.|'
-    SceneCreateModelEnum:
-      title: SceneCreateModelEnum
+        '
+    AvifCompressionEnum:
+      title: AVIF Compression
       enum:
-      - v1
-      - v2-beta
-      - v2
+      - lossy
+      - lossless
       type: string
-      description: An enumeration.
-    BatchEditRequest:
-      title: BatchEditRequest
-      required:
-      - input
-      - operations
-      type: object
-      properties:
-        input:
-          title: Input folder URL or list of image URLs
-          anyOf:
-          - $ref: '#/components/schemas/BatchEditInputOptions'
-          - type: string
-            minLength: 1
-            maxLength: 4096
-            format: uri
-          - type: array
-            items:
-              type: string
-              minLength: 1
-              maxLength: 4096
-              format: uri
-            minItems: 1
-          description: URL of the input file or folder. Should be from 1 to 512 characters. Must be accessible by our system.
-        operations:
-          title: Operations
-          allOf:
-          - $ref: '#/components/schemas/ImageOperations'
-          description: Customize the editing workflow so that the output images meet your requirements.
-        output:
-          title: Output folder URL
-          anyOf:
-          - $ref: '#/components/schemas/ImageOutputOptions'
-          - type: string
-            minLength: 1
-            maxLength: 4096
-            format: uri
-          description: URL of the output folder. If `output` is not defined, we store the output image on our bucket and return the temporary URL. The name of the output file remains the same as the input file. Images are stored for one day.
-          default:
-            format: jpeg
-      additionalProperties: false
-    HTTPValidationError:
-      title: HTTPValidationError
-      type: object
-      properties:
-        detail:
-          title: Detail
-          type: array
-          items:
-            $ref: '#/components/schemas/ValidationError'
-    TryOnAPIResultResponse:
-      title: TryOnAPIResultResponse
-      required:
-      - id
-      - status
-      - created_at
-      - request
-      type: object
-      properties:
-        id:
-          title: Id
-          type: integer
-        status:
-          $ref: '#/components/schemas/APIV1Status'
-        created_at:
-          title: Created At
-          type: string
-          format: date-time
-        request:
-          title: Request
-          type: object
-        errors:
-          title: Errors
-          type: array
-          items:
-            $ref: '#/components/schemas/TryOnAPIError'
-        result:
-          $ref: '#/components/schemas/TryOnAPIResult'
-    TryOnAPIOutputImageObject:
-      title: TryOnAPIOutputImageObject
-      type: object
-      properties:
-        ext:
-          title: Ext
-          type: string
-          description: File extension.
-        mps:
-          title: Mps
-          type: number
-          description: Megapixel count
-        mime:
-          title: Mime
-          type: string
-          description: MIME type (also known as 'media type')
-        format:
-          title: Format
-          type: string
-          description: File format.
-        width:
-          title: Width
-          type: integer
-          description: Image width in pixels
-        height:
-          title: Height
-          type: integer
-          description: Image height in pixels
-        tmp_url:
-          title: Tmp Url
-          type: string
-          description: Temporal URL of a processed image
-        object_key:
-          title: Object Key
-          type: string
-          description: Path to a processed image in a bucket
-        object_bucket:
-          title: Object Bucket
-          type: string
-          description: Bucket name
-        object_uri:
-          title: Object Uri
-          type: string
-          description: URI of a processed image in a bucket
-        claid_storage_uri:
-          title: Claid Storage Uri
-          type: string
-          description: URI of a processed image in a storage
-    ResizingOptions:
-      title: resizing options
-      type: object
-      properties:
-        width:
-          title: Width
-          anyOf:
-          - type: integer
-            title: Pixels
-            description: Width in pixels.
-          - $ref: '#/components/schemas/SizesEnum'
-          - type: string
-            title: Percentage
-            description: 'Percentage as a string. E.g. `"200%"` means that the `width` will double relative to the input image.
-
-              If you express `width` as a percentage, `height` must have the same value or set to `"auto"`. Examples: `"60%"`, `"40%"`'
-          description: Width of output image. Should be of the same type as `height`, or `"auto"`.
-          default: auto
-        height:
-          title: Height
-          anyOf:
-          - type: integer
-            title: Pixels
-            description: Height in pixels.
-          - $ref: '#/components/schemas/SizesEnum'
-          - type: string
-            title: Percentage
-            description: 'Percentage as a string. E.g. `"200%"` means that the `height` will double relatively to the input image.
-
-              If you express `height` as a percentage, `width` must have the same value or set to `"auto"`. Examples: `"60%"`, `"40%"`'
-          description: Height of output image. Should be of the same type as `width`, or `"auto"`.
-          default: auto
-        fit:
-          title: Fit
-          anyOf:
-          - $ref: '#/components/schemas/FitEnum'
-          - $ref: '#/components/schemas/CropOptions'
-          - $ref: '#/components/schemas/CoverOptions'
-          - $ref: '#/components/schemas/BoundsOptions'
-          - $ref: '#/components/schemas/CanvasOptions'
-          - $ref: '#/components/schemas/OutpaintOptions'
-          description: The fit parameter controls how the image will be constrained within the provided size, relative to the `width` and `height`. By default, `fit` mode is `"crop"`.
-          default: crop
-      additionalProperties: false
-    ScenePromptAdvancedIn:
-      title: ScenePromptAdvancedIn
-      type: object
-      properties:
-        text:
-          title: Text prompt for scene creation
-          maxLength: 2048
-          minLength: 3
-          type: string
-          description: Text prompt that will be used to create the scene. Should be from 3 to 2048 characters.
-        generate:
-          title: Auto-generate prompt
-          type: boolean
-          description: If `true`, the prompt will be generated automatically based on the input image.By default, the prompt is not auto-generated. If `true`, the `text` is not allowed.
-          default: false
-        guidelines:
-          title: Guidelines
-          maxLength: 1000
-          minLength: 3
-          type: string
-          description: Guidelines for prompt generation. Only available when `generate` is `true`.
-      additionalProperties: false
-    Response_AsyncAcceptedResponse_:
-      title: Response[AsyncAcceptedResponse]
-      type: object
-      properties:
-        data:
-          $ref: '#/components/schemas/AsyncAcceptedResponse'
-      description: Wrapper for responses
-    AiEditResultResponse:
-      title: AiEditResultResponse
-      required:
-      - id
-      - status
-      - created_at
-      - request
-      type: object
-      properties:
-        id:
-          title: Id
-          type: integer
-        status:
-          $ref: '#/components/schemas/APIV1Status'
-        created_at:
-          title: Created At
-          type: string
-          format: date-time
-        request:
-          title: Request
-          type: object
-        errors:
-          title: Errors
-          type: array
-          items:
-            $ref: '#/components/schemas/AiEditError'
-        result:
-          $ref: '#/components/schemas/AiEditResult'
-    RestorationsOptions:
-      title: restorations options
-      type: object
-      properties:
-        decompress:
-          allOf:
-          - $ref: '#/components/schemas/DecompressEnum'
-          description: 'The decompress operation allows you to remove distortion and artifacts caused by image compression methods. It can be used in conjunction with the upscale operation to prepare an image for upscaling.
-
-
-            | Value | Description |
-
-            | --- | --- |
-
-            | null | DEFAULT. No restoration applied.|
-
-            | `"moderate"` | Removes JPEG artifacts from the image.|
-
-            | `"strong"` | Removes JPEG artifacts more aggressively than "moderate".|
-
-            | `"auto"` | Automatically detects and remove JPEG artifacts if needed.|'
-        upscale:
-          title: Upscale
-          anyOf:
-          - $ref: '#/components/schemas/UpscaleEnum'
-          - $ref: '#/components/schemas/UpscalePhotoOptions'
-          description: The upscale operation allows you to improve the overall quality of an image by rendering out new pixels. The upscale operation works along with resizing through numeric or percentage values for upscaling.
-        polish:
-          title: Polish image
-          type: boolean
-          description: If `true`, polishes an image
-          default: false
-      additionalProperties: false
-    BackgroundSelectiveOptions:
-      title: BackgroundSelectiveOptions
-      required:
-      - object_to_keep
-      type: object
-      properties:
-        object_to_keep:
-          title: Object To Keep
-          maxLength: 128
-          minLength: 3
-          type: string
-          description: Specify an object to keep on the image.
-      additionalProperties: false
-    AIEditModelAPI:
-      title: AIEditModelAPI
-      enum:
-      - v1
-      - v2
-      type: string
-      description: An enumeration.
-    TryOnAPIRequestOutputObject:
-      title: TryOnAPIRequestOutputObject
-      type: object
-      properties:
-        number_of_images:
-          title: Number of images
-          maximum: 4
-          minimum: 1
-          type: integer
-          description: Number of output images.
-          default: 1
-        destination:
-          title: Destination
-          maxLength: 4096
-          minLength: 1
-          type: string
-          description: Customize the result output.
-          format: uri
-        format:
-          allOf:
-          - $ref: '#/components/schemas/TryOnAPIFormatEnum'
-          description: Output image format.
-          default: png
-      additionalProperties: false
-    SizesEnum:
-      title: Auto
-      enum:
-      - auto
-      type: string
-      description: '`width` will have the same value as `height`, if `height` is defined in pixels or percentages; and vice versa.'
-    AvifLosslessCompressionOptions:
-      title: AvifLosslessCompressionOptions
-      required:
-      - type
-      type: object
-      properties:
-        type:
-          title: Type
-          enum:
-          - lossless
-          type: string
-          description: Must have value `"lossless"`
-      additionalProperties: false
-    UpscalePhotoOptions:
-      title: photo upscale options
-      required:
-      - type
-      - version
-      type: object
-      properties:
-        type:
-          title: Type
-          enum:
-          - photo
-          type: string
-        version:
-          title: Version
-          allOf:
-          - $ref: '#/components/schemas/PhotoVersionEnum'
-          description: "Upscales the image with specified version of photo upscaling neural network. \n\n| Value | Description |\n| --- | --- |\n| `\"1\"` | Is deprecated and not recommended.|\n| `\"2\"` | Used for restoring image quality that is taken by mobile devices or digital camera.|\n| `\"3\"` | Used for restoring image quality, a bit more aggressively than \"2\".|\n"
-      additionalProperties: false
-    GenerateRequest:
-      title: GenerateRequest
-      required:
-      - input
-      type: object
-      properties:
-        input:
-          title: Text prompt for image generation
-          maxLength: 1024
-          minLength: 3
-          type: string
-          description: 'Text prompt that will be used to generate image(s). Should be from 3 to 1024 characters. '
-        options:
-          title: Image generate options
-          allOf:
-          - $ref: '#/components/schemas/ImageGenerateOptions'
-          description: Customize the image generation process so that the output images meet your requirements.
-          default:
-            number_of_images: 4
-            guidance_scale: 5
-        output:
-          title: Output folder URL
-          maxLength: 4096
-          minLength: 1
-          type: string
-          description: URL of the output folder. If `output` is not defined, we store the output image on our bucket and return the temporary URL, in this case images are stored for one day.
-          format: uri
-      additionalProperties: false
+      description: "Selects the AVIF compression type: \n\n| Value | Description |\n| --- | --- |\n| `\"lossy\"` | Lossy compression allows you to reduce the size of the image significantly in exchange for some loss of data, reducing the quality of an image.|\n| `\"lossless\"` | Lossless compression allows you to save maximum image details in exchange for a significantly increased file size.|\n"
     BatchPipelineOutputObject:
       title: BatchPipelineOutputObject
       required:
@@ -1959,158 +850,16 @@ components:
         gcs_bucket:
           title: Gcs Bucket
           type: string
-    PrivacyOptions:
-      title: PrivacyOptions
-      type: object
-      properties:
-        blur_car_plate:
-          title: Blur Car Plate
-          type: boolean
-          description: If `true`, blurs car plate.
-          default: false
-        identity_crop:
-          title: Identity Crop
-          type: boolean
-          description: Removes a person's face from the image by cutting everything above the mouth.
-          default: false
-      additionalProperties: false
-    ValidationError:
-      title: ValidationError
-      required:
-      - loc
-      - msg
-      - type
-      type: object
-      properties:
-        loc:
-          title: Location
-          type: array
-          items:
-            type: string
-        msg:
-          title: Message
-          type: string
-        type:
-          title: Error Type
-          type: string
-    Response_BatchResultResponse_:
-      title: Response[BatchResultResponse]
-      type: object
-      properties:
-        data:
-          $ref: '#/components/schemas/BatchResultResponse'
-      description: Wrapper for responses
-    BackgroundEnum:
-      title: Transparent
+    BackgroundCategoryEnum:
+      title: Category of objects
       enum:
-      - transparent
+      - general
+      - cars
+      - products
       type: string
-      description: Makes the background of the image transparent, only works for `"png"` output format.
-    GeneratePipelineInputObject:
-      title: GeneratePipelineInputObject
-      required:
-      - text
-      type: object
-      properties:
-        text:
-          title: Text
-          type: string
-          description: Text prompt for image generation
-    Response_EditResponse_:
-      title: Response[EditResponse]
-      type: object
-      properties:
-        data:
-          $ref: '#/components/schemas/EditResponse'
-      description: Wrapper for responses
-    SceneCreateAPIOutputIn:
-      title: Output customization
-      type: object
-      properties:
-        number_of_images:
-          title: Number of images
-          maximum: 4
-          minimum: 1
-          type: integer
-          description: Number of images to create. By default 4 images will be created.
-          default: 4
-        destination:
-          title: Output URL
-          maxLength: 4096
-          minLength: 1
-          type: string
-          description: URL of the output images. If `output` is not defined, we store the output image on our bucket and return the temporary URL. Images are stored for one day.
-          format: uri
-        format:
-          title: Format
-          anyOf:
-          - $ref: '#/components/schemas/FormatEnum'
-          - $ref: '#/components/schemas/FormatJpegOptions'
-          - $ref: '#/components/schemas/FormatPngOptions'
-          - $ref: '#/components/schemas/FormatWebpOptions'
-          - $ref: '#/components/schemas/FormatAvifOptions'
-          description: 'Converts images to one of the following formats: `"jpeg"`, `"png"`, `"webp"`, `"avif"`. Selecting *Jpeg Options* allows to specify quality.'
-          default: png
-      additionalProperties: false
-    PhotoVersionEnum:
-      title: Version
-      enum:
-      - '1'
-      - '2'
-      - '3'
-      type: string
-      description: "Upscales the image with specified version of photo upscaling neural network. \n\n| Value | Description |\n| --- | --- |\n| `\"1\"` | Is deprecated and not recommended.|\n| `\"2\"` | Used for restoring image quality that is taken by mobile devices or digital camera.|\n| `\"3\"` | Used for restoring image quality, a bit more aggressively than `\"2\"`.|\n"
-    BatchAcceptedResponse:
-      title: BatchAcceptedResponse
-      required:
-      - id
-      - status
-      - created_at
-      - request
-      type: object
-      properties:
-        id:
-          title: Id
-          type: integer
-        status:
-          $ref: '#/components/schemas/APIV1Status'
-        result_url:
-          title: Result Url
-          maxLength: 65536
-          minLength: 1
-          type: string
-          format: uri
-        created_at:
-          title: Created At
-          type: string
-          format: date-time
-        request:
-          title: Request
-          anyOf:
-          - $ref: '#/components/schemas/BatchEditRequest'
-          - $ref: '#/components/schemas/AsyncEditRequest'
-          - type: object
-        errors:
-          title: Errors
-          type: array
-          items:
-            $ref: '#/components/schemas/BatchPipelineError'
-          default: []
-        results:
-          title: Results
-          type: array
-          items:
-            $ref: '#/components/schemas/BatchPipelineResultItem'
-          default: []
-    TiffCompressionEnum:
-      title: TIFF Compression
-      enum:
-      - lossy
-      - lossless
-      type: string
-      description: "Selects the TIFF compression type: \n\n| Value | Description |\n| --- | --- |\n| `\"lossy\"` | Lossy JPEG compression allows you to reduce the size of the image significantly in exchange for some loss of data, reducing the quality of an image.|\n| `\"lossless\"` | Lossless LZW (Lempel-Ziv-Welch) compression allows you to save maximum image details in exchange for a significantly increased file size.|\n"
-    AvifLossyCompressionOptions:
-      title: AvifLossyCompressionOptions
+      description: "Selects the category of objects on the image: \n\n| Value | Description |\n| --- | --- |\n| `\"general\"` | The category that is suitable for all objects and is used by default.|\n| `\"cars\"` | The advanced category that will have better results for removing the background with cars on foreground.|\n| `\"products\"` | The advanced category that will have better results for background removal of various types of products and groceries.|\n"
+    RGBColorSpaceOptions:
+      title: RGBColorSpaceOptions
       required:
       - type
       type: object
@@ -2118,85 +867,36 @@ components:
         type:
           title: Type
           enum:
-          - lossy
+          - RGB
           type: string
-          description: Must have value `"lossy"`
-        quality:
-          title: Quality
-          maximum: 100
-          minimum: 1
-          type: integer
-          default: 50
       additionalProperties: false
-    FormatTiffOptions:
-      title: FormatTiffOptions
-      required:
-      - type
-      type: object
-      properties:
-        type:
-          title: Type
-          enum:
-          - tiff
-          type: string
-          description: Must have value `"tiff"`
-        compression:
-          title: Compression
-          anyOf:
-          - $ref: '#/components/schemas/TiffCompressionEnum'
-          - $ref: '#/components/schemas/TiffLossyCompressionOptions'
-          - $ref: '#/components/schemas/TiffLosslessCompressionOptions'
-          description: The TIFF codec supports both lossless and lossy modes of operation, so you can select the one that is appropriate for your goals. Lossy JPEG compression allows you to reduce the size of the image significantly in exchange for some loss of data, reducing the quality of an image. You can specify the amount of loss you are willing to accept. By default it's set to to 75. Lossless LZW (Lempel-Ziv-Welch) compression allows you to save maximum image details in exchange for a significantly increased file size.
-          default:
-            type: lossless
-      additionalProperties: false
-    ObjectPosition:
-      title: ObjectPosition
-      type: object
-      properties:
-        x:
-          title: Horizontal position
-          maximum: 1
-          minimum: 0
-          type: number
-          description: Relative position on the scene, where 0 is the left edge of the image and 1 is the right edge of the image.
-          default: 0.5
-        y:
-          title: Vertical position
-          maximum: 1
-          minimum: 0
-          type: number
-          description: Relative position on the scene, where 0 is the bottom edge of the image and 1 is the top edge of the image.
-          default: 0.5
-      additionalProperties: false
-    AiEditImageObject:
-      title: AiEditImageObject
-      type: object
-      properties:
-        ext:
-          title: Ext
-          type: string
-          description: File extension.
-        mps:
-          title: Mps
-          type: number
-          description: Megapixel count
-        mime:
-          title: Mime
-          type: string
-          description: MIME type (also known as 'media type')
-        format:
-          title: Format
-          type: string
-          description: File format.
-        width:
-          title: Width
-          type: integer
-          description: Image width in pixels
-        height:
-          title: Height
-          type: integer
-          description: Image height in pixels
+    SizesEnum:
+      title: Auto
+      enum:
+      - auto
+      type: string
+      description: '`width` will have the same value as `height`, if `height` is defined in pixels or percentages; and vice versa.'
+    DecompressEnum:
+      title: Decompress
+      enum:
+      - moderate
+      - strong
+      - auto
+      type: string
+      description: 'Selects the restoration mode.
+
+
+        | Value | Description |
+
+        | --- | --- |
+
+        | `null` | DEFAULT. No restoration applied.|
+
+        | `"moderate"` | Removes JPEG artifacts from the image.|
+
+        | `"strong"` | Removes JPEG artifacts more aggressively than `"moderate"`.|
+
+        | `"auto"` | Automatically detects and remove JPEG artifacts if needed.|'
     BackgroundOptions:
       title: background options
       type: object
@@ -2228,8 +928,52 @@ components:
           description: Allows to turn on and configure image background blurring.
           default: false
       additionalProperties: false
-    BatchResultResponse:
-      title: BatchResultResponse
+    MetadataOptions:
+      title: image color space options
+      type: object
+      properties:
+        dpi:
+          title: DPI
+          type: integer
+          description: Dots per inch.
+        color_space:
+          title: Color Space
+          anyOf:
+          - $ref: '#/components/schemas/ColorSpaceEnum'
+          - $ref: '#/components/schemas/RGBColorSpaceOptions'
+          - $ref: '#/components/schemas/CMYKColorSpaceOptions'
+          description: Specifies desirable color space of the output image. By default, preserves the color space of the original image.
+      additionalProperties: false
+    AiEditResultResponse:
+      title: AiEditResultResponse
+      required:
+      - id
+      - status
+      - created_at
+      - request
+      type: object
+      properties:
+        id:
+          title: Id
+          type: integer
+        status:
+          $ref: '#/components/schemas/APIV1Status'
+        created_at:
+          title: Created At
+          type: string
+          format: date-time
+        request:
+          title: Request
+          type: object
+        errors:
+          title: Errors
+          type: array
+          items:
+            $ref: '#/components/schemas/AiEditError'
+        result:
+          $ref: '#/components/schemas/AiEditResult'
+    AsyncAcceptedResponse:
+      title: AsyncAcceptedResponse
       required:
       - id
       - status
@@ -2264,469 +1008,11 @@ components:
           items:
             $ref: '#/components/schemas/BatchPipelineError'
           default: []
-        results:
-          title: Results
-          type: array
-          items:
-            $ref: '#/components/schemas/AsyncPipelineResultItem'
-          default: []
-    CMYKColorProfileEnum:
-      title: Type of color space
-      enum:
-      - ISO_Coated
-      - ISO_Uncoated
-      - USWeb_Coated
-      - USWeb_Uncoated
-      type: string
-      description: "Selects the type of color space profile: \n\n| Value | Description | Paper | Max. total ink (TAC) | Characterisation data | \n| --- | --- | --- | --- | --- |\n| `\"ISO_Coated\"` | (Coated FOGRA39, ISO 12647-2:2004) Is used by default. Standard for glossy and matte coated paper. | Grades 1 and 2, gloss and matte coated. | 330% | FOGRA39 |\n| `\"ISO_Uncoated\"` | (Uncoated FOGRA29, ISO 12647-2:2004) Standard for uncoated white natural paper. | Grade 4, uncoated white offset. | 300% | FOGRA29 |\n| `\"USWeb_Coated\"` | (SWOP2006_Coated3v2) Standard for glossy and matte coated paper in the United States. | Grades 1, 2 and 3 gloss coated, matte coated and uncoated paper. | 300% | CGATS TR003 |\n| `\"USWeb_Uncoated\"` | (GRACoL 2013 Uncoated) Standard for uncoated white natural paper in the United States. | Grade 4, uncoated white offset. | 260% |  CGATS21-2-CRPC3 |\n"
-    WebpLossyCompressionOptions:
-      title: WebpLossyCompressionOptions
-      required:
-      - type
-      type: object
-      properties:
-        type:
-          title: Type
-          enum:
-          - lossy
-          type: string
-          description: Must have value `"lossy"`
-        quality:
-          title: Quality
-          maximum: 100
-          minimum: 1
-          type: integer
-          default: 75
-      additionalProperties: false
-    AiEditRequestOptionsObject:
-      title: AiEditRequestOptionsObject
-      required:
-      - prompt
-      type: object
-      properties:
-        model:
+        result:
+          title: Result
           allOf:
-          - $ref: '#/components/schemas/AIEditModelAPI'
-          description: Model to be used for generation.
-          default: v2
-        prompt:
-          title: Prompt
-          maxLength: 5000
-          minLength: 3
-          type: string
-          description: Prompt for the generation.
-        aspect_ratio:
-          allOf:
-          - $ref: '#/components/schemas/AiEditAspectRatio'
-          description: Aspect ratio of the generated images.
-        inference_steps:
-          title: Inference Steps
-          maximum: 50
-          minimum: 1
-          type: integer
-          description: Number of inference steps.
-        guidance_scale:
-          title: Guidance Scale
-          maximum: 10
-          minimum: 1
-          type: number
-          description: Guidance scale for the generation.
-      additionalProperties: false
-    AIEditRequestOutputObject:
-      title: AIEditRequestOutputObject
-      type: object
-      properties:
-        number_of_images:
-          title: Number of images
-          maximum: 4
-          minimum: 1
-          type: integer
-          description: Number of output images.
-          default: 1
-        destination:
-          title: Destination
-          maxLength: 4096
-          minLength: 1
-          type: string
-          description: Customize the result output.
-          format: uri
-        format:
-          allOf:
-          - $ref: '#/components/schemas/AiEditFormatEnum'
-          description: Output image format.
-          default: png
-      additionalProperties: false
-    PreferenceEnum:
-      title: Preference control
-      enum:
-      - fast
-      - optimal
-      - best
-      type: string
-      description: 'Preference control allows you to balance between generation speed and output image quality. Higher speed decreases image quality but enables quicker experimentation to find the best parameters for your background.
-
-
-        | Value | Description |
-
-        | --- | --- |
-
-        | `"fast"` | Faster generation, lower quality.|
-
-        | `"optimal"` | Balance between speed and quality.|| `"best"` | Highest quality, slower generation.|'
-    ColorSpaceEnum:
-      title: Type of color space
-      enum:
-      - RGB
-      - CMYK
-      type: string
-      description: "Selects the type of color space: \n\n| Value | Description |\n| --- | --- |\n| `\"RGB\"` | Is the color space for digital images. Use the RGB color mode if your image is supposed to be displayed on any kind of screen.|\n| `\"CMYK\"` | Is the color space for printed materials. Use CMYK for any image that will be physically printed, not viewed on a screen.|\n"
-    GenerateResponse:
-      title: GenerateResponse
-      required:
-      - input
-      - output
-      type: object
-      properties:
-        input:
-          $ref: '#/components/schemas/GeneratePipelineInputObject'
-        output:
-          title: Output
-          type: array
-          items:
-            $ref: '#/components/schemas/PipelineOutputObject'
-        profiling:
-          title: Profiling
-          type: object
-    ErrorType:
-      title: ErrorType
-      enum:
-      - auth
-      - dlvr
-      - general
-      - le
-      - survey
-      - storage
-      - image
-      - user_settings
-      - user
-      - validation
-      - analytics
-      - scene
-      - billing
-      - web
-      - runtime_settings
-      - animation
-      - custom_models
-      type: string
-      description: An enumeration.
-    TemplateViewEnum:
-      title: Template view direction
-      enum:
-      - top
-      - front
-      type: string
-      description: 'Selects the template view direction.
-
-
-        | Value | Description |
-
-        | --- | --- |
-
-        | `"top"` | The view is top-down, looking down on the scene from above.|
-
-        | `"front"` | The view is horizontal, looking directly on the scene.|'
-    BoundsOptions:
-      title: bounds options
-      required:
-      - type
-      type: object
-      properties:
-        type:
-          title: Type
-          enum:
-          - bounds
-          type: string
-      additionalProperties: false
-    HttpErrorDetails:
-      title: HttpErrorDetails
-      required:
-      - error_code
-      - error_type
-      - error_message
-      type: object
-      properties:
-        error_code:
-          title: Error Code
-          type: string
-        error_type:
-          $ref: '#/components/schemas/ErrorType'
-        error_message:
-          title: Error Message
-          type: string
-        error_details:
-          title: Error Details
-          type: object
+          - $ref: '#/components/schemas/AsyncPipelineResultItem'
           default: {}
-    SceneCreateAPIIn:
-      title: scene creation options
-      required:
-      - object
-      - scene
-      type: object
-      properties:
-        output:
-          title: Output URL
-          anyOf:
-          - $ref: '#/components/schemas/SceneCreateAPIOutputIn'
-          - type: string
-            minLength: 1
-            maxLength: 4096
-            format: uri
-          description: URL of the output images. If `output` is not defined, we store the output image on our bucket and return the temporary URL. Images are stored for one day.
-          default:
-            number_of_images: 4
-            format: png
-        object:
-          title: Object manipulation
-          anyOf:
-          - $ref: '#/components/schemas/SceneCreateAPIObjectAbsoluteIn'
-          - $ref: '#/components/schemas/SceneCreateAPIObjectOriginalIn'
-          - $ref: '#/components/schemas/SceneCreateAPIObjectPaddingIn'
-          description: Manipulate object on the scene so that the output images meet your requirements.
-        scene:
-          title: Scene customization
-          anyOf:
-          - $ref: '#/components/schemas/SceneCreateAPISceneBackgroundEffectIn'
-          - $ref: '#/components/schemas/SceneCreateAPIScenePromptIn'
-          - $ref: '#/components/schemas/SceneCreateAPISceneTemplateIn'
-          description: Customize the scene so that the output images meet your requirements.
-      additionalProperties: false
-    AiEditAPIRequest:
-      title: AiEditAPIRequest
-      required:
-      - input
-      - options
-      type: object
-      properties:
-        output:
-          title: Output
-          anyOf:
-          - $ref: '#/components/schemas/AIEditRequestOutputObject'
-          - type: string
-            minLength: 1
-            maxLength: 4096
-            format: uri
-          description: Customize output format, destination and number of images.
-          default:
-            number_of_images: 1
-            format: png
-        input:
-          title: Input URL
-          maxLength: 4096
-          minLength: 1
-          type: string
-          description: URL of the input image. Image must be accessible by our system.
-          format: uri
-        options:
-          title: Options
-          allOf:
-          - $ref: '#/components/schemas/AiEditRequestOptionsObject'
-          description: Customize the generation.
-      additionalProperties: false
-    RGBColorSpaceOptions:
-      title: RGBColorSpaceOptions
-      required:
-      - type
-      type: object
-      properties:
-        type:
-          title: Type
-          enum:
-          - RGB
-          type: string
-      additionalProperties: false
-    TryOnAPIRequestOptionsObject:
-      title: TryOnAPIRequestOptionsObject
-      type: object
-      properties:
-        pose:
-          title: Pose
-          maxLength: 5000
-          minLength: 3
-          type: string
-          description: Pose prompt for the generation.
-          default: full body, front view, neutral stance, arms relaxed
-        background:
-          title: Background
-          maxLength: 5000
-          minLength: 3
-          type: string
-          description: Background prompt for the generation.
-          default: minimalistic studio background
-        aspect_ratio:
-          allOf:
-          - $ref: '#/components/schemas/TryOnAPIAspectRatio'
-          description: Aspect ratio of the generated images.
-      additionalProperties: false
-    ImageOutputOptions:
-      title: image output options
-      type: object
-      properties:
-        format:
-          title: Format
-          anyOf:
-          - $ref: '#/components/schemas/FormatEnum'
-          - $ref: '#/components/schemas/FormatJpegOptions'
-          - $ref: '#/components/schemas/FormatPngOptions'
-          - $ref: '#/components/schemas/FormatWebpOptions'
-          - $ref: '#/components/schemas/FormatAvifOptions'
-          - $ref: '#/components/schemas/FormatTiffOptions'
-          description: 'Converts an image to one of the following formats: `"jpeg"`, `"png"`, `"webp"`, `"avif"`. Selecting *Jpeg Options* allows to specify quality.'
-          default: jpeg
-        destination:
-          title: Output URL
-          maxLength: 4096
-          minLength: 1
-          type: string
-          description: URL of the output image. If `output` is not defined, we store the output image on our bucket and return the temporary URL. The name of the output file remains the same as the input file. Images are stored for one day.
-          format: uri
-        metadata:
-          title: Metadata
-          allOf:
-          - $ref: '#/components/schemas/MetadataOptions'
-          description: Defines characteristics of the output image, e.g. DPI.
-      additionalProperties: false
-    CoverOptions:
-      title: cover options
-      required:
-      - type
-      type: object
-      properties:
-        type:
-          title: Type
-          enum:
-          - cover
-          type: string
-      additionalProperties: false
-    ImageGenerateOptions:
-      title: ImageGenerateOptions
-      type: object
-      properties:
-        number_of_images:
-          title: Number of images
-          maximum: 4
-          minimum: 1
-          type: integer
-          description: Number of images to generate. By default 4 images will be generated.
-          default: 4
-        guidance_scale:
-          title: Guidance scale
-          exclusiveMaximum: 50
-          minimum: 1
-          type: number
-          description: Guidance scale is used to make the generation better match the prompt potentially at the cost of image quality or diversity. Values between 5 and 7 are usually good choices, but sometimes more control is achieved with values such as 12. By default the pipeline uses a guidance scale of 5.
-          default: 5
-      additionalProperties: false
-    StyleTransferOptions:
-      title: style transfer options
-      required:
-      - style_reference_image
-      type: object
-      properties:
-        style_reference_image:
-          title: Style Reference Image
-          type: string
-          description: URL of the image to be used as a style reference.
-        prompt:
-          title: Prompt
-          maxLength: 1024
-          minLength: 3
-          type: string
-          description: Text prompt to adjust the style transfer output.
-        depth_strength:
-          title: Depth Strength
-          maximum: 1
-          minimum: 0
-          type: number
-          description: The denoising strength determines the degree of overall composition and shape preservation.
-          default: 1
-        denoising_strength:
-          title: Denoising Strength
-          maximum: 1
-          minimum: 0
-          type: number
-          description: The denoising strength determines the degree of color and texture modification.
-          default: 0.75
-        style_strength:
-          title: Style Strength
-          maximum: 1
-          minimum: 0
-          type: number
-          description: The style strength determines the degree of overall style intensity as taken from the reference.
-          default: 0.75
-      additionalProperties: false
-    UpscaleEnum:
-      title: Upscale
-      enum:
-      - smart_enhance
-      - smart_resize
-      - faces
-      - digital_art
-      - photo
-      type: string
-      description: "Upscales the image with specified type of image upscaling neural network. \n\n| Value | Description |\n| --- | --- |\n| `null` | DEFAULT. Interpolation. Used when output image resolution is smaller than the input resolution.|\n| `\"smart_enhance\"` | Used for small low quality product, real estate and food images.|\n| `\"smart_resize\"` | Used for high quality images.|\n| `\"faces\"` | Used for images containing persons.|\n| `\"digital_art\"` | Used for drawings, illustrations, paintings, cartoons, anime, etc.|\n| `\"photo\"` | Used for images taken by mobile devices or digital camera of people, nature, architecture, etc.|"
-    FormatPngOptions:
-      title: png options
-      required:
-      - type
-      type: object
-      properties:
-        type:
-          title: Type
-          enum:
-          - png
-          type: string
-          description: Must have value `"png"`
-        compression:
-          allOf:
-          - $ref: '#/components/schemas/FormatCompressionLevelEnum'
-          description: 'Specifies compression effort that will be applied during the PNG image encoding. Should have one of values: `"fast"`, `"best"`, or `"optimal"`. Defaults to `"optimal"`.'
-          default: optimal
-      additionalProperties: false
-    TiffLosslessCompressionOptions:
-      title: TiffLosslessCompressionOptions
-      required:
-      - type
-      type: object
-      properties:
-        type:
-          title: Type
-          enum:
-          - lossless
-          type: string
-          description: Must have value `"lossless"`
-      additionalProperties: false
-    Response_ScenePipelineResponseOut_:
-      title: Response[ScenePipelineResponseOut]
-      type: object
-      properties:
-        data:
-          $ref: '#/components/schemas/ScenePipelineResponseOut'
-      description: Wrapper for responses
-    Response_AiEditResultResponse_:
-      title: Response[AiEditResultResponse]
-      type: object
-      properties:
-        data:
-          $ref: '#/components/schemas/AiEditResultResponse'
-      description: Wrapper for responses
-    TryOnAPIFormatEnum:
-      title: TryOnAPIFormatEnum
-      enum:
-      - jpeg
-      - png
-      type: string
-      description: An enumeration.
     FormatWebpOptions:
       title: webp options
       required:
@@ -2750,49 +1036,21 @@ components:
             type: lossy
             quality: 75
       additionalProperties: false
-    TryOnAPIImageObject:
-      title: TryOnAPIImageObject
+    BatchPipelineError:
+      title: BatchPipelineError
+      required:
+      - error
+      - created_at
       type: object
       properties:
-        ext:
-          title: Ext
+        error:
+          title: Error
           type: string
-          description: File extension.
-        mps:
-          title: Mps
-          type: number
-          description: Megapixel count
-        mime:
-          title: Mime
+        created_at:
+          title: Created At
           type: string
-          description: MIME type (also known as 'media type')
-        format:
-          title: Format
-          type: string
-          description: File format.
-        width:
-          title: Width
-          type: integer
-          description: Image width in pixels
-        height:
-          title: Height
-          type: integer
-          description: Image height in pixels
-    SceneAspectRatioEnum:
-      title: SceneAspectRatioEnum
-      enum:
-      - '21:9'
-      - '1:1'
-      - '4:3'
-      - '3:2'
-      - '2:3'
-      - '5:4'
-      - '4:5'
-      - '3:4'
-      - '16:9'
-      - '9:16'
-      type: string
-      description: Aspect ratios supported by scene generation (both creative and high-precision modes)
+        input_object:
+          $ref: '#/components/schemas/PipelineInputObjectInError'
     FormatAvifOptions:
       title: avif options
       required:
@@ -2816,213 +1074,53 @@ components:
             type: lossy
             quality: 50
       additionalProperties: false
-    AiEditAcceptedResponse:
-      title: AiEditAcceptedResponse
-      required:
-      - id
-      - status
-      - created_at
-      - request
-      - result_url
+    HdrOptions:
+      title: hdr options
       type: object
       properties:
-        id:
-          title: Id
-          type: integer
-        status:
-          $ref: '#/components/schemas/APIV1Status'
-        created_at:
-          title: Created At
-          type: string
-          format: date-time
-        request:
-          title: Request
-          type: object
-        result_url:
-          title: Result Url
-          maxLength: 65536
-          minLength: 1
-          type: string
-          format: uri
-    TryOnAPIAspectRatio:
-      title: TryOnAPIAspectRatio
-      enum:
-      - '1:1'
-      - '2:3'
-      - '3:2'
-      - '3:4'
-      - '4:3'
-      - '9:16'
-      - '16:9'
-      - '21:9'
-      - '4:5'
-      - '5:4'
-      type: string
-      description: An enumeration.
-    AiEditResult:
-      title: AiEditResult
-      required:
-      - input_object
-      - output_objects
-      type: object
-      properties:
-        input_object:
-          $ref: '#/components/schemas/AiEditImageObject'
-        output_objects:
-          title: Output Objects
-          type: array
-          items:
-            $ref: '#/components/schemas/AiEditOutputImageObject'
-    BackgroundBlurLevelEnum:
-      title: Background blur strength level
-      enum:
-      - low
-      - medium
-      - high
-      type: string
-      description: "Selects the level of blur strength: \n\n| Value | Description |\n| --- | --- |\n| `\"low\"` | Low blur strength.|\n| `\"medium\"` | Medium blur strength.|\n| `\"high\"` | High blur strength.|\n"
-    BackgroundCategoryEnum:
-      title: Category of objects
-      enum:
-      - general
-      - cars
-      - products
-      type: string
-      description: "Selects the category of objects on the image: \n\n| Value | Description |\n| --- | --- |\n| `\"general\"` | The category that is suitable for all objects and is used by default.|\n| `\"cars\"` | The advanced category that will have better results for removing the background with cars on foreground.|\n| `\"products\"` | The advanced category that will have better results for background removal of various types of products and groceries.|\n"
-    TemplateViewAutoEnum:
-      title: Template view direction
-      enum:
-      - auto
-      - top
-      - front
-      type: string
-      description: 'Selects the template view direction.
-
-
-        | Value | Description |
-
-        | --- | --- |
-
-        | `"top"` | The view is top-down, looking down on the scene from above.|
-
-        | `"front"` | The view is horizontal, looking directly on the scene.|
-
-        | `"auto"` | The view is automatically selected.|'
-    TryOnAPIRequestInputOptions:
-      title: TryOnAPIRequestInputOptions
-      required:
-      - clothing
-      type: object
-      properties:
-        model:
-          title: Input model URL
-          maxLength: 4096
-          minLength: 1
-          type: string
-          description: URL of the human model image. Image must be accessible by our system.
-          format: uri
-        clothing:
-          title: Clothing images URLs
-          maxItems: 5
-          minItems: 1
-          type: array
-          items:
-            type: string
-            minLength: 1
-            maxLength: 4096
-            format: uri
-          description: List of clothing images URLs. Images must be accessible by our system.
-      additionalProperties: false
-    AvifCompressionEnum:
-      title: AVIF Compression
-      enum:
-      - lossy
-      - lossless
-      type: string
-      description: "Selects the AVIF compression type: \n\n| Value | Description |\n| --- | --- |\n| `\"lossy\"` | Lossy compression allows you to reduce the size of the image significantly in exchange for some loss of data, reducing the quality of an image.|\n| `\"lossless\"` | Lossless compression allows you to save maximum image details in exchange for a significantly increased file size.|\n"
-    SceneCreateAPIObjectOriginalIn:
-      title: SceneCreateAPIObjectOriginalIn
-      required:
-      - image_url
-      - placement_type
-      type: object
-      properties:
-        image_url:
-          title: Object image file URL
-          maxLength: 4096
-          minLength: 1
-          type: string
-          description: URL of the input image. Should be from 1 to 4096 characters. Image must be accessible by our system. For better results, the background of the image should be transparent.
-          format: uri
-        placement_type:
-          title: Placement Type
-          enum:
-          - original
-          type: string
-          description: '`"original"` placement type instructs to use an object position and scale from the input image, meaning this placement method is fully automated and does not require any additional parameters.'
-      additionalProperties: false
-    BackgroundBlurTypeEnum:
-      title: Type of background blur
-      enum:
-      - regular
-      - lens
-      type: string
-      description: "Selects the type of blur: \n\n| Value | Description |\n| --- | --- |\n| `\"regular\"` | Gaussian blur. Creates an effect of laying a translucent material like vellum on top of the image background.|\n| `\"lens\"` | Lens blur with linear focus. Mimics the blur applied to a photo when a wide aperture is used to achieve a narrow depth of field, so that the foreground objects stands out.|\n"
-    AdjustmentsOptions:
-      title: adjustments options
-      type: object
-      properties:
-        hdr:
-          title: Hdr
-          anyOf:
-          - type: integer
-            description: HDR effect intensity.
-            minimum: 0
-            maximum: 100
-          - $ref: '#/components/schemas/HdrOptions'
-          description: Balances out colors and lighting. Allows to turn on `stitching` for stitched 360 photos.
-          default: 0
-        exposure:
-          title: Exposure
-          maximum: 100
-          minimum: -100
-          type: integer
-          description: Decrease (negative integer) or increase (positive integer) exposure.
-          default: 0
-        saturation:
-          title: Saturation
-          maximum: 100
-          minimum: -100
-          type: integer
-          description: Decrease (negative integer) or increase (positive integer) saturation.
-          default: 0
-        contrast:
-          title: Contrast
-          maximum: 100
-          minimum: -100
-          type: integer
-          description: Decrease (negative integer) or increase (positive integer) contrast.
-          default: 0
-        sharpness:
-          title: Sharpness
+        intensity:
+          title: Intensity
           maximum: 100
           minimum: 0
           type: integer
-          description: Increase sharpness.
-          default: 0
+          description: HDR effect intensity.
+          default: 100
+        stitching:
+          title: Stitching
+          type: boolean
+          description: Set to true for seamless HDR effect on stitched 360 photos.
+          default: false
       additionalProperties: false
-    WebpLosslessCompressionOptions:
-      title: WebpLosslessCompressionOptions
+    AsyncEditRequest:
+      title: AsyncEditRequest
       required:
-      - type
+      - input
+      - operations
       type: object
       properties:
-        type:
-          title: Type
-          enum:
-          - lossless
+        input:
+          title: Input URL
+          maxLength: 4096
+          minLength: 1
           type: string
-          description: Must have value `"lossless"`
+          description: URL of the input image. Should be from 1 to 512 characters. Image must be accessible by our system.
+          format: uri
+        operations:
+          title: Operations
+          allOf:
+          - $ref: '#/components/schemas/ImageOperations'
+          description: Customize the editing workflow so that the output images meet your requirements.
+        output:
+          title: Output
+          anyOf:
+          - $ref: '#/components/schemas/ImageOutputOptions'
+          - type: string
+            minLength: 1
+            maxLength: 4096
+            format: uri
+          description: Customize the result output.
+          default:
+            format: jpeg
       additionalProperties: false
     SceneCreateAPISceneBackgroundEffectIn:
       title: Scene background effect
@@ -3070,6 +1168,299 @@ components:
           description: Aspect ratio of the scene. By default, the aspect ratio is 1:1.
           default: '1:1'
       additionalProperties: false
+    AiEditOutputImageObject:
+      title: AiEditOutputImageObject
+      type: object
+      properties:
+        ext:
+          title: Ext
+          type: string
+          description: File extension.
+        mps:
+          title: Mps
+          type: number
+          description: Megapixel count
+        mime:
+          title: Mime
+          type: string
+          description: MIME type (also known as 'media type')
+        format:
+          title: Format
+          type: string
+          description: File format.
+        width:
+          title: Width
+          type: integer
+          description: Image width in pixels
+        height:
+          title: Height
+          type: integer
+          description: Image height in pixels
+        tmp_url:
+          title: Tmp Url
+          type: string
+          description: Temporal URL of a processed image
+        object_key:
+          title: Object Key
+          type: string
+          description: Path to a processed image in a bucket
+        object_bucket:
+          title: Object Bucket
+          type: string
+          description: Bucket name
+        object_uri:
+          title: Object Uri
+          type: string
+          description: URI of a processed image in a bucket
+        claid_storage_uri:
+          title: Claid Storage Uri
+          type: string
+          description: URI of a processed image in a storage
+    ObjectPosition:
+      title: ObjectPosition
+      type: object
+      properties:
+        x:
+          title: Horizontal position
+          maximum: 1
+          minimum: 0
+          type: number
+          description: Relative position on the scene, where 0 is the left edge of the image and 1 is the right edge of the image.
+          default: 0.5
+        y:
+          title: Vertical position
+          maximum: 1
+          minimum: 0
+          type: number
+          description: Relative position on the scene, where 0 is the bottom edge of the image and 1 is the top edge of the image.
+          default: 0.5
+      additionalProperties: false
+    CoverOptions:
+      title: cover options
+      required:
+      - type
+      type: object
+      properties:
+        type:
+          title: Type
+          enum:
+          - cover
+          type: string
+      additionalProperties: false
+    BackgroundRemovalOptions:
+      title: background removal options
+      type: object
+      properties:
+        clipping:
+          title: Clip to object
+          type: boolean
+          description: If `true` image will be cropped up to the edges of the foreground object.
+          default: false
+        selective:
+          title: Selective
+          allOf:
+          - $ref: '#/components/schemas/BackgroundSelectiveOptions'
+          description: Allows to select an object to keep on the image and remove the background around it.
+        category:
+          title: Category
+          allOf:
+          - $ref: '#/components/schemas/BackgroundCategoryEnum'
+          description: The background removal category hints the type of objects on the image.
+      additionalProperties: false
+    BatchAcceptedResponse:
+      title: BatchAcceptedResponse
+      required:
+      - id
+      - status
+      - created_at
+      - request
+      type: object
+      properties:
+        id:
+          title: Id
+          type: integer
+        status:
+          $ref: '#/components/schemas/APIV1Status'
+        result_url:
+          title: Result Url
+          maxLength: 65536
+          minLength: 1
+          type: string
+          format: uri
+        created_at:
+          title: Created At
+          type: string
+          format: date-time
+        request:
+          title: Request
+          anyOf:
+          - $ref: '#/components/schemas/BatchEditRequest'
+          - $ref: '#/components/schemas/AsyncEditRequest'
+          - type: object
+        errors:
+          title: Errors
+          type: array
+          items:
+            $ref: '#/components/schemas/BatchPipelineError'
+          default: []
+        results:
+          title: Results
+          type: array
+          items:
+            $ref: '#/components/schemas/BatchPipelineResultItem'
+          default: []
+    SceneCreateAPIObjectPaddingIn:
+      title: SceneCreateAPIObjectPaddingIn
+      required:
+      - image_url
+      - placement_type
+      - padding
+      type: object
+      properties:
+        image_url:
+          title: Object image file URL
+          maxLength: 4096
+          minLength: 1
+          type: string
+          description: URL of the input image. Should be from 1 to 4096 characters. Image must be accessible by our system. For better results, the background of the image should be transparent.
+          format: uri
+        placement_type:
+          title: Placement Type
+          enum:
+          - padding
+          type: string
+          description: '`"padding"` placement type allows to add a space around the object equally to each of 4 sides, or for height&width separately.'
+        padding:
+          title: Padding around the object
+          type: string
+          description: Add a space around the object equally to each of 4 sides, or for height&width separately. Can not be bigger than half of image width/height.
+      additionalProperties: false
+    GeneratePipelineInputObject:
+      title: GeneratePipelineInputObject
+      required:
+      - text
+      type: object
+      properties:
+        text:
+          title: Text
+          type: string
+          description: Text prompt for image generation
+    ImageOutputOptions:
+      title: image output options
+      type: object
+      properties:
+        format:
+          title: Format
+          anyOf:
+          - $ref: '#/components/schemas/FormatEnum'
+          - $ref: '#/components/schemas/FormatJpegOptions'
+          - $ref: '#/components/schemas/FormatPngOptions'
+          - $ref: '#/components/schemas/FormatWebpOptions'
+          - $ref: '#/components/schemas/FormatAvifOptions'
+          - $ref: '#/components/schemas/FormatTiffOptions'
+          description: 'Converts an image to one of the following formats: `"jpeg"`, `"png"`, `"webp"`, `"avif"`. Selecting *Jpeg Options* allows to specify quality.'
+          default: jpeg
+        destination:
+          title: Output URL
+          maxLength: 4096
+          minLength: 1
+          type: string
+          description: URL of the output image. If `output` is not defined, we store the output image on our bucket and return the temporary URL. The name of the output file remains the same as the input file. Images are stored for one day.
+          format: uri
+        metadata:
+          title: Metadata
+          allOf:
+          - $ref: '#/components/schemas/MetadataOptions'
+          description: Defines characteristics of the output image, e.g. DPI.
+      additionalProperties: false
+    SceneCreateAPIObjectOriginalIn:
+      title: SceneCreateAPIObjectOriginalIn
+      required:
+      - image_url
+      - placement_type
+      type: object
+      properties:
+        image_url:
+          title: Object image file URL
+          maxLength: 4096
+          minLength: 1
+          type: string
+          description: URL of the input image. Should be from 1 to 4096 characters. Image must be accessible by our system. For better results, the background of the image should be transparent.
+          format: uri
+        placement_type:
+          title: Placement Type
+          enum:
+          - original
+          type: string
+          description: '`"original"` placement type instructs to use an object position and scale from the input image, meaning this placement method is fully automated and does not require any additional parameters.'
+      additionalProperties: false
+    AvifLossyCompressionOptions:
+      title: AvifLossyCompressionOptions
+      required:
+      - type
+      type: object
+      properties:
+        type:
+          title: Type
+          enum:
+          - lossy
+          type: string
+          description: Must have value `"lossy"`
+        quality:
+          title: Quality
+          maximum: 100
+          minimum: 1
+          type: integer
+          default: 50
+      additionalProperties: false
+    WebpCompressionEnum:
+      title: WEBP Compression
+      enum:
+      - lossy
+      - lossless
+      type: string
+      description: "Selects the WEBP compression type: \n\n| Value | Description |\n| --- | --- |\n| `\"lossy\"` | Lossy compression allows you to reduce the size of the image significantly in exchange for some loss of data, reducing the quality of an image.|\n| `\"lossless\"` | Lossless compression allows you to save maximum image details in exchange for a significantly increased file size.|\n"
+    AsyncResultResponse:
+      title: AsyncResultResponse
+      required:
+      - id
+      - status
+      - created_at
+      - request
+      type: object
+      properties:
+        id:
+          title: Id
+          type: integer
+        status:
+          $ref: '#/components/schemas/APIV1Status'
+        result_url:
+          title: Result Url
+          maxLength: 65536
+          minLength: 1
+          type: string
+          format: uri
+        created_at:
+          title: Created At
+          type: string
+          format: date-time
+        request:
+          title: Request
+          anyOf:
+          - $ref: '#/components/schemas/BatchEditRequest'
+          - $ref: '#/components/schemas/AsyncEditRequest'
+          - type: object
+        errors:
+          title: Errors
+          type: array
+          items:
+            $ref: '#/components/schemas/BatchPipelineError'
+          default: []
+        result:
+          title: Result
+          allOf:
+          - $ref: '#/components/schemas/AsyncPipelineResultItem'
+          default: {}
     TryOnAPIError:
       title: TryOnAPIError
       required:
@@ -3084,6 +1475,953 @@ components:
           title: Created At
           type: string
           format: date-time
+    FitEnum:
+      title: Fit
+      enum:
+      - crop
+      - cover
+      - bounds
+      - canvas
+      - outpaint
+      type: string
+      description: "Selects the fit mode: \n(Note: All fit modes preserve the original image aspect ratio. Meaning, the image can be cropped but it won't be stretched or squeezed.)\n\n| Value | Description |\n| --- | --- |\n| `\"crop\"` | Scales an image until it fully covers the specified dimensions, the rest gets cropped. Fit `crop` support `\"center\"` and `\"smart\"` modes for cropping.|\n| `\"cover\"` | Resize the image to entirely cover the specified region, making one dimension larger if needed.|\n| `\"bounds\"` | Resize the image to fit entirely within the specified region, making one dimension smaller if needed. |\n| `\"canvas\"` | Input image will be placed on the canvas established by `width` and `height`. Extra space will be filled with the background `color`.|\n| `\"outpaint\"` | Extra space will be generated with the coherent background.|"
+    EditResponse:
+      title: EditResponse
+      required:
+      - input
+      - output
+      type: object
+      properties:
+        input:
+          $ref: '#/components/schemas/PipelineInputObject'
+        output:
+          $ref: '#/components/schemas/PipelineOutputObject'
+        profiling:
+          title: Profiling
+          type: object
+    ValidationError:
+      title: ValidationError
+      required:
+      - loc
+      - msg
+      - type
+      type: object
+      properties:
+        loc:
+          title: Location
+          type: array
+          items:
+            type: string
+        msg:
+          title: Message
+          type: string
+        type:
+          title: Error Type
+          type: string
+    SceneCreateAPIOutputIn:
+      title: Output customization
+      type: object
+      properties:
+        number_of_images:
+          title: Number of images
+          maximum: 4
+          minimum: 1
+          type: integer
+          description: Number of images to create. By default 4 images will be created.
+          default: 4
+        destination:
+          title: Output URL
+          maxLength: 4096
+          minLength: 1
+          type: string
+          description: URL of the output images. If `output` is not defined, we store the output image on our bucket and return the temporary URL. Images are stored for one day.
+          format: uri
+        format:
+          title: Format
+          anyOf:
+          - $ref: '#/components/schemas/FormatEnum'
+          - $ref: '#/components/schemas/FormatJpegOptions'
+          - $ref: '#/components/schemas/FormatPngOptions'
+          - $ref: '#/components/schemas/FormatWebpOptions'
+          - $ref: '#/components/schemas/FormatAvifOptions'
+          description: 'Converts images to one of the following formats: `"jpeg"`, `"png"`, `"webp"`, `"avif"`. Selecting *Jpeg Options* allows to specify quality.'
+          default: png
+      additionalProperties: false
+    BatchResultResponse:
+      title: BatchResultResponse
+      required:
+      - id
+      - status
+      - created_at
+      - request
+      type: object
+      properties:
+        id:
+          title: Id
+          type: integer
+        status:
+          $ref: '#/components/schemas/APIV1Status'
+        result_url:
+          title: Result Url
+          maxLength: 65536
+          minLength: 1
+          type: string
+          format: uri
+        created_at:
+          title: Created At
+          type: string
+          format: date-time
+        request:
+          title: Request
+          anyOf:
+          - $ref: '#/components/schemas/BatchEditRequest'
+          - $ref: '#/components/schemas/AsyncEditRequest'
+          - type: object
+        errors:
+          title: Errors
+          type: array
+          items:
+            $ref: '#/components/schemas/BatchPipelineError'
+          default: []
+        results:
+          title: Results
+          type: array
+          items:
+            $ref: '#/components/schemas/AsyncPipelineResultItem'
+          default: []
+    TryOnAPIRequestOutputObject:
+      title: TryOnAPIRequestOutputObject
+      type: object
+      properties:
+        number_of_images:
+          title: Number of images
+          maximum: 4
+          minimum: 1
+          type: integer
+          description: Number of output images.
+          default: 1
+        destination:
+          title: Destination
+          maxLength: 4096
+          minLength: 1
+          type: string
+          description: Customize the result output.
+          format: uri
+        format:
+          allOf:
+          - $ref: '#/components/schemas/TryOnAPIFormatEnum'
+          description: Output image format.
+          default: png
+      additionalProperties: false
+    TryOnAPIImageObject:
+      title: TryOnAPIImageObject
+      type: object
+      properties:
+        ext:
+          title: Ext
+          type: string
+          description: File extension.
+        mps:
+          title: Mps
+          type: number
+          description: Megapixel count
+        mime:
+          title: Mime
+          type: string
+          description: MIME type (also known as 'media type')
+        format:
+          title: Format
+          type: string
+          description: File format.
+        width:
+          title: Width
+          type: integer
+          description: Image width in pixels
+        height:
+          title: Height
+          type: integer
+          description: Image height in pixels
+    AiEditRequestOptionsObject:
+      title: AiEditRequestOptionsObject
+      required:
+      - prompt
+      type: object
+      properties:
+        model:
+          allOf:
+          - $ref: '#/components/schemas/AIEditModelAPI'
+          description: Model to be used for generation.
+          default: v2
+        prompt:
+          title: Prompt
+          maxLength: 5000
+          minLength: 3
+          type: string
+          description: Prompt for the generation.
+        aspect_ratio:
+          allOf:
+          - $ref: '#/components/schemas/AiEditAspectRatio'
+          description: Aspect ratio of the generated images.
+        inference_steps:
+          title: Inference Steps
+          maximum: 50
+          minimum: 1
+          type: integer
+          description: Number of inference steps.
+        guidance_scale:
+          title: Guidance Scale
+          maximum: 10
+          minimum: 1
+          type: number
+          description: Guidance scale for the generation.
+      additionalProperties: false
+    BackgroundEnum:
+      title: Transparent
+      enum:
+      - transparent
+      type: string
+      description: Makes the background of the image transparent, only works for `"png"` output format.
+    UpscaleEnum:
+      title: Upscale
+      enum:
+      - smart_enhance
+      - smart_resize
+      - faces
+      - digital_art
+      - photo
+      type: string
+      description: "Upscales the image with specified type of image upscaling neural network. \n\n| Value | Description |\n| --- | --- |\n| `null` | DEFAULT. Interpolation. Used when output image resolution is smaller than the input resolution.|\n| `\"smart_enhance\"` | Used for small low quality product, real estate and food images.|\n| `\"smart_resize\"` | Used for high quality images.|\n| `\"faces\"` | Used for images containing persons.|\n| `\"digital_art\"` | Used for drawings, illustrations, paintings, cartoons, anime, etc.|\n| `\"photo\"` | Used for images taken by mobile devices or digital camera of people, nature, architecture, etc.|"
+    CropOptions:
+      title: crop options
+      required:
+      - type
+      type: object
+      properties:
+        type:
+          title: Type
+          enum:
+          - crop
+          type: string
+        crop:
+          title: Crop mode
+          allOf:
+          - $ref: '#/components/schemas/FitCropEnum'
+          description: "Selects the crop mode: \n\n| Value | Description |\n| --- | --- |\n| `\"center\"` | Cropping relative to the center of the image.|\n| `\"smart\"` | Content aware image cropping.|\n"
+          default: center
+      additionalProperties: false
+    Response_GenerateResponse_:
+      title: Response[GenerateResponse]
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/GenerateResponse'
+      description: Wrapper for responses
+    BackgroundBlurOptions:
+      title: background blur options
+      type: object
+      properties:
+        selective:
+          title: Selective
+          allOf:
+          - $ref: '#/components/schemas/BackgroundSelectiveOptions'
+          description: Allows to select an object to keep on the image and blur the background around it.
+        category:
+          allOf:
+          - $ref: '#/components/schemas/BackgroundCategoryEnum'
+          description: "Selects the category of objects on the image: \n\n| Value | Description |\n| --- | --- |\n| `\"general\"` | The category that is suitable for all objects and is used by default.|\n| `\"cars\"` | The advanced category that will have better results for removing the background with cars on foreground.|\n| `\"products\"` | The advanced category that will have better results for background removal of various types of products and groceries.|\n"
+        type:
+          allOf:
+          - $ref: '#/components/schemas/BackgroundBlurTypeEnum'
+          description: "Selects the type of blur to be applied to the background: \n\n| Value | Description |\n| --- | --- |\n| `\"regular\"` | Gaussian blur. Creates an effect of laying a translucent material like vellum on top of the image background, is used by default.|\n| `\"lens\"` | Lens blur with linear focus. Mimics the blur applied to a photo when a wide aperture is used to achieve a narrow depth of field, so that the foreground objects stands out.|\n"
+          default: regular
+        level:
+          allOf:
+          - $ref: '#/components/schemas/BackgroundBlurLevelEnum'
+          description: "Selects the level of blur strength to be applied to the background: \n\n| Value | Description |\n| --- | --- |\n| `\"low\"` | Low blur strength.|\n| `\"medium\"` | Medium blur strength, is used by default.|\n| `\"high\"` | High blur strength.|\n"
+          default: medium
+      additionalProperties: false
+    AIEditModelAPI:
+      title: AIEditModelAPI
+      enum:
+      - v1
+      - v2
+      type: string
+      description: An enumeration.
+    SceneCreateAPIIn:
+      title: scene creation options
+      required:
+      - object
+      - scene
+      type: object
+      properties:
+        output:
+          title: Output URL
+          anyOf:
+          - $ref: '#/components/schemas/SceneCreateAPIOutputIn'
+          - type: string
+            minLength: 1
+            maxLength: 4096
+            format: uri
+          description: URL of the output images. If `output` is not defined, we store the output image on our bucket and return the temporary URL. Images are stored for one day.
+          default:
+            number_of_images: 4
+            format: png
+        object:
+          title: Object manipulation
+          anyOf:
+          - $ref: '#/components/schemas/SceneCreateAPIObjectAbsoluteIn'
+          - $ref: '#/components/schemas/SceneCreateAPIObjectOriginalIn'
+          - $ref: '#/components/schemas/SceneCreateAPIObjectPaddingIn'
+          description: Manipulate object on the scene so that the output images meet your requirements.
+        scene:
+          title: Scene customization
+          anyOf:
+          - $ref: '#/components/schemas/SceneCreateAPISceneBackgroundEffectIn'
+          - $ref: '#/components/schemas/SceneCreateAPIScenePromptIn'
+          - $ref: '#/components/schemas/SceneCreateAPISceneTemplateIn'
+          description: Customize the scene so that the output images meet your requirements.
+      additionalProperties: false
+    Response_AsyncResultResponse_:
+      title: Response[AsyncResultResponse]
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/AsyncResultResponse'
+      description: Wrapper for responses
+    WebpLosslessCompressionOptions:
+      title: WebpLosslessCompressionOptions
+      required:
+      - type
+      type: object
+      properties:
+        type:
+          title: Type
+          enum:
+          - lossless
+          type: string
+          description: Must have value `"lossless"`
+      additionalProperties: false
+    EditRequest:
+      title: EditRequest
+      required:
+      - input
+      - operations
+      type: object
+      properties:
+        input:
+          title: Input URL
+          maxLength: 4096
+          minLength: 1
+          type: string
+          description: URL of the input image. Should be from 1 to 512 characters. Image must be accessible by our system.
+          format: uri
+        operations:
+          title: Operations
+          allOf:
+          - $ref: '#/components/schemas/ImageOperations'
+          description: Customize the editing workflow so that the output images meet your requirements.
+        output:
+          title: Output
+          anyOf:
+          - $ref: '#/components/schemas/ImageOutputOptions'
+          - type: string
+            minLength: 1
+            maxLength: 4096
+            format: uri
+          description: Customize the result output.
+          default:
+            format: jpeg
+      additionalProperties: false
+    FormatJpegOptions:
+      title: jpeg options
+      required:
+      - type
+      type: object
+      properties:
+        type:
+          title: Type
+          enum:
+          - jpeg
+          type: string
+          description: Must have value `"jpeg"`
+        quality:
+          title: Quality
+          maximum: 100
+          minimum: 1
+          type: integer
+          default: 85
+        progressive:
+          title: Progressive
+          type: boolean
+          description: Progressive JPEG loads in a browser in successive waves until a clear picture is formed. This improves image's loading speed.
+          default: true
+      additionalProperties: false
+    SceneCreateAPIObjectAbsoluteIn:
+      title: SceneCreateAPIObjectAbsoluteIn
+      required:
+      - image_url
+      type: object
+      properties:
+        image_url:
+          title: Object image file URL
+          maxLength: 4096
+          minLength: 1
+          type: string
+          description: URL of the input image. Should be from 1 to 4096 characters. Image must be accessible by our system. For better results, the background of the image should be transparent.
+          format: uri
+        placement_type:
+          title: Placement Type
+          enum:
+          - absolute
+          type: string
+          description: '`"absolute"` placement type allows to manually specify the absolute position, scale, and rotation degree of the object on a scene.'
+          default: absolute
+        rotation_degree:
+          title: Degree of object rotation
+          anyOf:
+          - type: number
+            minimum: 0
+            maximum: 360
+          - type: integer
+            minimum: 0
+            maximum: 360
+          description: Degree of object rotation on the scene. By default, the object is not rotated. (i.e. 0.0).
+          default: 0
+        scale:
+          title: Relative object scale
+          anyOf:
+          - type: integer
+            minimum: 0
+            maximum: 1
+          - type: number
+            minimum: 0.01
+            maximum: 1
+          description: Relative object scale in relation to the scene. By default, the object is scaled to the scene edges. (i.e. 1.0).
+          default: 1
+        position:
+          title: Relative object position
+          allOf:
+          - $ref: '#/components/schemas/ObjectPosition'
+          description: Relative object position on the scene. By default, the object is positioned at the center of the scene (i.e. x=0.5, y=0.5).
+          default:
+            x: 0.5
+            y: 0.5
+      additionalProperties: false
+    AiEditResult:
+      title: AiEditResult
+      required:
+      - input_object
+      - output_objects
+      type: object
+      properties:
+        input_object:
+          $ref: '#/components/schemas/AiEditImageObject'
+        output_objects:
+          title: Output Objects
+          type: array
+          items:
+            $ref: '#/components/schemas/AiEditOutputImageObject'
+    AiEditError:
+      title: AiEditError
+      required:
+      - error
+      - created_at
+      type: object
+      properties:
+        error:
+          title: Error
+          type: string
+        created_at:
+          title: Created At
+          type: string
+          format: date-time
+    HttpErrorDetails:
+      title: HttpErrorDetails
+      required:
+      - error_code
+      - error_type
+      - error_message
+      type: object
+      properties:
+        error_code:
+          title: Error Code
+          type: string
+        error_type:
+          $ref: '#/components/schemas/ErrorType'
+        error_message:
+          title: Error Message
+          type: string
+        error_details:
+          title: Error Details
+          type: object
+          default: {}
+    GenerativeOptions:
+      title: generative transformations options
+      type: object
+      properties:
+        style_transfer:
+          title: Style Transfer
+          allOf:
+          - $ref: '#/components/schemas/StyleTransferOptions'
+          description: Apply style from a reference image.
+      additionalProperties: false
+    SceneAspectRatioEnum:
+      title: SceneAspectRatioEnum
+      enum:
+      - '21:9'
+      - '1:1'
+      - '4:3'
+      - '3:2'
+      - '2:3'
+      - '5:4'
+      - '4:5'
+      - '3:4'
+      - '16:9'
+      - '9:16'
+      type: string
+      description: Aspect ratios supported by scene generation (both creative and high-precision modes)
+    Response_BatchAcceptedResponse_:
+      title: Response[BatchAcceptedResponse]
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/BatchAcceptedResponse'
+      description: Wrapper for responses
+    PreferenceEnum:
+      title: Preference control
+      enum:
+      - fast
+      - optimal
+      - best
+      type: string
+      description: 'Preference control allows you to balance between generation speed and output image quality. Higher speed decreases image quality but enables quicker experimentation to find the best parameters for your background.
+
+
+        | Value | Description |
+
+        | --- | --- |
+
+        | `"fast"` | Faster generation, lower quality.|
+
+        | `"optimal"` | Balance between speed and quality.|| `"best"` | Highest quality, slower generation.|'
+    TryOnAPIResult:
+      title: TryOnAPIResult
+      required:
+      - input_objects
+      - output_objects
+      type: object
+      properties:
+        input_objects:
+          title: Input Objects
+          type: array
+          items:
+            $ref: '#/components/schemas/TryOnAPIImageObject'
+        output_objects:
+          title: Output Objects
+          type: array
+          items:
+            $ref: '#/components/schemas/TryOnAPIOutputImageObject'
+    TryOnAPIAspectRatio:
+      title: TryOnAPIAspectRatio
+      enum:
+      - '1:1'
+      - '2:3'
+      - '3:2'
+      - '3:4'
+      - '4:3'
+      - '9:16'
+      - '16:9'
+      - '21:9'
+      - '4:5'
+      - '5:4'
+      type: string
+      description: An enumeration.
+    TemplateViewAutoEnum:
+      title: Template view direction
+      enum:
+      - auto
+      - top
+      - front
+      type: string
+      description: 'Selects the template view direction.
+
+
+        | Value | Description |
+
+        | --- | --- |
+
+        | `"top"` | The view is top-down, looking down on the scene from above.|
+
+        | `"front"` | The view is horizontal, looking directly on the scene.|
+
+        | `"auto"` | The view is automatically selected.|'
+    ScenePipelineResponseOut:
+      title: ScenePipelineResponseOut
+      required:
+      - input
+      - output
+      type: object
+      properties:
+        input:
+          $ref: '#/components/schemas/PipelineInputObject'
+        output:
+          title: Output
+          type: array
+          items:
+            $ref: '#/components/schemas/PipelineOutputObject'
+        profiling:
+          title: Profiling
+          type: object
+    HTTPValidationError:
+      title: HTTPValidationError
+      type: object
+      properties:
+        detail:
+          title: Detail
+          type: array
+          items:
+            $ref: '#/components/schemas/ValidationError'
+    RestorationsOptions:
+      title: restorations options
+      type: object
+      properties:
+        decompress:
+          allOf:
+          - $ref: '#/components/schemas/DecompressEnum'
+          description: 'The decompress operation allows you to remove distortion and artifacts caused by image compression methods. It can be used in conjunction with the upscale operation to prepare an image for upscaling.
+
+
+            | Value | Description |
+
+            | --- | --- |
+
+            | null | DEFAULT. No restoration applied.|
+
+            | `"moderate"` | Removes JPEG artifacts from the image.|
+
+            | `"strong"` | Removes JPEG artifacts more aggressively than "moderate".|
+
+            | `"auto"` | Automatically detects and remove JPEG artifacts if needed.|'
+        upscale:
+          title: Upscale
+          anyOf:
+          - $ref: '#/components/schemas/UpscaleEnum'
+          - $ref: '#/components/schemas/UpscalePhotoOptions'
+          description: The upscale operation allows you to improve the overall quality of an image by rendering out new pixels. The upscale operation works along with resizing through numeric or percentage values for upscaling.
+        polish:
+          title: Polish image
+          type: boolean
+          description: If `true`, polishes an image
+          default: false
+      additionalProperties: false
+    BoundsOptions:
+      title: bounds options
+      required:
+      - type
+      type: object
+      properties:
+        type:
+          title: Type
+          enum:
+          - bounds
+          type: string
+      additionalProperties: false
+    TryOnAPIRequestOptionsObject:
+      title: TryOnAPIRequestOptionsObject
+      type: object
+      properties:
+        pose:
+          title: Pose
+          maxLength: 5000
+          minLength: 3
+          type: string
+          description: Pose prompt for the generation.
+          default: full body, front view, neutral stance, arms relaxed
+        background:
+          title: Background
+          maxLength: 5000
+          minLength: 3
+          type: string
+          description: Background prompt for the generation.
+          default: minimalistic studio background
+        aspect_ratio:
+          allOf:
+          - $ref: '#/components/schemas/TryOnAPIAspectRatio'
+          description: Aspect ratio of the generated images.
+      additionalProperties: false
+    Response_AiEditAcceptedResponse_:
+      title: Response[AiEditAcceptedResponse]
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/AiEditAcceptedResponse'
+      description: Wrapper for responses
+    CMYKColorProfileEnum:
+      title: Type of color space
+      enum:
+      - ISO_Coated
+      - ISO_Uncoated
+      - USWeb_Coated
+      - USWeb_Uncoated
+      type: string
+      description: "Selects the type of color space profile: \n\n| Value | Description | Paper | Max. total ink (TAC) | Characterisation data | \n| --- | --- | --- | --- | --- |\n| `\"ISO_Coated\"` | (Coated FOGRA39, ISO 12647-2:2004) Is used by default. Standard for glossy and matte coated paper. | Grades 1 and 2, gloss and matte coated. | 330% | FOGRA39 |\n| `\"ISO_Uncoated\"` | (Uncoated FOGRA29, ISO 12647-2:2004) Standard for uncoated white natural paper. | Grade 4, uncoated white offset. | 300% | FOGRA29 |\n| `\"USWeb_Coated\"` | (SWOP2006_Coated3v2) Standard for glossy and matte coated paper in the United States. | Grades 1, 2 and 3 gloss coated, matte coated and uncoated paper. | 300% | CGATS TR003 |\n| `\"USWeb_Uncoated\"` | (GRACoL 2013 Uncoated) Standard for uncoated white natural paper in the United States. | Grade 4, uncoated white offset. | 260% |  CGATS21-2-CRPC3 |\n"
+    FormatCompressionLevelEnum:
+      title: Compression
+      enum:
+      - fast
+      - best
+      - optimal
+      type: string
+      description: "Indicates compression effort. \n\n| Value | Description |\n| --- | --- |\n| `\"fast\"` |  Used to apply minimum compression resulting in a bigger image size but less processing time.|\n| `\"best\"` | Used to apply maximum compression resulting in a smaller image size but more processing time.|\n| `\"optimal\"` | DEFAULT. Used to balance between compression effort and the processing time.|\n"
+    GenerateRequest:
+      title: GenerateRequest
+      required:
+      - input
+      type: object
+      properties:
+        input:
+          title: Text prompt for image generation
+          maxLength: 1024
+          minLength: 3
+          type: string
+          description: 'Text prompt that will be used to generate image(s). Should be from 3 to 1024 characters. '
+        options:
+          title: Image generate options
+          allOf:
+          - $ref: '#/components/schemas/ImageGenerateOptions'
+          description: Customize the image generation process so that the output images meet your requirements.
+          default:
+            number_of_images: 4
+            guidance_scale: 5
+        output:
+          title: Output folder URL
+          maxLength: 4096
+          minLength: 1
+          type: string
+          description: URL of the output folder. If `output` is not defined, we store the output image on our bucket and return the temporary URL, in this case images are stored for one day.
+          format: uri
+      additionalProperties: false
+    AiEditImageObject:
+      title: AiEditImageObject
+      type: object
+      properties:
+        ext:
+          title: Ext
+          type: string
+          description: File extension.
+        mps:
+          title: Mps
+          type: number
+          description: Megapixel count
+        mime:
+          title: Mime
+          type: string
+          description: MIME type (also known as 'media type')
+        format:
+          title: Format
+          type: string
+          description: File format.
+        width:
+          title: Width
+          type: integer
+          description: Image width in pixels
+        height:
+          title: Height
+          type: integer
+          description: Image height in pixels
+    BackgroundSelectiveOptions:
+      title: BackgroundSelectiveOptions
+      required:
+      - object_to_keep
+      type: object
+      properties:
+        object_to_keep:
+          title: Object To Keep
+          maxLength: 128
+          minLength: 3
+          type: string
+          description: Specify an object to keep on the image.
+      additionalProperties: false
+    AiEditAcceptedResponse:
+      title: AiEditAcceptedResponse
+      required:
+      - id
+      - status
+      - created_at
+      - request
+      - result_url
+      type: object
+      properties:
+        id:
+          title: Id
+          type: integer
+        status:
+          $ref: '#/components/schemas/APIV1Status'
+        created_at:
+          title: Created At
+          type: string
+          format: date-time
+        request:
+          title: Request
+          type: object
+        result_url:
+          title: Result Url
+          maxLength: 65536
+          minLength: 1
+          type: string
+          format: uri
+    TryOnAPIResultResponse:
+      title: TryOnAPIResultResponse
+      required:
+      - id
+      - status
+      - created_at
+      - request
+      type: object
+      properties:
+        id:
+          title: Id
+          type: integer
+        status:
+          $ref: '#/components/schemas/APIV1Status'
+        created_at:
+          title: Created At
+          type: string
+          format: date-time
+        request:
+          title: Request
+          type: object
+        errors:
+          title: Errors
+          type: array
+          items:
+            $ref: '#/components/schemas/TryOnAPIError'
+        result:
+          $ref: '#/components/schemas/TryOnAPIResult'
+    ScenePromptAdvancedIn:
+      title: ScenePromptAdvancedIn
+      type: object
+      properties:
+        text:
+          title: Text prompt for scene creation
+          maxLength: 2048
+          minLength: 3
+          type: string
+          description: Text prompt that will be used to create the scene. Should be from 3 to 2048 characters.
+        generate:
+          title: Auto-generate prompt
+          type: boolean
+          description: If `true`, the prompt will be generated automatically based on the input image.By default, the prompt is not auto-generated. If `true`, the `text` is not allowed.
+          default: false
+        guidelines:
+          title: Guidelines
+          maxLength: 1000
+          minLength: 3
+          type: string
+          description: Guidelines for prompt generation. Only available when `generate` is `true`.
+      additionalProperties: false
+    AiEditFormatEnum:
+      title: AiEditFormatEnum
+      enum:
+      - jpeg
+      - png
+      type: string
+      description: An enumeration.
+    Response_EditResponse_:
+      title: Response[EditResponse]
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/EditResponse'
+      description: Wrapper for responses
+    TryOnAPIRequestInputOptions:
+      title: TryOnAPIRequestInputOptions
+      required:
+      - clothing
+      type: object
+      properties:
+        model:
+          title: Input model URL
+          maxLength: 4096
+          minLength: 1
+          type: string
+          description: URL of the human model image. Image must be accessible by our system.
+          format: uri
+        clothing:
+          title: Clothing images URLs
+          maxItems: 5
+          minItems: 1
+          type: array
+          items:
+            type: string
+            minLength: 1
+            maxLength: 4096
+            format: uri
+          description: List of clothing images URLs. Images must be accessible by our system.
+      additionalProperties: false
+    ImageOperations:
+      title: image operations options
+      type: object
+      properties:
+        restorations:
+          title: Restorations
+          allOf:
+          - $ref: '#/components/schemas/RestorationsOptions'
+          description: Restore lost details and decompress image with a wide range of AI-powered neural networks. By default, both operations is turned off.
+          default:
+            polish: false
+        adjustments:
+          title: Adjustments
+          allOf:
+          - $ref: '#/components/schemas/AdjustmentsOptions'
+          description: 'Change image histogram: set brightness, saturation, dynamic range, balance out colors and lighting. By default, no adjustments are made.'
+        background:
+          title: Background
+          allOf:
+          - $ref: '#/components/schemas/BackgroundOptions'
+          description: Remove the background and set a solid color. By default, no changes are made.
+          default:
+            remove: false
+            blur: false
+            use_original_alpha: false
+        resizing:
+          title: Resizing
+          allOf:
+          - $ref: '#/components/schemas/ResizingOptions'
+          description: Set the final image size. Crop or fit image in canvas. By default, API will perform all calculations respecting the original image aspect ratio.
+          default:
+            width: auto
+            height: auto
+            fit: crop
+        padding:
+          title: Padding
+          type: string
+          description: Add a space around the object equally to each of 4 sides, or for height&width separately. Can not be bigger than half of image width/height. By default, padding is not applied.
+        privacy:
+          title: Privacy
+          allOf:
+          - $ref: '#/components/schemas/PrivacyOptions'
+          description: Manage sensitive information on the image.
+          default:
+            blur_car_plate: false
+            identity_crop: false
+        generative:
+          title: Generative
+          allOf:
+          - $ref: '#/components/schemas/GenerativeOptions'
+          description: Transform the image using generative models.
+      additionalProperties: false
+    AsyncPipelineResultItem:
+      title: AsyncPipelineResultItem
+      required:
+      - input_object
+      - output_object
+      type: object
+      properties:
+        input_object:
+          $ref: '#/components/schemas/PipelineInputObject'
+        output_object:
+          $ref: '#/components/schemas/PipelineOutputObject'
     SceneCreateAPISceneTemplateIn:
       title: Template-based scene
       required:
@@ -3158,20 +2496,401 @@ components:
           type: integer
           description: The more inference steps you use, the better the results, but the more steps, the longer it takes to generate. If you want faster results, you can use fewer steps. If you want higher-quality results, you can use more steps. By default each `template_mode` has an optimal `steps` value.
       additionalProperties: false
-    WebpCompressionEnum:
-      title: WEBP Compression
-      enum:
-      - lossy
-      - lossless
-      type: string
-      description: "Selects the WEBP compression type: \n\n| Value | Description |\n| --- | --- |\n| `\"lossy\"` | Lossy compression allows you to reduce the size of the image significantly in exchange for some loss of data, reducing the quality of an image.|\n| `\"lossless\"` | Lossless compression allows you to save maximum image details in exchange for a significantly increased file size.|\n"
-    Response_GenerateResponse_:
-      title: Response[GenerateResponse]
+    ResizingOptions:
+      title: resizing options
+      type: object
+      properties:
+        width:
+          title: Width
+          anyOf:
+          - type: integer
+            title: Pixels
+            description: Width in pixels.
+          - $ref: '#/components/schemas/SizesEnum'
+          - type: string
+            title: Percentage
+            description: 'Percentage as a string. E.g. `"200%"` means that the `width` will double relative to the input image.
+
+              If you express `width` as a percentage, `height` must have the same value or set to `"auto"`. Examples: `"60%"`, `"40%"`'
+          description: Width of output image. Should be of the same type as `height`, or `"auto"`.
+          default: auto
+        height:
+          title: Height
+          anyOf:
+          - type: integer
+            title: Pixels
+            description: Height in pixels.
+          - $ref: '#/components/schemas/SizesEnum'
+          - type: string
+            title: Percentage
+            description: 'Percentage as a string. E.g. `"200%"` means that the `height` will double relatively to the input image.
+
+              If you express `height` as a percentage, `width` must have the same value or set to `"auto"`. Examples: `"60%"`, `"40%"`'
+          description: Height of output image. Should be of the same type as `width`, or `"auto"`.
+          default: auto
+        fit:
+          title: Fit
+          anyOf:
+          - $ref: '#/components/schemas/FitEnum'
+          - $ref: '#/components/schemas/CropOptions'
+          - $ref: '#/components/schemas/CoverOptions'
+          - $ref: '#/components/schemas/BoundsOptions'
+          - $ref: '#/components/schemas/CanvasOptions'
+          - $ref: '#/components/schemas/OutpaintOptions'
+          description: The fit parameter controls how the image will be constrained within the provided size, relative to the `width` and `height`. By default, `fit` mode is `"crop"`.
+          default: crop
+      additionalProperties: false
+    Response_BatchResultResponse_:
+      title: Response[BatchResultResponse]
       type: object
       properties:
         data:
-          $ref: '#/components/schemas/GenerateResponse'
+          $ref: '#/components/schemas/BatchResultResponse'
       description: Wrapper for responses
+    TemplateViewEnum:
+      title: Template view direction
+      enum:
+      - top
+      - front
+      type: string
+      description: 'Selects the template view direction.
+
+
+        | Value | Description |
+
+        | --- | --- |
+
+        | `"top"` | The view is top-down, looking down on the scene from above.|
+
+        | `"front"` | The view is horizontal, looking directly on the scene.|'
+    ColorSpaceEnum:
+      title: Type of color space
+      enum:
+      - RGB
+      - CMYK
+      type: string
+      description: "Selects the type of color space: \n\n| Value | Description |\n| --- | --- |\n| `\"RGB\"` | Is the color space for digital images. Use the RGB color mode if your image is supposed to be displayed on any kind of screen.|\n| `\"CMYK\"` | Is the color space for printed materials. Use CMYK for any image that will be physically printed, not viewed on a screen.|\n"
+    WebpLossyCompressionOptions:
+      title: WebpLossyCompressionOptions
+      required:
+      - type
+      type: object
+      properties:
+        type:
+          title: Type
+          enum:
+          - lossy
+          type: string
+          description: Must have value `"lossy"`
+        quality:
+          title: Quality
+          maximum: 100
+          minimum: 1
+          type: integer
+          default: 75
+      additionalProperties: false
+    BatchEditRequest:
+      title: BatchEditRequest
+      required:
+      - input
+      - operations
+      type: object
+      properties:
+        input:
+          title: Input folder URL or list of image URLs
+          anyOf:
+          - $ref: '#/components/schemas/BatchEditInputOptions'
+          - type: string
+            minLength: 1
+            maxLength: 4096
+            format: uri
+          - type: array
+            items:
+              type: string
+              minLength: 1
+              maxLength: 4096
+              format: uri
+            minItems: 1
+          description: URL of the input file or folder. Should be from 1 to 512 characters. Must be accessible by our system.
+        operations:
+          title: Operations
+          allOf:
+          - $ref: '#/components/schemas/ImageOperations'
+          description: Customize the editing workflow so that the output images meet your requirements.
+        output:
+          title: Output folder URL
+          anyOf:
+          - $ref: '#/components/schemas/ImageOutputOptions'
+          - type: string
+            minLength: 1
+            maxLength: 4096
+            format: uri
+          description: URL of the output folder. If `output` is not defined, we store the output image on our bucket and return the temporary URL. The name of the output file remains the same as the input file. Images are stored for one day.
+          default:
+            format: jpeg
+      additionalProperties: false
+    AvifLosslessCompressionOptions:
+      title: AvifLosslessCompressionOptions
+      required:
+      - type
+      type: object
+      properties:
+        type:
+          title: Type
+          enum:
+          - lossless
+          type: string
+          description: Must have value `"lossless"`
+      additionalProperties: false
+    TryOnAPIOutputImageObject:
+      title: TryOnAPIOutputImageObject
+      type: object
+      properties:
+        ext:
+          title: Ext
+          type: string
+          description: File extension.
+        mps:
+          title: Mps
+          type: number
+          description: Megapixel count
+        mime:
+          title: Mime
+          type: string
+          description: MIME type (also known as 'media type')
+        format:
+          title: Format
+          type: string
+          description: File format.
+        width:
+          title: Width
+          type: integer
+          description: Image width in pixels
+        height:
+          title: Height
+          type: integer
+          description: Image height in pixels
+        tmp_url:
+          title: Tmp Url
+          type: string
+          description: Temporal URL of a processed image
+        object_key:
+          title: Object Key
+          type: string
+          description: Path to a processed image in a bucket
+        object_bucket:
+          title: Object Bucket
+          type: string
+          description: Bucket name
+        object_uri:
+          title: Object Uri
+          type: string
+          description: URI of a processed image in a bucket
+        claid_storage_uri:
+          title: Claid Storage Uri
+          type: string
+          description: URI of a processed image in a storage
+    Response_TryOnAPIAcceptedResponse_:
+      title: Response[TryOnAPIAcceptedResponse]
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/TryOnAPIAcceptedResponse'
+      description: Wrapper for responses
+    Body_image_edit_upload_v1_image_edit_upload_post:
+      title: Body_image_edit_upload_v1_image_edit_upload_post
+      required:
+      - file
+      - data
+      type: object
+      properties:
+        file:
+          title: File
+          type: string
+          format: binary
+        data:
+          title: Data
+          type: string
+    PrivacyOptions:
+      title: PrivacyOptions
+      type: object
+      properties:
+        blur_car_plate:
+          title: Blur Car Plate
+          type: boolean
+          description: If `true`, blurs car plate.
+          default: false
+        identity_crop:
+          title: Identity Crop
+          type: boolean
+          description: Removes a person's face from the image by cutting everything above the mouth.
+          default: false
+      additionalProperties: false
+    SceneCreateAPIScenePromptIn:
+      title: Template-free scene
+      required:
+      - prompt
+      type: object
+      properties:
+        model:
+          title: Scene creation model
+          allOf:
+          - $ref: '#/components/schemas/SceneCreateModelEnum'
+          description: Selects the scene creation model. By default, the model is 'v1'.
+          default: v1
+        prompt:
+          title: Text prompt for scene creation
+          anyOf:
+          - type: string
+            minLength: 3
+            maxLength: 2048
+          - $ref: '#/components/schemas/ScenePromptAdvancedIn'
+          description: Text prompt that will be used to create the scene. Should be from 3 to 2048 characters.
+        negative_prompt:
+          title: Negative text prompt for scene creation
+          maxLength: 2048
+          minLength: 3
+          type: string
+          description: 'Text prompt that will exclude things from the scene. Should be from 3 to 2048 characters. '
+        steps:
+          title: Number of inference steps
+          exclusiveMaximum: 50
+          minimum: 1
+          type: integer
+          description: The more inference steps you use, the better the results, but the more steps, the longer it takes to generate. If you want faster results, you can use fewer steps. If you want higher-quality results, you can use more steps. By default each `template_mode` has an optimal `steps` value.
+        color:
+          title: Color
+          type: string
+          description: 'Color as a hexadecimal. Examples: `"#ffffff"`, `"#000000"`.'
+        aspect_ratio:
+          title: Scene aspect ratio
+          allOf:
+          - $ref: '#/components/schemas/SceneAspectRatioEnum'
+          description: Aspect ratio of the scene. By default, the aspect ratio is 1:1.
+          default: '1:1'
+        preference:
+          title: Preference control
+          allOf:
+          - $ref: '#/components/schemas/PreferenceEnum'
+          description: 'Preference control allows you to balance between generation speed and output image quality. Higher speed decreases image quality but enables quicker experimentation to find the best parameters for your background.
+
+
+            | Value | Description |
+
+            | --- | --- |
+
+            | `"fast"` | Faster generation, lower quality.|
+
+            | `"optimal"` | Balance between speed and quality.|| `"best"` | Highest quality, slower generation.|'
+          default: optimal
+      additionalProperties: false
+    AiEditAspectRatio:
+      title: AiEditAspectRatio
+      enum:
+      - '1:1'
+      - '2:3'
+      - '3:2'
+      - '3:4'
+      - '4:3'
+      - '9:16'
+      - '16:9'
+      - '9:21'
+      - '21:9'
+      type: string
+      description: An enumeration.
+    TryOnAPIFormatEnum:
+      title: TryOnAPIFormatEnum
+      enum:
+      - jpeg
+      - png
+      type: string
+      description: An enumeration.
+    TryOnAPIRequest:
+      title: TryOnAPIRequest
+      required:
+      - input
+      - options
+      type: object
+      properties:
+        output:
+          title: Output
+          anyOf:
+          - $ref: '#/components/schemas/TryOnAPIRequestOutputObject'
+          - type: string
+            minLength: 1
+            maxLength: 4096
+            format: uri
+          description: Customize output format, destination and number of images.
+          default:
+            number_of_images: 1
+            format: png
+        input:
+          title: Input
+          allOf:
+          - $ref: '#/components/schemas/TryOnAPIRequestInputOptions'
+          description: Input model and clothing images for the generation.
+        options:
+          title: Options
+          allOf:
+          - $ref: '#/components/schemas/TryOnAPIRequestOptionsObject'
+          description: Customize the generation.
+      additionalProperties: false
+    BackgroundBlurTypeEnum:
+      title: Type of background blur
+      enum:
+      - regular
+      - lens
+      type: string
+      description: "Selects the type of blur: \n\n| Value | Description |\n| --- | --- |\n| `\"regular\"` | Gaussian blur. Creates an effect of laying a translucent material like vellum on top of the image background.|\n| `\"lens\"` | Lens blur with linear focus. Mimics the blur applied to a photo when a wide aperture is used to achieve a narrow depth of field, so that the foreground objects stands out.|\n"
+    TiffLosslessCompressionOptions:
+      title: TiffLosslessCompressionOptions
+      required:
+      - type
+      type: object
+      properties:
+        type:
+          title: Type
+          enum:
+          - lossless
+          type: string
+          description: Must have value `"lossless"`
+      additionalProperties: false
+    Response_TryOnAPIResultResponse_:
+      title: Response[TryOnAPIResultResponse]
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/TryOnAPIResultResponse'
+      description: Wrapper for responses
+    UpscalePhotoOptions:
+      title: photo upscale options
+      required:
+      - type
+      - version
+      type: object
+      properties:
+        type:
+          title: Type
+          enum:
+          - photo
+          type: string
+        version:
+          title: Version
+          allOf:
+          - $ref: '#/components/schemas/PhotoVersionEnum'
+          description: "Upscales the image with specified version of photo upscaling neural network. \n\n| Value | Description |\n| --- | --- |\n| `\"1\"` | Is deprecated and not recommended.|\n| `\"2\"` | Used for restoring image quality that is taken by mobile devices or digital camera.|\n| `\"3\"` | Used for restoring image quality, a bit more aggressively than \"2\".|\n"
+      additionalProperties: false
+    BatchPipelineResultItem:
+      title: BatchPipelineResultItem
+      required:
+      - input_object
+      - output_object
+      type: object
+      properties:
+        input_object:
+          $ref: '#/components/schemas/PipelineInputObject'
+        output_object:
+          $ref: '#/components/schemas/BatchPipelineOutputObject'
     TemplateModeEnum:
       title: Template mode
       enum:
@@ -3189,13 +2908,94 @@ components:
         | `"transform"` | Template is transformed according to the prompt and color.|
 
         | `"adjust"` | Template is slightly adjusted to the product and prompt.|| `"lock"` | Template is preserved with maximum detail.|'
-    Response_AiEditAcceptedResponse_:
-      title: Response[AiEditAcceptedResponse]
+    ColorEnum:
+      title: Transparent
+      enum:
+      - transparent
+      type: string
+      description: Makes the background of the image transparent, only works for `"png"` output format.
+    FormatEnum:
+      title: Format
+      enum:
+      - jpeg
+      - png
+      - webp
+      - avif
+      - tiff
+      type: string
+      description: 'Converts the image into specified format. Examples: `"jpeg"`, `"png"`.'
+    BackgroundBlurLevelEnum:
+      title: Background blur strength level
+      enum:
+      - low
+      - medium
+      - high
+      type: string
+      description: "Selects the level of blur strength: \n\n| Value | Description |\n| --- | --- |\n| `\"low\"` | Low blur strength.|\n| `\"medium\"` | Medium blur strength.|\n| `\"high\"` | High blur strength.|\n"
+    AIEditRequestOutputObject:
+      title: AIEditRequestOutputObject
       type: object
       properties:
-        data:
-          $ref: '#/components/schemas/AiEditAcceptedResponse'
-      description: Wrapper for responses
+        number_of_images:
+          title: Number of images
+          maximum: 4
+          minimum: 1
+          type: integer
+          description: Number of output images.
+          default: 1
+        destination:
+          title: Destination
+          maxLength: 4096
+          minLength: 1
+          type: string
+          description: Customize the result output.
+          format: uri
+        format:
+          allOf:
+          - $ref: '#/components/schemas/AiEditFormatEnum'
+          description: Output image format.
+          default: png
+      additionalProperties: false
+    FormatPngOptions:
+      title: png options
+      required:
+      - type
+      type: object
+      properties:
+        type:
+          title: Type
+          enum:
+          - png
+          type: string
+          description: Must have value `"png"`
+        compression:
+          allOf:
+          - $ref: '#/components/schemas/FormatCompressionLevelEnum'
+          description: 'Specifies compression effort that will be applied during the PNG image encoding. Should have one of values: `"fast"`, `"best"`, or `"optimal"`. Defaults to `"optimal"`.'
+          default: optimal
+      additionalProperties: false
+    ErrorType:
+      title: ErrorType
+      enum:
+      - auth
+      - dlvr
+      - general
+      - le
+      - survey
+      - storage
+      - image
+      - user_settings
+      - user
+      - validation
+      - analytics
+      - scene
+      - billing
+      - web
+      - runtime_settings
+      - animation
+      - custom_models
+      type: string
+      description: An enumeration.
     OutpaintOptions:
       title: outpaint options
       required:
@@ -3226,127 +3026,361 @@ components:
 
             Examples: `"10%"`, `"5% 15%"`, `"5% 0%"`, `"1024px"`, `"1024px 512px"`, `"0px 1024px"`.'
       additionalProperties: false
-    FitCropEnum:
-      title: Crop
-      enum:
-      - center
-      - smart
-      type: string
-      description: "Selects the crop mode: \n\n| Value | Description |\n| --- | --- |\n| `\"center\"` | Cropping relative to the center of the image.|\n| `\"smart\"` | Content aware image cropping.|\n"
-    GenerativeOptions:
-      title: generative transformations options
+    ImageGenerateOptions:
+      title: ImageGenerateOptions
       type: object
       properties:
-        style_transfer:
-          title: Style Transfer
-          allOf:
-          - $ref: '#/components/schemas/StyleTransferOptions'
-          description: Apply style from a reference image.
+        number_of_images:
+          title: Number of images
+          maximum: 4
+          minimum: 1
+          type: integer
+          description: Number of images to generate. By default 4 images will be generated.
+          default: 4
+        guidance_scale:
+          title: Guidance scale
+          exclusiveMaximum: 50
+          minimum: 1
+          type: number
+          description: Guidance scale is used to make the generation better match the prompt potentially at the cost of image quality or diversity. Values between 5 and 7 are usually good choices, but sometimes more control is achieved with values such as 12. By default the pipeline uses a guidance scale of 5.
+          default: 5
       additionalProperties: false
-    AsyncEditRequest:
-      title: AsyncEditRequest
+    StyleTransferOptions:
+      title: style transfer options
+      required:
+      - style_reference_image
+      type: object
+      properties:
+        style_reference_image:
+          title: Style Reference Image
+          type: string
+          description: URL of the image to be used as a style reference.
+        prompt:
+          title: Prompt
+          maxLength: 1024
+          minLength: 3
+          type: string
+          description: Text prompt to adjust the style transfer output.
+        depth_strength:
+          title: Depth Strength
+          maximum: 1
+          minimum: 0
+          type: number
+          description: The denoising strength determines the degree of overall composition and shape preservation.
+          default: 1
+        denoising_strength:
+          title: Denoising Strength
+          maximum: 1
+          minimum: 0
+          type: number
+          description: The denoising strength determines the degree of color and texture modification.
+          default: 0.75
+        style_strength:
+          title: Style Strength
+          maximum: 1
+          minimum: 0
+          type: number
+          description: The style strength determines the degree of overall style intensity as taken from the reference.
+          default: 0.75
+      additionalProperties: false
+    BatchEditInputOptions:
+      title: image input options
+      required:
+      - source
+      type: object
+      properties:
+        source:
+          title: Input folder URL
+          maxLength: 4096
+          minLength: 1
+          type: string
+          description: URL of the input file or folder. Should be from 1 to 512 characters. Must be accessible by our system.
+          format: uri
+        recursive:
+          title: Recursive
+          type: boolean
+          description: 'If `true`, recursively processes all images in subfolders as well, works only if source is folder. '
+          default: false
+      additionalProperties: false
+    AdjustmentsOptions:
+      title: adjustments options
+      type: object
+      properties:
+        hdr:
+          title: Hdr
+          anyOf:
+          - type: integer
+            description: HDR effect intensity.
+            minimum: 0
+            maximum: 100
+          - $ref: '#/components/schemas/HdrOptions'
+          description: Balances out colors and lighting. Allows to turn on `stitching` for stitched 360 photos.
+          default: 0
+        exposure:
+          title: Exposure
+          maximum: 100
+          minimum: -100
+          type: integer
+          description: Decrease (negative integer) or increase (positive integer) exposure.
+          default: 0
+        saturation:
+          title: Saturation
+          maximum: 100
+          minimum: -100
+          type: integer
+          description: Decrease (negative integer) or increase (positive integer) saturation.
+          default: 0
+        contrast:
+          title: Contrast
+          maximum: 100
+          minimum: -100
+          type: integer
+          description: Decrease (negative integer) or increase (positive integer) contrast.
+          default: 0
+        sharpness:
+          title: Sharpness
+          maximum: 100
+          minimum: 0
+          type: integer
+          description: Increase sharpness.
+          default: 0
+      additionalProperties: false
+    SceneCreateModelEnum:
+      title: SceneCreateModelEnum
+      enum:
+      - v1
+      - v2-beta
+      - v2
+      type: string
+      description: An enumeration.
+    CanvasOptions:
+      title: canvas options
+      required:
+      - type
+      type: object
+      properties:
+        type:
+          title: Type
+          enum:
+          - canvas
+          type: string
+      additionalProperties: false
+    Response_AsyncAcceptedResponse_:
+      title: Response[AsyncAcceptedResponse]
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/AsyncAcceptedResponse'
+      description: Wrapper for responses
+    Response_ScenePipelineResponseOut_:
+      title: Response[ScenePipelineResponseOut]
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/ScenePipelineResponseOut'
+      description: Wrapper for responses
+    PipelineInputObjectInError:
+      title: PipelineInputObjectInError
+      required:
+      - ext
+      - mps
+      - mime
+      - format
+      - width
+      - height
+      type: object
+      properties:
+        ext:
+          title: Ext
+          type: string
+          description: 'File extension. Can have values: `"jpg"`, `"png"`, `"avif"`'
+        mps:
+          title: Mps
+          type: number
+          description: Megapixel count
+        mime:
+          title: Mime
+          type: string
+          description: MIME type (also known as ‘media type’)
+        format:
+          title: Format
+          type: string
+          description: 'File format. Can have values: `"jpeg"`, `"png"`, `"avif"`'
+        width:
+          title: Width
+          type: integer
+          description: Image width in pixels
+        height:
+          title: Height
+          type: integer
+          description: Image height in pixels
+    TiffLossyCompressionOptions:
+      title: TiffLossyCompressionOptions
+      required:
+      - type
+      type: object
+      properties:
+        type:
+          title: Type
+          enum:
+          - lossy
+          type: string
+          description: Must have value `"lossy"`
+        quality:
+          title: Quality
+          maximum: 100
+          minimum: 1
+          type: integer
+          default: 75
+      additionalProperties: false
+    TiffCompressionEnum:
+      title: TIFF Compression
+      enum:
+      - lossy
+      - lossless
+      type: string
+      description: "Selects the TIFF compression type: \n\n| Value | Description |\n| --- | --- |\n| `\"lossy\"` | Lossy JPEG compression allows you to reduce the size of the image significantly in exchange for some loss of data, reducing the quality of an image.|\n| `\"lossless\"` | Lossless LZW (Lempel-Ziv-Welch) compression allows you to save maximum image details in exchange for a significantly increased file size.|\n"
+    GenerateResponse:
+      title: GenerateResponse
       required:
       - input
-      - operations
+      - output
       type: object
       properties:
+        input:
+          $ref: '#/components/schemas/GeneratePipelineInputObject'
+        output:
+          title: Output
+          type: array
+          items:
+            $ref: '#/components/schemas/PipelineOutputObject'
+        profiling:
+          title: Profiling
+          type: object
+    PipelineInputObject:
+      title: PipelineInputObject
+      required:
+      - ext
+      - mps
+      - mime
+      - format
+      - width
+      - height
+      type: object
+      properties:
+        ext:
+          title: Ext
+          type: string
+          description: 'File extension. Can have values: `"jpg"`, `"png"`, `"avif"`'
+        mps:
+          title: Mps
+          type: number
+          description: Megapixel count
+        mime:
+          title: Mime
+          type: string
+          description: MIME type (also known as ‘media type’)
+        format:
+          title: Format
+          type: string
+          description: 'File format. Can have values: `"jpeg"`, `"png"`, `"avif"`'
+        width:
+          title: Width
+          type: integer
+          description: Image width in pixels
+        height:
+          title: Height
+          type: integer
+          description: Image height in pixels
+    APIV1Status:
+      title: APIV1Status
+      enum:
+      - ACCEPTED
+      - WAITING
+      - PROCESSING
+      - DONE
+      - ERROR
+      - CANCELLED
+      - PAUSED
+      type: string
+      description: An enumeration.
+    TryOnAPIAcceptedResponse:
+      title: TryOnAPIAcceptedResponse
+      required:
+      - id
+      - status
+      - created_at
+      - request
+      - result_url
+      type: object
+      properties:
+        id:
+          title: Id
+          type: integer
+        status:
+          $ref: '#/components/schemas/APIV1Status'
+        created_at:
+          title: Created At
+          type: string
+          format: date-time
+        request:
+          title: Request
+          type: object
+        result_url:
+          title: Result Url
+          maxLength: 65536
+          minLength: 1
+          type: string
+          format: uri
+    AiEditAPIRequest:
+      title: AiEditAPIRequest
+      required:
+      - input
+      - options
+      type: object
+      properties:
+        output:
+          title: Output
+          anyOf:
+          - $ref: '#/components/schemas/AIEditRequestOutputObject'
+          - type: string
+            minLength: 1
+            maxLength: 4096
+            format: uri
+          description: Customize output format, destination and number of images.
+          default:
+            number_of_images: 1
+            format: png
         input:
           title: Input URL
           maxLength: 4096
           minLength: 1
           type: string
-          description: URL of the input image. Should be from 1 to 512 characters. Image must be accessible by our system.
+          description: URL of the input image. Image must be accessible by our system.
           format: uri
-        operations:
-          title: Operations
+        options:
+          title: Options
           allOf:
-          - $ref: '#/components/schemas/ImageOperations'
-          description: Customize the editing workflow so that the output images meet your requirements.
-        output:
-          title: Output
-          anyOf:
-          - $ref: '#/components/schemas/ImageOutputOptions'
-          - type: string
-            minLength: 1
-            maxLength: 4096
-            format: uri
-          description: Customize the result output.
-          default:
-            format: jpeg
+          - $ref: '#/components/schemas/AiEditRequestOptionsObject'
+          description: Customize the generation.
       additionalProperties: false
-    AiEditAspectRatio:
-      title: AiEditAspectRatio
-      enum:
-      - '1:1'
-      - '2:3'
-      - '3:2'
-      - '3:4'
-      - '4:3'
-      - '9:16'
-      - '16:9'
-      - '9:21'
-      - '21:9'
-      type: string
-      description: An enumeration.
-    SceneCreateAPIObjectAbsoluteIn:
-      title: SceneCreateAPIObjectAbsoluteIn
+    CMYKColorSpaceOptions:
+      title: CMYKColorSpaceOptions
       required:
-      - image_url
+      - type
       type: object
       properties:
-        image_url:
-          title: Object image file URL
-          maxLength: 4096
-          minLength: 1
-          type: string
-          description: URL of the input image. Should be from 1 to 4096 characters. Image must be accessible by our system. For better results, the background of the image should be transparent.
-          format: uri
-        placement_type:
-          title: Placement Type
+        type:
+          title: Type
           enum:
-          - absolute
+          - CMYK
           type: string
-          description: '`"absolute"` placement type allows to manually specify the absolute position, scale, and rotation degree of the object on a scene.'
-          default: absolute
-        rotation_degree:
-          title: Degree of object rotation
-          anyOf:
-          - type: number
-            minimum: 0
-            maximum: 360
-          - type: integer
-            minimum: 0
-            maximum: 360
-          description: Degree of object rotation on the scene. By default, the object is not rotated. (i.e. 0.0).
-          default: 0
-        scale:
-          title: Relative object scale
-          anyOf:
-          - type: integer
-            minimum: 0
-            maximum: 1
-          - type: number
-            minimum: 0.01
-            maximum: 1
-          description: Relative object scale in relation to the scene. By default, the object is scaled to the scene edges. (i.e. 1.0).
-          default: 1
-        position:
-          title: Relative object position
+        color_profile:
           allOf:
-          - $ref: '#/components/schemas/ObjectPosition'
-          description: Relative object position on the scene. By default, the object is positioned at the center of the scene (i.e. x=0.5, y=0.5).
-          default:
-            x: 0.5
-            y: 0.5
+          - $ref: '#/components/schemas/CMYKColorProfileEnum'
+          description: "Specifies color profile that will be used for color space. \n\nSelects the type of color space profile: \n\n| Value | Description | Paper | Max. total ink (TAC) | Characterisation data | \n| --- | --- | --- | --- | --- |\n| `\"ISO_Coated\"` | (Coated FOGRA39, ISO 12647-2:2004) Is used by default. Standard for glossy and matte coated paper. | Grades 1 and 2, gloss and matte coated. | 330% | FOGRA39 |\n| `\"ISO_Uncoated\"` | (Uncoated FOGRA29, ISO 12647-2:2004) Standard for uncoated white natural paper. | Grade 4, uncoated white offset. | 300% | FOGRA29 |\n| `\"USWeb_Coated\"` | (SWOP2006_Coated3v2) Standard for glossy and matte coated paper in the United States. | Grades 1, 2 and 3 gloss coated, matte coated and uncoated paper. | 300% | CGATS TR003 |\n| `\"USWeb_Uncoated\"` | (GRACoL 2013 Uncoated) Standard for uncoated white natural paper in the United States. | Grade 4, uncoated white offset. | 260% |  CGATS21-2-CRPC3 |\n"
+          default: USWeb_Coated
       additionalProperties: false
-    FormatCompressionLevelEnum:
-      title: Compression
-      enum:
-      - fast
-      - best
-      - optimal
-      type: string
-      description: "Indicates compression effort. \n\n| Value | Description |\n| --- | --- |\n| `\"fast\"` |  Used to apply minimum compression resulting in a bigger image size but less processing time.|\n| `\"best\"` | Used to apply maximum compression resulting in a smaller image size but more processing time.|\n| `\"optimal\"` | DEFAULT. Used to balance between compression effort and the processing time.|\n"
   securitySchemes:
     OAuth2PasswordBearer:
       type: oauth2
