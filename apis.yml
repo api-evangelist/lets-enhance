@@ -49,8 +49,8 @@ tags:
 - Artificial Intelligence
 - Image Processing
 - Image Enhancement
-- Image-Generation
-- Computer-Vision
+- Image Generation
+- Computer Vision
 - E-Commerce
 - Media
 - Photography
@@ -66,6 +66,8 @@ tags_raw:
 - Media
 - Photography
 - Video Generation
+- Image-Generation
+- Computer-Vision
 apis:
 - aid: lets-enhance:lets-enhance-image-api
   name: Let's Enhance Image API

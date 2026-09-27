@@ -114,71 +114,6 @@ paths:
         - video_generation
 components:
   schemas:
-    VideoOutputObject:
-      title: VideoOutputObject
-      type: object
-      properties:
-        ext:
-          title: Ext
-          type: string
-          description: File extension.
-          default: mp4
-        mime:
-          title: Mime
-          type: string
-          default: video/mp4
-        format:
-          title: Format
-          type: string
-          description: File format.
-          default: mp4
-        tmp_url:
-          title: Tmp Url
-          type: string
-          description: Temporal URL of a processed image
-        object_key:
-          title: Object Key
-          type: string
-          description: Path to a processed image in a bucket
-        object_bucket:
-          title: Object Bucket
-          type: string
-          description: Bucket name
-        object_uri:
-          title: Object Uri
-          type: string
-          description: URI of a processed image in a bucket
-        claid_storage_uri:
-          title: Claid Storage Uri
-          type: string
-          description: URI of a processed image in a storage
-    VideoAcceptedResponse:
-      title: VideoAcceptedResponse
-      required:
-      - id
-      - status
-      - created_at
-      - request
-      - result_url
-      type: object
-      properties:
-        id:
-          title: Id
-          type: integer
-        status:
-          $ref: '#/components/schemas/APIV1Status'
-        created_at:
-          title: Created At
-          type: string
-          format: date-time
-        request:
-          $ref: '#/components/schemas/VideoRequestInResponse'
-        result_url:
-          title: Result Url
-          maxLength: 65536
-          minLength: 1
-          type: string
-          format: uri
     ValidationError:
       title: ValidationError
       required:
@@ -198,6 +133,142 @@ components:
         type:
           title: Error Type
           type: string
+    VideoRequestInResponse:
+      title: VideoRequestInResponse
+      required:
+      - input
+      - options
+      type: object
+      properties:
+        output:
+          title: Output
+          maxLength: 4096
+          minLength: 1
+          type: string
+          description: Customize the result output.
+          format: uri
+        input:
+          title: Input URL
+          maxLength: 4096
+          minLength: 1
+          type: string
+          description: URL of the input image. Image must be accessible by our system.
+          format: uri
+        options:
+          title: Options
+          allOf:
+          - $ref: '#/components/schemas/VideoOptionsObject'
+          description: Customize the video.
+      additionalProperties: false
+    Response_VideoStatusResponse_:
+      title: Response[VideoStatusResponse]
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/VideoStatusResponse'
+      description: Wrapper for responses
+    APIV1Status:
+      title: APIV1Status
+      enum:
+      - ACCEPTED
+      - WAITING
+      - PROCESSING
+      - DONE
+      - ERROR
+      - CANCELLED
+      - PAUSED
+      type: string
+      description: An enumeration.
+    VideoStatusResponse:
+      title: VideoStatusResponse
+      required:
+      - id
+      - status
+      - created_at
+      - request
+      type: object
+      properties:
+        id:
+          title: Id
+          type: integer
+        status:
+          $ref: '#/components/schemas/APIV1Status'
+        created_at:
+          title: Created At
+          type: string
+          format: date-time
+        request:
+          $ref: '#/components/schemas/VideoRequestInResponse'
+        errors:
+          title: Errors
+          type: array
+          items:
+            $ref: '#/components/schemas/VideoError'
+        result:
+          $ref: '#/components/schemas/VideoResult'
+    DurationEnum:
+      title: DurationEnum
+      enum:
+      - '5'
+      - '10'
+      type: string
+      description: An enumeration.
+    ImageVideoRequest:
+      title: ImageVideoRequest
+      required:
+      - input
+      - options
+      type: object
+      properties:
+        output:
+          title: Output
+          maxLength: 4096
+          minLength: 1
+          type: string
+          description: Customize the result output.
+          format: uri
+        input:
+          title: Input URL
+          maxLength: 4096
+          minLength: 1
+          type: string
+          description: URL of the input image. Image must be accessible by our system.
+          format: uri
+        options:
+          title: Options
+          allOf:
+          - $ref: '#/components/schemas/VideoOptionsObject'
+          description: Customize the video.
+      additionalProperties: false
+    Response_VideoAcceptedResponse_:
+      title: Response[VideoAcceptedResponse]
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/VideoAcceptedResponse'
+      description: Wrapper for responses
+    ErrorType:
+      title: ErrorType
+      enum:
+      - auth
+      - dlvr
+      - general
+      - le
+      - survey
+      - storage
+      - image
+      - user_settings
+      - user
+      - validation
+      - analytics
+      - scene
+      - billing
+      - web
+      - runtime_settings
+      - animation
+      - custom_models
+      type: string
+      description: An enumeration.
     VideoInputObject:
       title: VideoInputObject
       type: object
@@ -230,124 +301,6 @@ components:
           title: Generated Prompt
           type: string
           description: Generated prompt for the video.
-    APIV1Status:
-      title: APIV1Status
-      enum:
-      - ACCEPTED
-      - WAITING
-      - PROCESSING
-      - DONE
-      - ERROR
-      - CANCELLED
-      - PAUSED
-      type: string
-      description: An enumeration.
-    HTTPValidationError:
-      title: HTTPValidationError
-      type: object
-      properties:
-        detail:
-          title: Detail
-          type: array
-          items:
-            $ref: '#/components/schemas/ValidationError'
-    VideoRequestInResponse:
-      title: VideoRequestInResponse
-      required:
-      - input
-      - options
-      type: object
-      properties:
-        output:
-          title: Output
-          maxLength: 4096
-          minLength: 1
-          type: string
-          description: Customize the result output.
-          format: uri
-        input:
-          title: Input URL
-          maxLength: 4096
-          minLength: 1
-          type: string
-          description: URL of the input image. Image must be accessible by our system.
-          format: uri
-        options:
-          title: Options
-          allOf:
-          - $ref: '#/components/schemas/VideoOptionsObject'
-          description: Customize the video.
-      additionalProperties: false
-    VideoError:
-      title: VideoError
-      required:
-      - error
-      - created_at
-      type: object
-      properties:
-        error:
-          title: Error
-          type: string
-        created_at:
-          title: Created At
-          type: string
-          format: date-time
-    DurationEnum:
-      title: DurationEnum
-      enum:
-      - '5'
-      - '10'
-      type: string
-      description: An enumeration.
-    ErrorType:
-      title: ErrorType
-      enum:
-      - auth
-      - dlvr
-      - general
-      - le
-      - survey
-      - storage
-      - image
-      - user_settings
-      - user
-      - validation
-      - analytics
-      - scene
-      - billing
-      - web
-      - runtime_settings
-      - animation
-      - custom_models
-      type: string
-      description: An enumeration.
-    ImageVideoRequest:
-      title: ImageVideoRequest
-      required:
-      - input
-      - options
-      type: object
-      properties:
-        output:
-          title: Output
-          maxLength: 4096
-          minLength: 1
-          type: string
-          description: Customize the result output.
-          format: uri
-        input:
-          title: Input URL
-          maxLength: 4096
-          minLength: 1
-          type: string
-          description: URL of the input image. Image must be accessible by our system.
-          format: uri
-        options:
-          title: Options
-          allOf:
-          - $ref: '#/components/schemas/VideoOptionsObject'
-          description: Customize the video.
-      additionalProperties: false
     VideoOptionsObject:
       title: VideoOptionsObject
       required:
@@ -381,33 +334,6 @@ components:
           description: Guidance scale for the video.
           default: 0.5
       additionalProperties: false
-    VideoStatusResponse:
-      title: VideoStatusResponse
-      required:
-      - id
-      - status
-      - created_at
-      - request
-      type: object
-      properties:
-        id:
-          title: Id
-          type: integer
-        status:
-          $ref: '#/components/schemas/APIV1Status'
-        created_at:
-          title: Created At
-          type: string
-          format: date-time
-        request:
-          $ref: '#/components/schemas/VideoRequestInResponse'
-        errors:
-          title: Errors
-          type: array
-          items:
-            $ref: '#/components/schemas/VideoError'
-        result:
-          $ref: '#/components/schemas/VideoResult'
     VideoPromptObject:
       title: VideoPromptObject
       type: object
@@ -449,20 +375,94 @@ components:
           title: Error Details
           type: object
           default: {}
-    Response_VideoAcceptedResponse_:
-      title: Response[VideoAcceptedResponse]
+    VideoError:
+      title: VideoError
+      required:
+      - error
+      - created_at
       type: object
       properties:
-        data:
-          $ref: '#/components/schemas/VideoAcceptedResponse'
-      description: Wrapper for responses
-    Response_VideoStatusResponse_:
-      title: Response[VideoStatusResponse]
+        error:
+          title: Error
+          type: string
+        created_at:
+          title: Created At
+          type: string
+          format: date-time
+    VideoAcceptedResponse:
+      title: VideoAcceptedResponse
+      required:
+      - id
+      - status
+      - created_at
+      - request
+      - result_url
       type: object
       properties:
-        data:
-          $ref: '#/components/schemas/VideoStatusResponse'
-      description: Wrapper for responses
+        id:
+          title: Id
+          type: integer
+        status:
+          $ref: '#/components/schemas/APIV1Status'
+        created_at:
+          title: Created At
+          type: string
+          format: date-time
+        request:
+          $ref: '#/components/schemas/VideoRequestInResponse'
+        result_url:
+          title: Result Url
+          maxLength: 65536
+          minLength: 1
+          type: string
+          format: uri
+    HTTPValidationError:
+      title: HTTPValidationError
+      type: object
+      properties:
+        detail:
+          title: Detail
+          type: array
+          items:
+            $ref: '#/components/schemas/ValidationError'
+    VideoOutputObject:
+      title: VideoOutputObject
+      type: object
+      properties:
+        ext:
+          title: Ext
+          type: string
+          description: File extension.
+          default: mp4
+        mime:
+          title: Mime
+          type: string
+          default: video/mp4
+        format:
+          title: Format
+          type: string
+          description: File format.
+          default: mp4
+        tmp_url:
+          title: Tmp Url
+          type: string
+          description: Temporal URL of a processed image
+        object_key:
+          title: Object Key
+          type: string
+          description: Path to a processed image in a bucket
+        object_bucket:
+          title: Object Bucket
+          type: string
+          description: Bucket name
+        object_uri:
+          title: Object Uri
+          type: string
+          description: URI of a processed image in a bucket
+        claid_storage_uri:
+          title: Claid Storage Uri
+          type: string
+          description: URI of a processed image in a storage
     VideoResult:
       title: VideoResult
       required:
