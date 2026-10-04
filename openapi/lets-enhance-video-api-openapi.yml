@@ -146,37 +146,53 @@ components:
           title: Generated Prompt
           type: string
           description: Generated prompt for the video.
-    VideoPromptObject:
-      title: VideoPromptObject
+    VideoResult:
+      title: VideoResult
+      required:
+      - input_object
+      - output_object
       type: object
       properties:
-        text:
-          title: Text
-          maxLength: 5000
-          minLength: 3
-          type: string
-          description: Prompt for the video.
-        generate:
-          title: Generate
-          type: boolean
-          description: If `true`, the prompt will be generated automatically based on the input image.By default, the prompt is not auto-generated. If `true`, the `text` is not allowed.
-          default: false
-        guidelines:
-          title: Guidelines
-          maxLength: 1000
-          minLength: 3
-          type: string
-          description: Guidelines for prompt generation. Only available when `generate` is `true`.
-    APIV1Status:
-      title: APIV1Status
+        input_object:
+          $ref: '#/components/schemas/VideoInputObject'
+        output_object:
+          $ref: '#/components/schemas/VideoOutputObject'
+    HTTPValidationError:
+      title: HTTPValidationError
+      type: object
+      properties:
+        detail:
+          title: Detail
+          type: array
+          items:
+            $ref: '#/components/schemas/ValidationError'
+    DurationEnum:
+      title: DurationEnum
       enum:
-      - ACCEPTED
-      - WAITING
-      - PROCESSING
-      - DONE
-      - ERROR
-      - CANCELLED
-      - PAUSED
+      - '5'
+      - '10'
+      type: string
+      description: An enumeration.
+    ErrorType:
+      title: ErrorType
+      enum:
+      - auth
+      - dlvr
+      - general
+      - le
+      - survey
+      - storage
+      - image
+      - user_settings
+      - user
+      - validation
+      - analytics
+      - scene
+      - billing
+      - web
+      - runtime_settings
+      - animation
+      - custom_models
       type: string
       description: An enumeration.
     VideoStatusResponse:
@@ -206,6 +222,115 @@ components:
             $ref: '#/components/schemas/VideoError'
         result:
           $ref: '#/components/schemas/VideoResult'
+    ImageVideoRequest:
+      title: ImageVideoRequest
+      required:
+      - input
+      - options
+      type: object
+      properties:
+        output:
+          title: Output
+          maxLength: 4096
+          minLength: 1
+          type: string
+          description: Customize the result output.
+          format: uri
+        input:
+          title: Input URL
+          maxLength: 4096
+          minLength: 1
+          type: string
+          description: URL of the input image. Image must be accessible by our system.
+          format: uri
+        options:
+          title: Options
+          allOf:
+          - $ref: '#/components/schemas/VideoOptionsObject'
+          description: Customize the video.
+      additionalProperties: false
+    VideoError:
+      title: VideoError
+      required:
+      - error
+      - created_at
+      type: object
+      properties:
+        error:
+          title: Error
+          type: string
+        created_at:
+          title: Created At
+          type: string
+          format: date-time
+    Response_VideoAcceptedResponse_:
+      title: Response[VideoAcceptedResponse]
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/VideoAcceptedResponse'
+      description: Wrapper for responses
+    VideoPromptObject:
+      title: VideoPromptObject
+      type: object
+      properties:
+        text:
+          title: Text
+          maxLength: 5000
+          minLength: 3
+          type: string
+          description: Prompt for the video.
+        generate:
+          title: Generate
+          type: boolean
+          description: If `true`, the prompt will be generated automatically based on the input image.By default, the prompt is not auto-generated. If `true`, the `text` is not allowed.
+          default: false
+        guidelines:
+          title: Guidelines
+          maxLength: 1000
+          minLength: 3
+          type: string
+          description: Guidelines for prompt generation. Only available when `generate` is `true`.
+    VideoOptionsObject:
+      title: VideoOptionsObject
+      required:
+      - prompt
+      type: object
+      properties:
+        prompt:
+          title: Prompt
+          anyOf:
+          - type: string
+            minLength: 3
+            maxLength: 5000
+          - $ref: '#/components/schemas/VideoPromptObject'
+          description: Prompt for the video.
+        negative_prompt:
+          title: Negative Prompt
+          maxLength: 5000
+          minLength: 3
+          type: string
+          description: Negative prompt for the video.
+        duration:
+          allOf:
+          - $ref: '#/components/schemas/DurationEnum'
+          description: Duration of the video.
+          default: '5'
+        guidance_scale:
+          title: Guidance Scale
+          maximum: 1
+          minimum: 0
+          type: number
+          description: Guidance scale for the video.
+          default: 0.5
+      additionalProperties: false
+    Response_VideoStatusResponse_:
+      title: Response[VideoStatusResponse]
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/VideoStatusResponse'
+      description: Wrapper for responses
     HttpErrorDetails:
       title: HttpErrorDetails
       required:
@@ -226,13 +351,60 @@ components:
           title: Error Details
           type: object
           default: {}
-    Response_VideoAcceptedResponse_:
-      title: Response[VideoAcceptedResponse]
+    VideoRequestInResponse:
+      title: VideoRequestInResponse
+      required:
+      - input
+      - options
       type: object
       properties:
-        data:
-          $ref: '#/components/schemas/VideoAcceptedResponse'
-      description: Wrapper for responses
+        output:
+          title: Output
+          maxLength: 4096
+          minLength: 1
+          type: string
+          description: Customize the result output.
+          format: uri
+        input:
+          title: Input URL
+          maxLength: 4096
+          minLength: 1
+          type: string
+          description: URL of the input image. Image must be accessible by our system.
+          format: uri
+        options:
+          title: Options
+          allOf:
+          - $ref: '#/components/schemas/VideoOptionsObject'
+          description: Customize the video.
+      additionalProperties: false
+    VideoAcceptedResponse:
+      title: VideoAcceptedResponse
+      required:
+      - id
+      - status
+      - created_at
+      - request
+      - result_url
+      type: object
+      properties:
+        id:
+          title: Id
+          type: integer
+        status:
+          $ref: '#/components/schemas/APIV1Status'
+        created_at:
+          title: Created At
+          type: string
+          format: date-time
+        request:
+          $ref: '#/components/schemas/VideoRequestInResponse'
+        result_url:
+          title: Result Url
+          maxLength: 65536
+          minLength: 1
+          type: string
+          format: uri
     ValidationError:
       title: ValidationError
       required:
@@ -290,190 +462,18 @@ components:
           title: Claid Storage Uri
           type: string
           description: URI of a processed image in a storage
-    Response_VideoStatusResponse_:
-      title: Response[VideoStatusResponse]
-      type: object
-      properties:
-        data:
-          $ref: '#/components/schemas/VideoStatusResponse'
-      description: Wrapper for responses
-    VideoOptionsObject:
-      title: VideoOptionsObject
-      required:
-      - prompt
-      type: object
-      properties:
-        prompt:
-          title: Prompt
-          anyOf:
-          - type: string
-            minLength: 3
-            maxLength: 5000
-          - $ref: '#/components/schemas/VideoPromptObject'
-          description: Prompt for the video.
-        negative_prompt:
-          title: Negative Prompt
-          maxLength: 5000
-          minLength: 3
-          type: string
-          description: Negative prompt for the video.
-        duration:
-          allOf:
-          - $ref: '#/components/schemas/DurationEnum'
-          description: Duration of the video.
-          default: '5'
-        guidance_scale:
-          title: Guidance Scale
-          maximum: 1
-          minimum: 0
-          type: number
-          description: Guidance scale for the video.
-          default: 0.5
-      additionalProperties: false
-    VideoRequestInResponse:
-      title: VideoRequestInResponse
-      required:
-      - input
-      - options
-      type: object
-      properties:
-        output:
-          title: Output
-          maxLength: 4096
-          minLength: 1
-          type: string
-          description: Customize the result output.
-          format: uri
-        input:
-          title: Input URL
-          maxLength: 4096
-          minLength: 1
-          type: string
-          description: URL of the input image. Image must be accessible by our system.
-          format: uri
-        options:
-          title: Options
-          allOf:
-          - $ref: '#/components/schemas/VideoOptionsObject'
-          description: Customize the video.
-      additionalProperties: false
-    ImageVideoRequest:
-      title: ImageVideoRequest
-      required:
-      - input
-      - options
-      type: object
-      properties:
-        output:
-          title: Output
-          maxLength: 4096
-          minLength: 1
-          type: string
-          description: Customize the result output.
-          format: uri
-        input:
-          title: Input URL
-          maxLength: 4096
-          minLength: 1
-          type: string
-          description: URL of the input image. Image must be accessible by our system.
-          format: uri
-        options:
-          title: Options
-          allOf:
-          - $ref: '#/components/schemas/VideoOptionsObject'
-          description: Customize the video.
-      additionalProperties: false
-    VideoError:
-      title: VideoError
-      required:
-      - error
-      - created_at
-      type: object
-      properties:
-        error:
-          title: Error
-          type: string
-        created_at:
-          title: Created At
-          type: string
-          format: date-time
-    ErrorType:
-      title: ErrorType
+    APIV1Status:
+      title: APIV1Status
       enum:
-      - auth
-      - dlvr
-      - general
-      - le
-      - survey
-      - storage
-      - image
-      - user_settings
-      - user
-      - validation
-      - analytics
-      - scene
-      - billing
-      - web
-      - runtime_settings
-      - animation
-      - custom_models
+      - ACCEPTED
+      - WAITING
+      - PROCESSING
+      - DONE
+      - ERROR
+      - CANCELLED
+      - PAUSED
       type: string
       description: An enumeration.
-    DurationEnum:
-      title: DurationEnum
-      enum:
-      - '5'
-      - '10'
-      type: string
-      description: An enumeration.
-    HTTPValidationError:
-      title: HTTPValidationError
-      type: object
-      properties:
-        detail:
-          title: Detail
-          type: array
-          items:
-            $ref: '#/components/schemas/ValidationError'
-    VideoResult:
-      title: VideoResult
-      required:
-      - input_object
-      - output_object
-      type: object
-      properties:
-        input_object:
-          $ref: '#/components/schemas/VideoInputObject'
-        output_object:
-          $ref: '#/components/schemas/VideoOutputObject'
-    VideoAcceptedResponse:
-      title: VideoAcceptedResponse
-      required:
-      - id
-      - status
-      - created_at
-      - request
-      - result_url
-      type: object
-      properties:
-        id:
-          title: Id
-          type: integer
-        status:
-          $ref: '#/components/schemas/APIV1Status'
-        created_at:
-          title: Created At
-          type: string
-          format: date-time
-        request:
-          $ref: '#/components/schemas/VideoRequestInResponse'
-        result_url:
-          title: Result Url
-          maxLength: 65536
-          minLength: 1
-          type: string
-          format: uri
   securitySchemes:
     OAuth2PasswordBearer:
       type: oauth2

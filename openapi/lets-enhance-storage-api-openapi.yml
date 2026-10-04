@@ -258,28 +258,152 @@ paths:
         - storage
 components:
   schemas:
-    StorageIn_Pydantic:
-      title: storage
+    S3Parameters_Pydantic:
+      title: S3 parameters
       required:
-      - name
-      - type
-      - parameters
+      - bucket
+      - credentials
+      type: object
+      properties:
+        path:
+          title: Path
+          type: string
+          description: An optional relative path that is prepended to the image request path when building the image's path.
+          default: ''
+        bucket:
+          title: Bucket
+          minLength: 1
+          type: string
+          description: A global Amazon S3 bucket name.
+        credentials:
+          $ref: '#/components/schemas/AWSCredentials'
+      additionalProperties: false
+    CloudDetailedBaseStorage:
+      title: cloud Storage
+      required:
+      - bucket
+      - credentials
+      type: object
+      properties:
+        path:
+          title: Path
+          type: string
+          description: An optional relative path that is prepended to the image request path when building the image's path.
+          default: ''
+        bucket:
+          title: Bucket
+          type: string
+        credentials:
+          $ref: '#/components/schemas/CredentialsOut'
+      additionalProperties: false
+    GCSParametersUpdate_Pydantic:
+      title: GCSParametersUpdate_Pydantic
+      type: object
+      properties:
+        path:
+          title: Path
+          type: string
+          description: An optional relative path that is prepended to the image request path when building the image's path.
+        bucket:
+          title: Bucket
+          minLength: 1
+          type: string
+          description: An optional global GCS bucket name.
+        credentials:
+          $ref: '#/components/schemas/GCPCredentialsUpdate'
+      additionalProperties: false
+    StorageInUpdate_Pydantic:
+      title: update storage
       type: object
       properties:
         name:
           title: The unique name of storage
           maxLength: 50
           type: string
-          description: 'The name of storage in Claid. Note: it doesn''t have to be the same as a global name of a bucket.'
         type:
           $ref: '#/components/schemas/StorageType'
         parameters:
           title: Parameters
           anyOf:
-          - $ref: '#/components/schemas/S3Parameters_Pydantic'
-          - $ref: '#/components/schemas/GCSParameters_Pydantic'
+          - $ref: '#/components/schemas/S3ParametersUpdate_Pydantic'
+          - $ref: '#/components/schemas/GCSParametersUpdate_Pydantic'
           - $ref: '#/components/schemas/WebFolderParameters_Pydantic'
-          description: Global parameters of storage (as opposed to Claid's internal properties, such as `name` and `type`)
+      additionalProperties: false
+    HttpErrorDetails:
+      title: HttpErrorDetails
+      required:
+      - error_code
+      - error_type
+      - error_message
+      type: object
+      properties:
+        error_code:
+          title: Error Code
+          type: string
+        error_type:
+          $ref: '#/components/schemas/ErrorType'
+        error_message:
+          title: Error Message
+          type: string
+        error_details:
+          title: Error Details
+          type: object
+          default: {}
+    Response_List_apps.storage.models.StorageType__:
+      title: Response[List[apps.storage.models.StorageType]]
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/StorageType'
+      description: Wrapper for responses
+    AWSCredentialsUpdate:
+      title: AWSCredentialsUpdate
+      type: object
+      properties:
+        access_key:
+          title: Access Key
+          minLength: 1
+          type: string
+          description: An optional Access Key
+        secret_access_key:
+          title: Secret Access Key
+          minLength: 1
+          type: string
+          description: An optional Secret Access Key
+      additionalProperties: false
+    Response:
+      title: Response
+      type: object
+      properties:
+        data:
+          title: Data
+      description: Wrapper for responses
+    CredentialsOut:
+      title: CredentialsOut
+      required:
+      - access_key
+      type: object
+      properties:
+        access_key:
+          title: Access Key
+          type: string
+      additionalProperties: false
+    GCPCredentialsUpdate:
+      title: GCPCredentialsUpdate
+      type: object
+      properties:
+        access_key:
+          title: Access Key
+          minLength: 1
+          type: string
+          description: An optional Access Key
+        secret_access_key:
+          title: Secret Access Key
+          minLength: 1
+          type: string
+          description: An optional Secret Access Key
       additionalProperties: false
     WebFolderParameters_Pydantic:
       title: web folder parameters
@@ -311,23 +435,6 @@ components:
       description: 'Check [AWS security credentials docs](https://docs.aws.amazon.com/general/latest/gr/aws-security-credentials.html)
 
         to learn how to get your access keys.'
-    CredentialsOut:
-      title: CredentialsOut
-      required:
-      - access_key
-      type: object
-      properties:
-        access_key:
-          title: Access Key
-          type: string
-      additionalProperties: false
-    Response_StorageOutDetailed_Pydantic_:
-      title: Response[StorageOutDetailed_Pydantic]
-      type: object
-      properties:
-        data:
-          $ref: '#/components/schemas/StorageOutDetailed_Pydantic'
-      description: Wrapper for responses
     GCPCredentials:
       title: GCPCredentials
       required:
@@ -377,46 +484,68 @@ components:
           title: Created At
           type: string
           format: date-time
-    AWSCredentialsUpdate:
-      title: AWSCredentialsUpdate
-      type: object
-      properties:
-        access_key:
-          title: Access Key
-          minLength: 1
-          type: string
-          description: An optional Access Key
-        secret_access_key:
-          title: Secret Access Key
-          minLength: 1
-          type: string
-          description: An optional Secret Access Key
-      additionalProperties: false
-    StorageInUpdate_Pydantic:
-      title: update storage
+    StorageIn_Pydantic:
+      title: storage
+      required:
+      - name
+      - type
+      - parameters
       type: object
       properties:
         name:
           title: The unique name of storage
           maxLength: 50
           type: string
+          description: 'The name of storage in Claid. Note: it doesn''t have to be the same as a global name of a bucket.'
         type:
           $ref: '#/components/schemas/StorageType'
         parameters:
           title: Parameters
           anyOf:
-          - $ref: '#/components/schemas/S3ParametersUpdate_Pydantic'
-          - $ref: '#/components/schemas/GCSParametersUpdate_Pydantic'
+          - $ref: '#/components/schemas/S3Parameters_Pydantic'
+          - $ref: '#/components/schemas/GCSParameters_Pydantic'
           - $ref: '#/components/schemas/WebFolderParameters_Pydantic'
+          description: Global parameters of storage (as opposed to Claid's internal properties, such as `name` and `type`)
       additionalProperties: false
-    Response_List_apps.storage.models.StorageType__:
-      title: Response[List[apps.storage.models.StorageType]]
+    CloudBaseStorage:
+      title: cloud Storage
+      required:
+      - bucket
+      type: object
+      properties:
+        path:
+          title: Path
+          type: string
+          description: An optional relative path that is prepended to the image request path when building the image's path.
+          default: ''
+        bucket:
+          title: Bucket
+          type: string
+      additionalProperties: false
+    Response_StorageOutDetailed_Pydantic_:
+      title: Response[StorageOutDetailed_Pydantic]
       type: object
       properties:
         data:
+          $ref: '#/components/schemas/StorageOutDetailed_Pydantic'
+      description: Wrapper for responses
+    StorageType:
+      title: StorageType
+      enum:
+      - web_folder
+      - s3
+      - gcs
+      type: string
+      description: An enumeration.
+    Response_List_apps.storage.serializers.StorageOut_Pydantic__:
+      title: Response[List[apps.storage.serializers.StorageOut_Pydantic]]
+      type: object
+      properties:
+        data:
+          title: Data
           type: array
           items:
-            $ref: '#/components/schemas/StorageType'
+            $ref: '#/components/schemas/StorageOut_Pydantic'
       description: Wrapper for responses
     StorageOutDetailed_Pydantic:
       title: storage
@@ -446,128 +575,6 @@ components:
           title: Created At
           type: string
           format: date-time
-    HttpErrorDetails:
-      title: HttpErrorDetails
-      required:
-      - error_code
-      - error_type
-      - error_message
-      type: object
-      properties:
-        error_code:
-          title: Error Code
-          type: string
-        error_type:
-          $ref: '#/components/schemas/ErrorType'
-        error_message:
-          title: Error Message
-          type: string
-        error_details:
-          title: Error Details
-          type: object
-          default: {}
-    CloudDetailedBaseStorage:
-      title: cloud Storage
-      required:
-      - bucket
-      - credentials
-      type: object
-      properties:
-        path:
-          title: Path
-          type: string
-          description: An optional relative path that is prepended to the image request path when building the image's path.
-          default: ''
-        bucket:
-          title: Bucket
-          type: string
-        credentials:
-          $ref: '#/components/schemas/CredentialsOut'
-      additionalProperties: false
-    S3ParametersUpdate_Pydantic:
-      title: S3ParametersUpdate_Pydantic
-      type: object
-      properties:
-        path:
-          title: Path
-          type: string
-          description: An optional relative path that is prepended to the image request path when building the image's path.
-        bucket:
-          title: Bucket
-          minLength: 1
-          type: string
-          description: An optional global Amazon S3 bucket name.
-        credentials:
-          $ref: '#/components/schemas/AWSCredentialsUpdate'
-      additionalProperties: false
-    Response_List_apps.storage.serializers.StorageOut_Pydantic__:
-      title: Response[List[apps.storage.serializers.StorageOut_Pydantic]]
-      type: object
-      properties:
-        data:
-          title: Data
-          type: array
-          items:
-            $ref: '#/components/schemas/StorageOut_Pydantic'
-      description: Wrapper for responses
-    GCPCredentialsUpdate:
-      title: GCPCredentialsUpdate
-      type: object
-      properties:
-        access_key:
-          title: Access Key
-          minLength: 1
-          type: string
-          description: An optional Access Key
-        secret_access_key:
-          title: Secret Access Key
-          minLength: 1
-          type: string
-          description: An optional Secret Access Key
-      additionalProperties: false
-    S3Parameters_Pydantic:
-      title: S3 parameters
-      required:
-      - bucket
-      - credentials
-      type: object
-      properties:
-        path:
-          title: Path
-          type: string
-          description: An optional relative path that is prepended to the image request path when building the image's path.
-          default: ''
-        bucket:
-          title: Bucket
-          minLength: 1
-          type: string
-          description: A global Amazon S3 bucket name.
-        credentials:
-          $ref: '#/components/schemas/AWSCredentials'
-      additionalProperties: false
-    StorageType:
-      title: StorageType
-      enum:
-      - web_folder
-      - s3
-      - gcs
-      type: string
-      description: An enumeration.
-    CloudBaseStorage:
-      title: cloud Storage
-      required:
-      - bucket
-      type: object
-      properties:
-        path:
-          title: Path
-          type: string
-          description: An optional relative path that is prepended to the image request path when building the image's path.
-          default: ''
-        bucket:
-          title: Bucket
-          type: string
-      additionalProperties: false
     ErrorType:
       title: ErrorType
       enum:
@@ -610,8 +617,8 @@ components:
         credentials:
           $ref: '#/components/schemas/GCPCredentials'
       additionalProperties: false
-    GCSParametersUpdate_Pydantic:
-      title: GCSParametersUpdate_Pydantic
+    S3ParametersUpdate_Pydantic:
+      title: S3ParametersUpdate_Pydantic
       type: object
       properties:
         path:
@@ -622,17 +629,10 @@ components:
           title: Bucket
           minLength: 1
           type: string
-          description: An optional global GCS bucket name.
+          description: An optional global Amazon S3 bucket name.
         credentials:
-          $ref: '#/components/schemas/GCPCredentialsUpdate'
+          $ref: '#/components/schemas/AWSCredentialsUpdate'
       additionalProperties: false
-    Response:
-      title: Response
-      type: object
-      properties:
-        data:
-          title: Data
-      description: Wrapper for responses
   securitySchemes:
     OAuth2PasswordBearer:
       type: oauth2
