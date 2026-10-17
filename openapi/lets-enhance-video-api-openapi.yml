@@ -114,65 +114,65 @@ paths:
         - video_generation
 components:
   schemas:
-    VideoInputObject:
-      title: VideoInputObject
+    VideoOutputObject:
+      title: VideoOutputObject
       type: object
       properties:
         ext:
           title: Ext
           type: string
           description: File extension.
-        mps:
-          title: Mps
-          type: number
-          description: Megapixel count
+          default: mp4
         mime:
           title: Mime
           type: string
-          description: MIME type (also known as ‘media type’)
+          default: video/mp4
         format:
           title: Format
           type: string
           description: File format.
-        width:
-          title: Width
-          type: integer
-          description: Image width in pixels
-        height:
-          title: Height
-          type: integer
-          description: Image height in pixels
-        generated_prompt:
-          title: Generated Prompt
+          default: mp4
+        tmp_url:
+          title: Tmp Url
           type: string
-          description: Generated prompt for the video.
-    VideoResult:
-      title: VideoResult
+          description: Temporal URL of a processed image
+        object_key:
+          title: Object Key
+          type: string
+          description: Path to a processed image in a bucket
+        object_bucket:
+          title: Object Bucket
+          type: string
+          description: Bucket name
+        object_uri:
+          title: Object Uri
+          type: string
+          description: URI of a processed image in a bucket
+        claid_storage_uri:
+          title: Claid Storage Uri
+          type: string
+          description: URI of a processed image in a storage
+    VideoError:
+      title: VideoError
       required:
-      - input_object
-      - output_object
+      - error
+      - created_at
       type: object
       properties:
-        input_object:
-          $ref: '#/components/schemas/VideoInputObject'
-        output_object:
-          $ref: '#/components/schemas/VideoOutputObject'
-    HTTPValidationError:
-      title: HTTPValidationError
+        error:
+          title: Error
+          type: string
+        created_at:
+          title: Created At
+          type: string
+          format: date-time
+    Response_VideoAcceptedResponse_:
+      title: Response[VideoAcceptedResponse]
       type: object
       properties:
-        detail:
-          title: Detail
-          type: array
-          items:
-            $ref: '#/components/schemas/ValidationError'
-    DurationEnum:
-      title: DurationEnum
-      enum:
-      - '5'
-      - '10'
-      type: string
-      description: An enumeration.
+        data:
+          $ref: '#/components/schemas/VideoAcceptedResponse'
+      description: Wrapper for responses
     ErrorType:
       title: ErrorType
       enum:
@@ -222,75 +222,6 @@ components:
             $ref: '#/components/schemas/VideoError'
         result:
           $ref: '#/components/schemas/VideoResult'
-    ImageVideoRequest:
-      title: ImageVideoRequest
-      required:
-      - input
-      - options
-      type: object
-      properties:
-        output:
-          title: Output
-          maxLength: 4096
-          minLength: 1
-          type: string
-          description: Customize the result output.
-          format: uri
-        input:
-          title: Input URL
-          maxLength: 4096
-          minLength: 1
-          type: string
-          description: URL of the input image. Image must be accessible by our system.
-          format: uri
-        options:
-          title: Options
-          allOf:
-          - $ref: '#/components/schemas/VideoOptionsObject'
-          description: Customize the video.
-      additionalProperties: false
-    VideoError:
-      title: VideoError
-      required:
-      - error
-      - created_at
-      type: object
-      properties:
-        error:
-          title: Error
-          type: string
-        created_at:
-          title: Created At
-          type: string
-          format: date-time
-    Response_VideoAcceptedResponse_:
-      title: Response[VideoAcceptedResponse]
-      type: object
-      properties:
-        data:
-          $ref: '#/components/schemas/VideoAcceptedResponse'
-      description: Wrapper for responses
-    VideoPromptObject:
-      title: VideoPromptObject
-      type: object
-      properties:
-        text:
-          title: Text
-          maxLength: 5000
-          minLength: 3
-          type: string
-          description: Prompt for the video.
-        generate:
-          title: Generate
-          type: boolean
-          description: If `true`, the prompt will be generated automatically based on the input image.By default, the prompt is not auto-generated. If `true`, the `text` is not allowed.
-          default: false
-        guidelines:
-          title: Guidelines
-          maxLength: 1000
-          minLength: 3
-          type: string
-          description: Guidelines for prompt generation. Only available when `generate` is `true`.
     VideoOptionsObject:
       title: VideoOptionsObject
       required:
@@ -324,13 +255,132 @@ components:
           description: Guidance scale for the video.
           default: 0.5
       additionalProperties: false
-    Response_VideoStatusResponse_:
-      title: Response[VideoStatusResponse]
+    VideoPromptObject:
+      title: VideoPromptObject
       type: object
       properties:
-        data:
-          $ref: '#/components/schemas/VideoStatusResponse'
-      description: Wrapper for responses
+        text:
+          title: Text
+          maxLength: 5000
+          minLength: 3
+          type: string
+          description: Prompt for the video.
+        generate:
+          title: Generate
+          type: boolean
+          description: If `true`, the prompt will be generated automatically based on the input image.By default, the prompt is not auto-generated. If `true`, the `text` is not allowed.
+          default: false
+        guidelines:
+          title: Guidelines
+          maxLength: 1000
+          minLength: 3
+          type: string
+          description: Guidelines for prompt generation. Only available when `generate` is `true`.
+    DurationEnum:
+      title: DurationEnum
+      enum:
+      - '5'
+      - '10'
+      type: string
+      description: An enumeration.
+    ValidationError:
+      title: ValidationError
+      required:
+      - loc
+      - msg
+      - type
+      type: object
+      properties:
+        loc:
+          title: Location
+          type: array
+          items:
+            type: string
+        msg:
+          title: Message
+          type: string
+        type:
+          title: Error Type
+          type: string
+    ImageVideoRequest:
+      title: ImageVideoRequest
+      required:
+      - input
+      - options
+      type: object
+      properties:
+        output:
+          title: Output
+          maxLength: 4096
+          minLength: 1
+          type: string
+          description: Customize the result output.
+          format: uri
+        input:
+          title: Input URL
+          maxLength: 4096
+          minLength: 1
+          type: string
+          description: URL of the input image. Image must be accessible by our system.
+          format: uri
+        options:
+          title: Options
+          allOf:
+          - $ref: '#/components/schemas/VideoOptionsObject'
+          description: Customize the video.
+      additionalProperties: false
+    VideoResult:
+      title: VideoResult
+      required:
+      - input_object
+      - output_object
+      type: object
+      properties:
+        input_object:
+          $ref: '#/components/schemas/VideoInputObject'
+        output_object:
+          $ref: '#/components/schemas/VideoOutputObject'
+    HTTPValidationError:
+      title: HTTPValidationError
+      type: object
+      properties:
+        detail:
+          title: Detail
+          type: array
+          items:
+            $ref: '#/components/schemas/ValidationError'
+    VideoInputObject:
+      title: VideoInputObject
+      type: object
+      properties:
+        ext:
+          title: Ext
+          type: string
+          description: File extension.
+        mps:
+          title: Mps
+          type: number
+          description: Megapixel count
+        mime:
+          title: Mime
+          type: string
+          description: MIME type (also known as ‘media type’)
+        format:
+          title: Format
+          type: string
+          description: File format.
+        width:
+          title: Width
+          type: integer
+          description: Image width in pixels
+        height:
+          title: Height
+          type: integer
+          description: Image height in pixels
+        generated_prompt:
+          title: Generated Prompt
+          type: string
+          description: Generated prompt for the video.
     HttpErrorDetails:
       title: HttpErrorDetails
       required:
@@ -351,6 +401,18 @@ components:
           title: Error Details
           type: object
           default: {}
+    APIV1Status:
+      title: APIV1Status
+      enum:
+      - ACCEPTED
+      - WAITING
+      - PROCESSING
+      - DONE
+      - ERROR
+      - CANCELLED
+      - PAUSED
+      type: string
+      description: An enumeration.
     VideoRequestInResponse:
       title: VideoRequestInResponse
       required:
@@ -378,6 +440,13 @@ components:
           - $ref: '#/components/schemas/VideoOptionsObject'
           description: Customize the video.
       additionalProperties: false
+    Response_VideoStatusResponse_:
+      title: Response[VideoStatusResponse]
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/VideoStatusResponse'
+      description: Wrapper for responses
     VideoAcceptedResponse:
       title: VideoAcceptedResponse
       required:
@@ -405,75 +474,6 @@ components:
           minLength: 1
           type: string
           format: uri
-    ValidationError:
-      title: ValidationError
-      required:
-      - loc
-      - msg
-      - type
-      type: object
-      properties:
-        loc:
-          title: Location
-          type: array
-          items:
-            type: string
-        msg:
-          title: Message
-          type: string
-        type:
-          title: Error Type
-          type: string
-    VideoOutputObject:
-      title: VideoOutputObject
-      type: object
-      properties:
-        ext:
-          title: Ext
-          type: string
-          description: File extension.
-          default: mp4
-        mime:
-          title: Mime
-          type: string
-          default: video/mp4
-        format:
-          title: Format
-          type: string
-          description: File format.
-          default: mp4
-        tmp_url:
-          title: Tmp Url
-          type: string
-          description: Temporal URL of a processed image
-        object_key:
-          title: Object Key
-          type: string
-          description: Path to a processed image in a bucket
-        object_bucket:
-          title: Object Bucket
-          type: string
-          description: Bucket name
-        object_uri:
-          title: Object Uri
-          type: string
-          description: URI of a processed image in a bucket
-        claid_storage_uri:
-          title: Claid Storage Uri
-          type: string
-          description: URI of a processed image in a storage
-    APIV1Status:
-      title: APIV1Status
-      enum:
-      - ACCEPTED
-      - WAITING
-      - PROCESSING
-      - DONE
-      - ERROR
-      - CANCELLED
-      - PAUSED
-      type: string
-      description: An enumeration.
   securitySchemes:
     OAuth2PasswordBearer:
       type: oauth2
