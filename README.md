@@ -64,61 +64,143 @@
 > Full detail: **[Where this data comes from](https://apievangelist.com/about/where-our-data-comes-from)**
 <!-- API-EVANGELIST-PROVENANCE:END -->
 
-Let's Enhance is an AI image enhancement company. Its consumer product at
-[letsenhance.io](https://letsenhance.io/) upscales, sharpens, denoises and restores photographs up to
-512MP. Its developer platform ships as **[Claid.ai](https://claid.ai/)** — a REST API for AI image
-editing, generation and image-to-video used by ecommerce, marketplace, real-estate and
-print-on-demand teams to automate product imagery at scale. Let's Enhance is a Techstars-backed
-company.
+Let's Enhance is an AI image enhancement company whose consumer product at letsenhance.io upscales, sharpens, denoises and restores photographs up to 512MP, and whose developer platform is shipped as Claid.ai — a REST API for AI image editing, generation and image-to-video. The Claid API exposes synchronous and asynchronous image editing pipelines, batch processing, direct upload, natural-language AI edit, AI fashion models, AI background scene generation, image generation, image-to-video, and cloud storage connectors for AWS S3, Google Cloud Storage and web folders. It is used by ecommerce, marketplace, real-estate and print-on-demand teams to automate product and listing imagery at scale. Authentication is a bearer API key with per-key permission scopes; long-running jobs are polled or delivered by HMAC-signed webhooks. Let's Enhance is a Techstars-backed company.
 
-## API
+**Areas:** Company · Artificial Intelligence · Image Processing · Image Enhancement · Image Generation · Computer Vision · E-Commerce · Media · Photography · Video Generation
 
-The **Claid API v1** (`https://api.claid.ai/v1/`) is a declarative JSON pipeline API: a request
-describes the input image, the operations to apply and the desired output. It covers synchronous and
-asynchronous image editing, batch processing, direct upload, natural-language AI edit, AI fashion
-models, AI background scene generation, image generation, image-to-video, and cloud storage
-connectors for AWS S3, Google Cloud Storage and web folders.
+## Let's Enhance on APIs.io
 
-- Documentation — <https://docs.claid.ai/>
-- Quick start — <https://docs.claid.ai/quick-start>
-- API reference — <https://docs.claid.ai/image-editing-api/api-reference>
-- Status — <https://status.letsenhance.io/>
+Everything profiled for Let's Enhance is published on APIs.io rather than in this repository. Start at the provider page — **[apis.io/providers/lets-enhance/](https://apis.io/providers/lets-enhance/)** — or go straight to one of the APIs or properties below.
 
-Authentication is a dashboard-minted API key sent as an HTTP Bearer token, scoped per key across
-`image_editing`, `image_generation`, `video_generation` and `storage`. Long-running jobs are polled
-by task id or pushed to an HMAC-SHA256-signed webhook.
+### APIs (3)
 
-## Artifacts
+- [Let's Enhance Image API](https://apis.io/apis/lets-enhance/lets-enhance-image-api/) — Encompasses operations with images.
+- [Let's Enhance Storage API](https://apis.io/apis/lets-enhance/lets-enhance-storage-api/) — Perform operations with storage: check supported storage types, safely connect your cloud buckets and more.
+- [Let's Enhance Video API](https://apis.io/apis/lets-enhance/lets-enhance-video-api/) — Encompasses operations with videos.
 
-| Artifact | Path | Method |
-|---|---|---|
-| OpenAPI 3.1 (20 operations, 164 schemas) | `openapi/lets-enhance-claid-openapi.json` | searched |
-| llms.txt | `llms/lets-enhance-llms.txt` | searched |
-| Authentication profile | `authentication/lets-enhance-authentication.yml` | searched |
-| OAuth scopes | `scopes/lets-enhance-scopes.yml` | searched |
-| API conventions | `conventions/lets-enhance-conventions.yml` | searched |
-| Rate limits | `rate-limits/lets-enhance-rate-limits.yml` | searched |
-| Error codes + envelope | `errors/lets-enhance-error-codes.yml` | searched |
-| Problem types | `errors/lets-enhance-problem-types.yml` | derived |
-| Webhook catalog | `asyncapi/lets-enhance-claid-webhooks.yml` | searched |
-| Lifecycle | `lifecycle/lets-enhance-lifecycle.yml` | searched |
-| Conformance | `conformance/lets-enhance-conformance.yml` | derived |
-| Data model | `data-model/lets-enhance-data-model.yml` | derived |
-| Agentic access | `agentic-access/lets-enhance-agentic-access.yml` | generated |
-| MCP tool surface (candidate) | `mcp/lets-enhance-mcp.yml` | derived |
-| OpenAPI Overlay | `overlays/lets-enhance-claid-overlay.yaml` | generated |
-| Agent Skills (5) | `skills/` | generated |
-| Domain security | `security/lets-enhance-domain-security.yml` | probed |
-| Well-known index | `well-known/lets-enhance-well-known.yml` | searched |
+### Published properties
 
-### Notable gaps
+Each property below is a page on APIs.io carrying the machine-readable artifact and what it says.
 
-Recorded as honest negatives rather than omitted — Let's Enhance publishes **no** client SDKs or CLI,
-no `/.well-known/` documents, no `security.txt`, no vulnerability disclosure programme, no trust
-centre or named certifications, no dated changelog, no deprecation policy, no SLA, and no AsyncAPI
-document (though a real webhook surface exists). The API has **no idempotency contract**, which
-matters for retry safety on paid generation calls.
+#### AsyncAPI (1)
 
----
+Event-driven and webhook contracts.
 
-Backed by: techstars — <https://letsenhance.io/>
+- [Lets Enhance Claid Webhooks](https://apis.io/asyncapis/lets-enhance/lets-enhance-claid-webhooks/)
+
+#### MCP servers (1)
+
+Model Context Protocol servers that expose the API to agents.
+
+- [lets-enhance-claid](https://apis.io/servers/lets-enhance/lets-enhance-claid/)
+
+#### Agentic access (1)
+
+Which operations an agent can call, which act, and which need a human in the loop.
+
+- [Lets Enhance Agentic Access](https://apis.io/agentic-access/lets-enhance/lets-enhance-agentic-access/)
+
+#### Collections (3)
+
+Postman and Open Collection request collections.
+
+- [Claid REST Image API](https://apis.io/collections/lets-enhance/open-lets-enhance-image-api/)
+- [Claid REST Image Storage API](https://apis.io/collections/lets-enhance/open-lets-enhance-storage-api/)
+- [Claid REST Image Video API](https://apis.io/collections/lets-enhance/open-lets-enhance-video-api/)
+
+#### Overlays (1)
+
+OpenAPI overlays, including conversational phrasing for each operation.
+
+- [Lets Enhance Claid Overlay](https://apis.io/overlays/lets-enhance/lets-enhance-claid-overlay/)
+
+#### Security (2)
+
+Authentication, trust centre, and vulnerability disclosure.
+
+- [Lets Enhance Authentication](https://apis.io/security/lets-enhance/lets-enhance-authentication/)
+- [Lets Enhance Domain Security](https://apis.io/security/lets-enhance/lets-enhance-domain-security/)
+
+#### OAuth scopes (1)
+
+The permissions the API asks for.
+
+- [Lets Enhance Scopes](https://apis.io/scopes/lets-enhance/lets-enhance-scopes/)
+
+#### Rate limits (1)
+
+Published request limits.
+
+- [Lets Enhance Rate Limits](https://apis.io/rate-limits/lets-enhance/lets-enhance-rate-limits/)
+
+## Where to find this API
+
+Links to the company's own pages. This repository publishes no copy of their specifications — the canonical document is theirs and lives at the URLs below.
+
+- [Website](https://letsenhance.io/)
+- [Documentation](https://docs.claid.ai/)
+- [Getting started](https://docs.claid.ai/quick-start)
+- [API reference](https://docs.claid.ai/image-editing-api/api-reference)
+- [Pricing](https://letsenhance.io/pricing)
+- [Sign up](https://letsenhance.io/signup)
+- [Support](https://help.letsenhance.io/)
+- [Blog](https://letsenhance.io/blog/)
+- [Terms of service](https://letsenhance.io/terms)
+- [Privacy policy](https://letsenhance.io/privacy)
+- [GitHub](https://github.com/letsenhance)
+- [Status](https://status.letsenhance.io/)
+
+## API Evangelist rating
+
+**Kin Score 46.3** — developing · rubric 0.25.0 · scored 2026-10-23
+
+| Facet | Score |
+|---|---|
+| Discoverability | 73.2 |
+| Contract quality | 54.4 |
+| Contract governance | 4.5 |
+| Operational transparency | 39.5 |
+| Developer ergonomics | 47.0 |
+| Access clarity | 44.7 |
+
+**Agent readiness 31.1** — agent-ready
+
+| Agent-readiness dimension | Result |
+|---|---|
+| Spec Presence | yes |
+| Agentic Access | derived (partial credit) |
+| Reversibility Documented | — |
+| MCP Server | — |
+| Auth Clarity | bearer (partial credit) |
+| Idempotency | — |
+| Error Semantics | verified |
+| OpenAPI Examples | — |
+| Rate Limit Signal | documented (partial credit) |
+| Event Surface Described | yes |
+| Agent Skills | derived (partial credit) |
+| Well Known Catalog | — |
+| Consent Identity | — |
+| Agent Card | — |
+| Dry Run Mode | — |
+| Delegated Identity | — |
+| Protected Resource Metadata | — |
+| Dynamic Client Registration | — |
+| Agentic Commerce | — |
+| Pagination Ratio | — |
+| Operation Distinctiveness | distinct |
+
+**Regulatory alignment 31.8** — AI & Biometrics
+
+The rubric is published at [github.com/api-evangelist/kin-score](https://github.com/api-evangelist/kin-score). The per-check breakdown behind these numbers — which checks were earned, partial or missed — along with score history and how this provider compares to its peers, is available at [apis.io/providers/lets-enhance/](https://apis.io/providers/lets-enhance/).
+
+## How this profile is made
+
+API Evangelist profiles a company's public API surface the way a developer would find it: the website, developer portal and documentation, the specifications it publishes, its public repositories, and its pricing, status and changelog pages. From that it derives the properties above — contracts split per API, workflows, schemas, collections, governance rules, plans and rate limits — and scores them against the published [Kin Score rubric](https://github.com/api-evangelist/kin-score).
+
+The artifacts are published on [APIs.io](https://apis.io), not in this repository. This repository is the public record for Let's Enhance: the place to say something is wrong, missing or out of date, and to ask for a re-score or a removal.
+
+## Open an issue
+
+- **Something about this listing** — a wrong description, a missing API, a stale artifact or a question about the rating: [open an issue on this repository](https://github.com/api-evangelist/lets-enhance/issues/new).
+- **A new API, or one that is not in the catalog yet** — [submit it on APIs.io](https://apis.io/add/).
+- **Anything else** — [the APIs.io inbox](https://github.com/api-search/inbox/issues/new) or [info@apievangelist.com](mailto:info@apievangelist.com).
